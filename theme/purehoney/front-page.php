@@ -52,14 +52,14 @@ $dir          = get_template_directory_uri();
     </div>
     <div data-ph-stagger>
       <?php
-      $q = new WP_Query(['post_type' => 'product', 'posts_per_page' => 5, 'meta_key' => '_featured', 'meta_value' => 'yes', 'post_status' => 'publish']);
+      $q = new WP_Query(['post_type' => 'product', 'posts_per_page' => 4, 'meta_key' => '_featured', 'meta_value' => 'yes', 'post_status' => 'publish']);
       if ($q->have_posts()):
-        echo '<div class="woocommerce"><ul class="products columns-5">';
+        echo '<div class="woocommerce"><ul class="products columns-4">';
         while ($q->have_posts()) { $q->the_post(); wc_get_template_part('content', 'product'); }
         wp_reset_postdata();
         echo '</ul></div>';
       else:
-        echo do_shortcode('[products limit="5" columns="5" orderby="popularity"]');
+        echo do_shortcode('[products limit="4" columns="4" orderby="popularity"]');
       endif;
       ?>
     </div>

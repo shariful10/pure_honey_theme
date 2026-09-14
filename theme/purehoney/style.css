@@ -4,7 +4,7 @@ Theme URI: https://purehoney.me
 Author: Sk Shariful Islam
 Author URI: https://developershariful.netlify.app
 Description: A modern luxury honey e-commerce theme with smooth scroll, custom cursor, and pre-built WooCommerce pages. Complete cart, checkout, shop, and product templates included. No parent theme required.
-Version: 2.1.2
+Version: 2.1.6
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -1231,8 +1231,9 @@ body:has(button:hover) .ph-cursor-follower {
 @media (max-width: 1024px) {
   .ph-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .woocommerce ul.products.columns-5 { grid-template-columns: repeat(3, 1fr); }
-  .woocommerce ul.products.columns-4 { grid-template-columns: repeat(3, 1fr); }
+  .woocommerce ul.products.columns-5,
+  .woocommerce ul.products.columns-4,
+  .woocommerce ul.products.columns-3 { grid-template-columns: repeat(2, 1fr); }
   .ph-story { gap: 48px; }
 }
 
@@ -1257,7 +1258,7 @@ body:has(button:hover) .ph-cursor-follower {
   .ph-footer__grid { grid-template-columns: 1fr; }
   .woocommerce ul.products.columns-5,
   .woocommerce ul.products.columns-4,
-  .woocommerce ul.products.columns-3 { grid-template-columns: repeat(2, 1fr); }
+  .woocommerce ul.products.columns-3 { grid-template-columns: 1fr; }
   .ph-story__stats { flex-wrap: wrap; gap: 20px; }
   .ph-trust__grid { flex-direction: column; }
   .ph-trust__item { border-right: none; border-bottom: 1px solid var(--ph-border); }

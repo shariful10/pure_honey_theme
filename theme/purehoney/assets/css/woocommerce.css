@@ -1744,17 +1744,53 @@
     grid-column: span 1;
   }
 
-  .woocommerce ul.products.columns-3,
-  .woocommerce ul.products.columns-4,
-  .woocommerce ul.products.columns-5 {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
   .ph-checkout-steps {
     gap: 4px;
   }
 
   .ph-step__line {
     width: 30px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE PRODUCT GRIDS (GLOBAL OVERRIDE)
+   ============================================================ */
+/* Large Devices: Force 4 columns */
+@media (min-width: 1025px) {
+  body .woocommerce ul.products,
+  body .woocommerce ul.products.columns-1,
+  body .woocommerce ul.products.columns-2,
+  body .woocommerce ul.products.columns-3,
+  body .woocommerce ul.products.columns-4,
+  body .woocommerce ul.products.columns-5,
+  body .woocommerce ul.products.columns-6 {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+
+/* Tablet Devices: Force 2 columns */
+@media (max-width: 1024px) {
+  body .woocommerce ul.products,
+  body .woocommerce ul.products.columns-1,
+  body .woocommerce ul.products.columns-2,
+  body .woocommerce ul.products.columns-3,
+  body .woocommerce ul.products.columns-4,
+  body .woocommerce ul.products.columns-5,
+  body .woocommerce ul.products.columns-6 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Mobile Devices: Force 1 column */
+@media (max-width: 600px) {
+  body .woocommerce ul.products,
+  body .woocommerce ul.products.columns-1,
+  body .woocommerce ul.products.columns-2,
+  body .woocommerce ul.products.columns-3,
+  body .woocommerce ul.products.columns-4,
+  body .woocommerce ul.products.columns-5,
+  body .woocommerce ul.products.columns-6 {
+    grid-template-columns: 1fr !important;
   }
 }

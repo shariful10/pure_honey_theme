@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="icon" href="<?php echo get_template_directory_uri(); ?>/assets/images/favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/assets/images/favicon.png">
 <?php wp_head(); ?>
+<link rel="icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=2.1.4'); ?>" type="image/jpeg">
+<link rel="apple-touch-icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=2.1.4'); ?>">
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>

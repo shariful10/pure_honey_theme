@@ -82,9 +82,9 @@ get_header();
                   <?php echo apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key); ?>
                   <span>each</span>
                 </div>
-                <button type="submit" name="remove_cart_item" value="<?php echo esc_attr($cart_item_key); ?>" class="ph-cart-item__remove" aria-label="Remove <?php echo esc_attr($_product->get_name()); ?>">
+                <a href="<?php echo esc_url(wc_get_cart_remove_url($cart_item_key)); ?>" class="ph-cart-item__remove" aria-label="Remove <?php echo esc_attr($_product->get_name()); ?>">
                   Remove
-                </button>
+                </a>
               </div>
             </div>
 

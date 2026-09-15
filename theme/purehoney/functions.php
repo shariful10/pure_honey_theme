@@ -69,7 +69,7 @@ add_action('after_setup_theme', 'purehoney_setup');
    2. ENQUEUE ASSETS
 ═══════════════════════════════════════════════ */
 function purehoney_assets() {
-    $v   = '2.1.10';
+    $v   = '2.1.13';
     $dir = get_template_directory_uri();
 
     // Google Fonts
@@ -107,6 +107,12 @@ function purehoney_assets() {
             $dir . '/assets/css/woocommerce.css',
             ['purehoney-style'], $v
         );
+
+        if (is_shop() || is_product_taxonomy()) {
+            wp_enqueue_script('jquery-ui-slider');
+            wp_enqueue_script('wc-price-slider');
+            wp_enqueue_script('wc-jquery-ui-touchpunch');
+        }
     }
 
     // Comment reply

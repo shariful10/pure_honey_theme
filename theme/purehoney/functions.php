@@ -69,7 +69,7 @@ add_action('after_setup_theme', 'purehoney_setup');
    2. ENQUEUE ASSETS
 ═══════════════════════════════════════════════ */
 function purehoney_assets() {
-    $v   = '2.1.6';
+    $v   = '2.1.10';
     $dir = get_template_directory_uri();
 
     // Google Fonts

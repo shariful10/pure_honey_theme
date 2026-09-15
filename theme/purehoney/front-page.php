@@ -33,10 +33,10 @@ $dir          = get_template_directory_uri();
   </div>
   <div class="ph-hero__badge ph-hero__badge--1"><strong>⭐ 4.9/5</strong><small>2,000+ Reviews</small></div>
   <div class="ph-hero__badge ph-hero__badge--2"><strong>🚀 Fast Shipping</strong><small>2–4 Business Days</small></div>
-  <div class="ph-hero__scroll" aria-hidden="true">
+  <a href="#featured" class="ph-hero__scroll" aria-label="Scroll down" onclick="if(window.purehoneyLenis){window.purehoneyLenis.scrollTo('#featured', {offset: -100, duration: 1.5}); return false;}">
     <span>Scroll</span>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-  </div>
+  </a>
 </section>
 
 <!-- ══ TRUST BAR ══ -->

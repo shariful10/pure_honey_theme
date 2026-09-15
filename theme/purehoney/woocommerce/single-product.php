@@ -11,7 +11,7 @@ get_header();
   <?php while (have_posts()): the_post(); ?>
 
   <div class="woocommerce">
-    <?php woocommerce_template_single_product(); ?>
+    <?php wc_get_template_part('content', 'single-product'); ?>
   </div>
 
   <!-- Product Trust Badges (injected below add-to-cart via hook) -->

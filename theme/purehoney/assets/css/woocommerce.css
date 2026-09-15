@@ -1186,15 +1186,17 @@
 }
 
 .ph-shop-layout {
-  display: grid;
-  grid-template-columns: 260px 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 40px;
   padding: 48px 0 80px;
 }
 
 .ph-shop-sidebar {
-  position: sticky;
-  top: 110px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: static;
 }
 
 .ph-shop-main {}
@@ -1235,7 +1237,7 @@
   border: 1px solid var(--ph-border);
   border-radius: var(--ph-radius);
   padding: 22px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .ph-sidebar-widget h3 {
@@ -1706,7 +1708,7 @@
   }
 
   .ph-shop-sidebar {
-    position: static;
+    grid-template-columns: 1fr;
   }
 
   .woocommerce div.product {

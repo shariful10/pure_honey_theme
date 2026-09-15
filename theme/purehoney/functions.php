@@ -69,7 +69,7 @@ add_action('after_setup_theme', 'purehoney_setup');
    2. ENQUEUE ASSETS
 ═══════════════════════════════════════════════ */
 function purehoney_assets() {
-    $v   = '2.1.13';
+    $v   = '2.1.18';
     $dir = get_template_directory_uri();
 
     // Google Fonts
@@ -539,4 +539,16 @@ add_filter('body_class', function($classes) {
     if (is_front_page()) $classes[] = 'ph-homepage';
     if (is_woocommerce()) $classes[] = 'ph-woo-page';
     return $classes;
+});
+
+/* ═══════════════════════════════════════════════
+   13. CART PRG FIX (ERR_CACHE_MISS)
+═══════════════════════════════════════════════ */
+add_action('template_redirect', function() {
+    if (is_cart() && $_SERVER['REQUEST_METHOD'] === 'POST' && !wp_doing_ajax() && !isset($_GET['wc-ajax'])) {
+        if (isset($_POST['update_cart']) || isset($_POST['apply_coupon']) || isset($_POST['calc_shipping'])) {
+            wp_safe_redirect(wc_get_cart_url());
+            exit;
+        }
+    }
 });

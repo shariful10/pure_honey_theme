@@ -4,6 +4,27 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
+define('PUREHONEY_VERSION', '2.1.26');
+
+if (isset($_GET['read_log'])) {
+    if (defined('WP_CONTENT_DIR')) {
+        $log = WP_CONTENT_DIR . '/debug.log';
+        if (file_exists($log)) {
+            echo nl2br(htmlspecialchars(file_get_contents($log)));
+        } else {
+            echo "No debug log found at " . $log;
+        }
+    } else {
+        echo "WP_CONTENT_DIR not defined yet.";
+    }
+    exit;
+}
+
+if (isset($_GET['debug_errors'])) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    add_filter('wp_fatal_error_handler_enabled', '__return_false');
+}
 
 // WooCommerce trust badges on single product
 add_action('woocommerce_single_product_summary', function() {
@@ -13,9 +34,12 @@ add_action('woocommerce_single_product_summary', function() {
         ['<path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>','Premium Packaging','Gift-ready, fully recyclable'],
         ['<path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>','Secure Checkout','SSL encrypted payment'],
     ];
-    foreach ($items as [$icon, $label, $sub]) {
+    foreach ($items as $item) {
+        $icon = $item[0];
+        $label = $item[1];
+        $sub = $item[2];
         echo '<div class="ph-product-trust__item">';
-        echo '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">' . '<path stroke-linecap="round" stroke-linejoin="round" d="' . $icon . '"/></svg>';
+        echo '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">' . $icon . '</svg>';
         echo '<div><div style="color:rgba(255,255,255,0.8);font-weight:600;font-size:0.875rem;">' . esc_html($label) . '</div><div style="font-size:0.75rem;color:var(--ph-text-muted);">' . esc_html($sub) . '</div></div>';
         echo '</div>';
     }
@@ -69,7 +93,7 @@ add_action('after_setup_theme', 'purehoney_setup');
    2. ENQUEUE ASSETS
 ═══════════════════════════════════════════════ */
 function purehoney_assets() {
-    $v   = '2.1.18';
+    $v   = PUREHONEY_VERSION;
     $dir = get_template_directory_uri();
 
     // Google Fonts
@@ -104,7 +128,7 @@ function purehoney_assets() {
     // Always load WooCommerce CSS (cart count in header on all pages)
     if (function_exists('WC')) {
         wp_enqueue_style('purehoney-woo',
-            $dir . '/assets/css/woocommerce.css',
+            $dir . '/assets/css/woocommerce-ph.css',
             ['purehoney-style'], $v
         );
 
@@ -372,12 +396,12 @@ add_filter('loop_shop_per_page', function() { return 12; });
 
 // WooCommerce wrappers — only apply on shop/category (NOT cart/checkout/account which have their own templates)
 add_action('woocommerce_before_main_content', function() {
-    if (is_cart() || is_checkout() || is_account_page() || is_order_received_page()) return;
+    if (is_cart() || is_checkout() || is_account_page() || is_wc_endpoint_url('order-received')) return;
     echo '<div class="ph-container" style="padding-top:48px;padding-bottom:80px;">';
 }, 10);
 
 add_action('woocommerce_after_main_content', function() {
-    if (is_cart() || is_checkout() || is_account_page() || is_order_received_page()) return;
+    if (is_cart() || is_checkout() || is_account_page() || is_wc_endpoint_url('order-received')) return;
     echo '</div>';
 }, 10);
 

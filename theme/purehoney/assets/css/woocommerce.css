@@ -1273,6 +1273,69 @@
 .woocommerce div.product div.images .woocommerce-product-gallery__image img {
   border-radius: var(--ph-radius-lg) !important;
   object-fit: cover !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.woocommerce div.product div.images .woocommerce-product-gallery__trigger {
+  display: none !important; /* Hide default ugly magnifying glass */
+}
+
+/* Gallery thumbnails */
+.woocommerce div.product div.images .flex-control-nav {
+  display: flex !important;
+  gap: 16px !important;
+  margin-top: 16px !important;
+  list-style: none !important;
+  padding: 0 !important;
+  flex-wrap: wrap !important;
+}
+
+.woocommerce div.product div.images .flex-control-nav li {
+  width: 80px !important;
+  height: 80px !important;
+  flex-shrink: 0 !important;
+}
+
+.woocommerce div.product div.images .flex-control-nav li img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  opacity: 0.5 !important;
+  transition: opacity 0.3s, border-color 0.3s !important;
+  border: 2px solid transparent !important;
+}
+
+.woocommerce div.product div.images .flex-control-nav li img.flex-active,
+.woocommerce div.product div.images .flex-control-nav li img:hover {
+  opacity: 1 !important;
+  border-color: var(--ph-gold) !important;
+}
+
+.woocommerce div.product .product_meta {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  font-size: 0.875rem !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  margin-top: 32px !important;
+  padding-top: 24px !important;
+  border-top: 1px solid var(--ph-border) !important;
+}
+
+.woocommerce div.product .product_meta span {
+  display: block !important;
+}
+
+.woocommerce div.product .product_meta a {
+  color: var(--ph-gold) !important;
+  transition: color 0.2s !important;
+}
+
+.woocommerce div.product .product_meta a:hover {
+  color: white !important;
 }
 
 .woocommerce div.product .product_title {

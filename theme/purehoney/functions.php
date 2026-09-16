@@ -4,7 +4,62 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
-define('PUREHONEY_VERSION', '2.1.26');
+define('PUREHONEY_VERSION', '2.1.44');
+
+add_action('wp_head', function() {
+    if (function_exists('is_checkout') && (is_checkout() || is_cart())) {
+        echo '<style>
+        /* Fix checkout layout to stack properly */
+        @media (max-width: 960px) {
+            .ph-checkout-layout {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .ph-checkout-left, .ph-checkout-right {
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .woocommerce .ph-checkout-section .form-row,
+            .woocommerce-checkout .ph-checkout-section .form-row,
+            .woocommerce-page .ph-checkout-section .form-row,
+            .woocommerce-checkout .woocommerce form .form-row {
+                width: 100% !important;
+                float: none !important;
+                display: block !important;
+                box-sizing: border-box !important;
+            }
+            .ph-fields-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+        }
+        
+        /* Decrease top margin of checkout page */
+        .ph-woo-content {
+            padding-top: 10px !important;
+        }
+        .ph-page-hero--sm {
+            padding-bottom: 20px !important;
+        }
+        </style>';
+    }
+
+    echo '<style>
+    /* Prevent horizontal scroll globally */
+    #page { overflow-x: hidden !important; width: 100% !important; position: relative; }
+
+    /* Enforce container padding globally to bypass cache */
+    .ph-container { padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important; }
+
+    /* Fix mobile menu close button positioning */
+    .ph-mobile-menu__header { position: relative !important; }
+    .ph-mobile-menu__close { position: absolute !important; right: 24px !important; top: 50% !important; transform: translateY(-50%) !important; margin: 0 !important; }
+    </style>';
+});
 
 if (isset($_GET['read_log'])) {
     if (defined('WP_CONTENT_DIR')) {
@@ -576,3 +631,9 @@ add_action('template_redirect', function() {
         }
     }
 });
+
+
+
+
+
+

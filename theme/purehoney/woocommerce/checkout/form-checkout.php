@@ -1,216 +1,107 @@
 <?php
 /**
- * PureHoney – Checkout Page Template Override
+ * PureHoney - Checkout Form (WooCommerce template override)
+ * Hero/breadcrumb rendered by page.php. This template renders the form only.
  * @package PureHoney
  */
 defined('ABSPATH') || exit;
-get_header();
 ?>
 
-<div class="ph-page-wrap">
-  <div class="ph-page-hero">
-    <div class="ph-container">
-      <nav class="ph-breadcrumb" aria-label="Breadcrumb">
-        <a href="<?php echo esc_url(home_url('/')); ?>">Home</a>
-        <span>›</span>
-        <a href="<?php echo esc_url(wc_get_cart_url()); ?>">Cart</a>
-        <span>›</span>
-        <span>Checkout</span>
-      </nav>
-      <h1 class="ph-page-title">Checkout</h1>
-    </div>
-  </div>
+<?php wc_print_notices(); ?>
 
-  <div class="ph-container ph-checkout-page">
-    <?php wc_print_notices(); ?>
-
-    <!-- Checkout Steps Indicator -->
-    <div class="ph-checkout-steps">
-      <div class="ph-step ph-step--done">
-        <div class="ph-step__num">✓</div>
-        <span>Cart</span>
-      </div>
-      <div class="ph-step__line ph-step__line--done"></div>
-      <div class="ph-step ph-step--active">
-        <div class="ph-step__num">2</div>
-        <span>Details</span>
-      </div>
-      <div class="ph-step__line"></div>
-      <div class="ph-step">
-        <div class="ph-step__num">3</div>
-        <span>Confirmation</span>
-      </div>
-    </div>
-
-    <?php if (WC()->cart->is_empty()): ?>
-    <div class="ph-empty-cart">
-      <div class="ph-empty-cart__icon">🛒</div>
-      <h2>Your cart is empty</h2>
-      <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="ph-btn ph-btn--primary ph-btn--lg">Browse Collection →</a>
-    </div>
-    <?php else: ?>
-
-    <form name="checkout" method="post" class="checkout woocommerce-checkout ph-checkout-form"
-      action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data">
-
-      <div class="ph-checkout-layout">
-
-        <!-- LEFT: Customer Details -->
-        <div class="ph-checkout-left">
-
-          <!-- Returning customer notice -->
-          <?php if (is_user_logged_in()): ?>
-          <div class="ph-checkout-logged-in">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Welcome back, <?php echo esc_html(wp_get_current_user()->display_name); ?>!
-          </div>
-          <?php else: ?>
-          <?php do_action('woocommerce_before_checkout_form_cart_notices'); ?>
-          <?php woocommerce_checkout_login_form(); ?>
-          <?php endif; ?>
-
-          <!-- Billing Details -->
-          <div class="ph-checkout-section">
-            <h2 class="ph-checkout-section-title">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Billing Information
-            </h2>
-            <div class="ph-fields-grid">
-              <?php woocommerce_form_field('billing_first_name', ['type'=>'text','label'=>'First Name','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_first_name')); ?>
-              <?php woocommerce_form_field('billing_last_name', ['type'=>'text','label'=>'Last Name','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_last_name')); ?>
-              <?php woocommerce_form_field('billing_company', ['type'=>'text','label'=>'Company Name (Optional)','class'=>['ph-field-full']], WC()->checkout()->get_value('billing_company')); ?>
-              <?php woocommerce_form_field('billing_country', ['type'=>'country','label'=>'Country','required'=>true,'class'=>['ph-field-full']], WC()->checkout()->get_value('billing_country')); ?>
-              <?php woocommerce_form_field('billing_address_1', ['type'=>'text','label'=>'Street Address','required'=>true,'placeholder'=>'House number and street name','class'=>['ph-field-full']], WC()->checkout()->get_value('billing_address_1')); ?>
-              <?php woocommerce_form_field('billing_address_2', ['type'=>'text','label'=>'','placeholder'=>'Apartment, suite, unit, etc. (optional)','class'=>['ph-field-full']], WC()->checkout()->get_value('billing_address_2')); ?>
-              <?php woocommerce_form_field('billing_city', ['type'=>'text','label'=>'City','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_city')); ?>
-              <?php woocommerce_form_field('billing_postcode', ['type'=>'text','label'=>'Postcode / ZIP','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_postcode')); ?>
-              <?php woocommerce_form_field('billing_phone', ['type'=>'tel','label'=>'Phone Number','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_phone')); ?>
-              <?php woocommerce_form_field('billing_email', ['type'=>'email','label'=>'Email Address','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_email')); ?>
-            </div>
-          </div>
-
-          <!-- Ship to Different Address -->
-          <div class="ph-checkout-section">
-            <div class="ph-ship-toggle" id="ship-to-different-address">
-              <label class="ph-toggle-label" for="ship-to-different-address-checkbox">
-                <input type="checkbox" id="ship-to-different-address-checkbox" name="ship_to_different_address" value="1" <?php checked(apply_filters('woocommerce_ship_to_different_address_checked', 'shipping' === get_option('woocommerce_ship_to_destination') ? 1 : 0), 1); ?>>
-                <span class="ph-toggle-check"></span>
-                <span class="ph-toggle-text">Ship to a different address?</span>
-              </label>
-            </div>
-            <div class="shipping_address" style="display:none;">
-              <h2 class="ph-checkout-section-title" style="margin-top:24px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                Shipping Address
-              </h2>
-              <div class="ph-fields-grid">
-                <?php woocommerce_form_field('shipping_first_name', ['type'=>'text','label'=>'First Name','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('shipping_first_name')); ?>
-                <?php woocommerce_form_field('shipping_last_name', ['type'=>'text','label'=>'Last Name','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('shipping_last_name')); ?>
-                <?php woocommerce_form_field('shipping_country', ['type'=>'country','label'=>'Country','required'=>true,'class'=>['ph-field-full']], WC()->checkout()->get_value('shipping_country')); ?>
-                <?php woocommerce_form_field('shipping_address_1', ['type'=>'text','label'=>'Street Address','required'=>true,'placeholder'=>'House number and street name','class'=>['ph-field-full']], WC()->checkout()->get_value('shipping_address_1')); ?>
-                <?php woocommerce_form_field('shipping_city', ['type'=>'text','label'=>'City','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('shipping_city')); ?>
-                <?php woocommerce_form_field('shipping_postcode', ['type'=>'text','label'=>'Postcode / ZIP','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('shipping_postcode')); ?>
-              </div>
-            </div>
-          </div>
-
-          <!-- Order Notes -->
-          <div class="ph-checkout-section">
-            <h2 class="ph-checkout-section-title">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              Additional Notes
-            </h2>
-            <?php woocommerce_form_field('order_comments', ['type'=>'textarea','label'=>'','placeholder'=>'Special instructions for your order, gift message, or delivery notes (optional)','class'=>['ph-field-full']], WC()->checkout()->get_value('order_comments')); ?>
-          </div>
-
-          <?php do_action('woocommerce_checkout_after_customer_details'); ?>
-        </div>
-
-        <!-- RIGHT: Order Summary + Payment -->
-        <div class="ph-checkout-right">
-
-          <div class="ph-order-review woocommerce-checkout-review-order" id="order_review">
-            <h2 class="ph-checkout-section-title">Your Order</h2>
-
-            <!-- Items list -->
-            <div class="ph-order-items">
-              <?php foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item):
-                $_product = $cart_item['data'];
-                if ($_product && $_product->exists() && $cart_item['quantity'] > 0):
-              ?>
-              <div class="ph-order-item">
-                <div class="ph-order-item__img">
-                  <?php echo $_product->get_image('thumbnail'); ?>
-                  <span class="ph-order-item__qty"><?php echo esc_html($cart_item['quantity']); ?></span>
-                </div>
-                <div class="ph-order-item__info">
-                  <span class="ph-order-item__name"><?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key)); ?></span>
-                  <?php if ($cart_item['variation_id']): ?>
-                  <span class="ph-order-item__variant"><?php echo wc_get_formatted_cart_item_data($cart_item); ?></span>
-                  <?php endif; ?>
-                </div>
-                <div class="ph-order-item__price">
-                  <?php echo WC()->cart->get_product_subtotal($_product, $cart_item['quantity']); ?>
-                </div>
-              </div>
-              <?php endif; endforeach; ?>
-            </div>
-
-            <!-- Totals -->
-            <div class="ph-order-totals">
-              <?php woocommerce_review_order_before_cart_contents(); ?>
-              <?php woocommerce_review_order_after_cart_contents(); ?>
-
-              <div class="ph-total-row">
-                <span>Subtotal</span>
-                <span><?php wc_cart_totals_subtotal_html(); ?></span>
-              </div>
-
-              <?php foreach (WC()->cart->get_coupons() as $code => $coupon): ?>
-              <div class="ph-total-row ph-total-row--green">
-                <span>Coupon (<?php echo esc_html(wc_format_coupon_code($code)); ?>)</span>
-                <span>-<?php wc_cart_totals_coupon_html($coupon); ?></span>
-              </div>
-              <?php endforeach; ?>
-
-              <?php woocommerce_checkout_totals(); ?>
-
-              <div class="ph-total-divider"></div>
-              <div class="ph-total-row ph-total-row--final">
-                <span>Total</span>
-                <span><?php wc_cart_totals_order_total_html(); ?></span>
-              </div>
-            </div>
-
-            <!-- Payment Methods & Place Order -->
-            <?php do_action('woocommerce_checkout_before_order_review_heading'); ?>
-            <?php woocommerce_checkout_payment(); ?>
-
-            <!-- Security Note -->
-            <div class="ph-checkout-security">
-              <div class="ph-security-row">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>Your information is 100% secure & encrypted</span>
-              </div>
-              <div class="ph-payment-logos">
-                <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/visa.svg" alt="Visa" height="24">
-                <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/mastercard.svg" alt="Mastercard" height="24">
-                <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/paypal.svg" alt="PayPal" height="24">
-                <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/stripe.svg" alt="Stripe" height="24">
-                <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/amex.svg" alt="Amex" height="24">
-              </div>
-            </div>
-
-          </div><!-- .ph-order-review -->
-        </div><!-- .ph-checkout-right -->
-
-      </div><!-- .ph-checkout-layout -->
-
-      <?php do_action('woocommerce_checkout_after_order_review'); ?>
-
-    </form>
-    <?php endif; ?>
-  </div>
+<div class="ph-checkout-steps">
+  <div class="ph-step ph-step--done"><div class="ph-step__num">&#10003;</div><span>Cart</span></div>
+  <div class="ph-step__line ph-step__line--done"></div>
+  <div class="ph-step ph-step--active"><div class="ph-step__num">2</div><span>Details</span></div>
+  <div class="ph-step__line"></div>
+  <div class="ph-step"><div class="ph-step__num">3</div><span>Confirmation</span></div>
 </div>
 
-<?php get_footer(); ?>
+<?php if (WC()->cart->is_empty()): ?>
+<div class="ph-empty-cart">
+  <div class="ph-empty-cart__icon">&#128722;</div>
+  <h2>Your cart is empty</h2>
+  <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="ph-btn ph-btn--primary ph-btn--lg">Browse Collection</a>
+</div>
+<?php else: ?>
+
+<form name="checkout" method="post" class="checkout woocommerce-checkout ph-checkout-form"
+  action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data">
+  <div class="ph-checkout-layout">
+
+    <div class="ph-checkout-left">
+      <?php if (is_user_logged_in()): ?>
+      <div class="ph-checkout-logged-in">Welcome back, <?php echo esc_html(wp_get_current_user()->user_email); ?>!</div>
+      <?php else: ?>
+      <?php do_action('woocommerce_before_checkout_form_cart_notices'); ?>
+      <?php woocommerce_checkout_login_form(); ?>
+      <?php endif; ?>
+
+      <div class="ph-checkout-section">
+        <h2 class="ph-checkout-section-title">Billing Information</h2>
+        <div class="ph-fields-grid">
+          <?php woocommerce_form_field('billing_first_name', ['type'=>'text','label'=>'First Name','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_first_name')); ?>
+          <?php woocommerce_form_field('billing_last_name',  ['type'=>'text','label'=>'Last Name','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_last_name')); ?>
+          <?php woocommerce_form_field('billing_company',    ['type'=>'text','label'=>'Company Name (Optional)','class'=>['ph-field-full']], WC()->checkout()->get_value('billing_company')); ?>
+          <?php woocommerce_form_field('billing_country',    ['type'=>'country','label'=>'Country','required'=>true,'class'=>['ph-field-full']], WC()->checkout()->get_value('billing_country')); ?>
+          <?php woocommerce_form_field('billing_address_1',  ['type'=>'text','label'=>'Street Address','required'=>true,'placeholder'=>'House number and street name','class'=>['ph-field-full']], WC()->checkout()->get_value('billing_address_1')); ?>
+          <?php woocommerce_form_field('billing_address_2',  ['type'=>'text','label'=>'','placeholder'=>'Apartment, suite, unit, etc. (optional)','class'=>['ph-field-full']], WC()->checkout()->get_value('billing_address_2')); ?>
+          <?php woocommerce_form_field('billing_city',       ['type'=>'text','label'=>'City','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_city')); ?>
+          <?php woocommerce_form_field('billing_postcode',   ['type'=>'text','label'=>'Postcode / ZIP','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_postcode')); ?>
+          <?php woocommerce_form_field('billing_phone',      ['type'=>'tel','label'=>'Phone Number','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_phone')); ?>
+          <?php woocommerce_form_field('billing_email',      ['type'=>'email','label'=>'Email Address','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('billing_email')); ?>
+        </div>
+      </div>
+
+      <div class="ph-checkout-section">
+        <div class="ph-ship-toggle" id="ship-to-different-address">
+          <label class="ph-toggle-label" for="ship-to-different-address-checkbox">
+            <input type="checkbox" id="ship-to-different-address-checkbox" name="ship_to_different_address" value="1" <?php checked(apply_filters('woocommerce_ship_to_different_address_checked', 'shipping' === get_option('woocommerce_ship_to_destination') ? 1 : 0), 1); ?>>
+            <span class="ph-toggle-check"></span>
+            <span class="ph-toggle-text">Ship to a different address?</span>
+          </label>
+        </div>
+        <div class="shipping_address" style="display:none;">
+          <h2 class="ph-checkout-section-title" style="margin-top:24px;">Shipping Address</h2>
+          <div class="ph-fields-grid">
+            <?php woocommerce_form_field('shipping_first_name', ['type'=>'text','label'=>'First Name','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('shipping_first_name')); ?>
+            <?php woocommerce_form_field('shipping_last_name',  ['type'=>'text','label'=>'Last Name','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('shipping_last_name')); ?>
+            <?php woocommerce_form_field('shipping_country',    ['type'=>'country','label'=>'Country','required'=>true,'class'=>['ph-field-full']], WC()->checkout()->get_value('shipping_country')); ?>
+            <?php woocommerce_form_field('shipping_address_1',  ['type'=>'text','label'=>'Street Address','required'=>true,'placeholder'=>'House number and street','class'=>['ph-field-full']], WC()->checkout()->get_value('shipping_address_1')); ?>
+            <?php woocommerce_form_field('shipping_city',       ['type'=>'text','label'=>'City','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('shipping_city')); ?>
+            <?php woocommerce_form_field('shipping_postcode',   ['type'=>'text','label'=>'Postcode / ZIP','required'=>true,'class'=>['ph-field-half']], WC()->checkout()->get_value('shipping_postcode')); ?>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-checkout-section">
+        <h2 class="ph-checkout-section-title">Additional Notes</h2>
+        <?php woocommerce_form_field('order_comments', ['type'=>'textarea','label'=>'','placeholder'=>'Special instructions, gift message, or delivery notes (optional)','class'=>['ph-field-full']], WC()->checkout()->get_value('order_comments')); ?>
+      </div>
+
+      <?php do_action('woocommerce_checkout_after_customer_details'); ?>
+    </div>
+
+    <div class="ph-checkout-right">
+      <div class="ph-order-review woocommerce-checkout-review-order" id="order_review">
+        <?php do_action('woocommerce_checkout_order_review'); ?>
+        <div class="ph-checkout-security">
+          <div class="ph-security-row">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>100% secure &amp; encrypted checkout</span>
+          </div>
+          <div class="ph-payment-logos">
+            <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/visa.svg" alt="Visa" height="22">
+            <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/mastercard.svg" alt="Mastercard" height="22">
+            <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/paypal.svg" alt="PayPal" height="22">
+            <svg height="22" viewBox="0 0 60 25" xmlns="http://www.w3.org/2000/svg" style="background:#635BFF;border-radius:4px;padding:2px 5px;box-sizing:content-box;" aria-label="Stripe"><path d="M59.64 14.28h-8.06c.19 1.93 1.6 2.55 3.2 2.55 1.64 0 2.96-.37 4.05-.95v3.32a8.33 8.33 0 0 1-4.56 1.1c-4.01 0-6.83-2.5-6.83-7.48 0-4.19 2.39-7.52 6.3-7.52 3.92 0 5.96 3.28 5.96 7.5 0 .4-.04 1.26-.06 1.48zm-5.92-5.62c-1.03 0-2.17.73-2.17 2.58h4.25c0-1.85-1.07-2.58-2.08-2.58zM40.95 20.3c-1.44 0-2.32-.6-2.9-1.04l-.02 4.63-4.12.87V5.57h3.76l.08 1.02a4.7 4.7 0 0 1 3.23-1.29c2.9 0 5.62 2.6 5.62 7.4 0 5.23-2.7 7.6-5.65 7.6zM40 8.95c-.95 0-1.54.34-1.94.81l.02 6.12c.4.44.98.78 1.92.78 1.55 0 2.51-1.76 2.51-3.87 0-2.07-.96-3.84-2.51-3.84zM28.24 5.57h4.13v14.44h-4.13V5.57zm0-4.7L32.37 0v3.36l-4.13.88V.88zM22.35 14.08c0 1.21.96 1.66 2.38 1.66 1.17 0 2.08-.3 2.96-.76v3.19c-.96.5-2.28.83-3.78.83-3.29 0-5.54-1.81-5.54-5.2V9.29h-2.17V5.57h2.17V2.43l4.12-.88v4.02h5.34v3.72h-5.34v4.79zM10.46 10.07c0-.86.71-1.22 1.89-1.22 1.65 0 3.73.5 5.38 1.4V6.19c-1.79-.72-3.56-1-5.38-1C8.96 5.2 6.2 6.86 6.2 10.29c0 5.27 7.27 4.43 7.27 6.7 0 1.01-.89 1.38-2.09 1.38-1.8 0-4.07-.74-5.87-1.73v4.1c2 .86 4.02 1.22 5.87 1.22 4.46 0 7.5-2.2 7.5-5.72-.01-5.68-7.42-4.68-7.42-6.17z" fill="white"/></svg>
+            <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/amex.svg" alt="Amex" height="22">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <?php do_action('woocommerce_checkout_after_order_review'); ?>
+</form>
+<?php endif; ?>

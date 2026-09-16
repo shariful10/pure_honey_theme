@@ -1984,3 +1984,262 @@
     grid-template-columns: 1fr !important;
   }
 }
+/* ELEMENTOR WOOCOMMERCE FIXES */
+body.elementor-default.woocommerce-checkout .elementor-section.elementor-section-boxed > .elementor-container,
+body.elementor-default.woocommerce-cart .elementor-section.elementor-section-boxed > .elementor-container {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+body.elementor-default.woocommerce-checkout .elementor-widget-wrap,
+body.elementor-default.woocommerce-cart .elementor-widget-wrap {
+  padding: 0 !important;
+}
+
+body.woocommerce-checkout .elementor-widget-wrap, body.woocommerce-cart .elementor-widget-wrap, body.woocommerce-checkout .ph-page-wrap, body.woocommerce-cart .ph-page-wrap { background: var(--ph-charcoal) !important; }
+
+
+/* ============================================================
+   OVERFLOW / HORIZONTAL SCROLL FIX
+   ============================================================ */
+html,
+body {
+  overflow-x: hidden !important;
+}
+
+/* ph-page-wrap should be full width, container limits to 1140px */
+.ph-page-wrap {
+  width: 100%;
+}
+
+/* Checkout layout responsive breakpoints */
+@media (max-width: 1100px) {
+  .ph-checkout-layout {
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 960px) {
+  .ph-checkout-layout {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .ph-order-review {
+    position: static !important;
+  }
+  .ph-cart-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .ph-cart-summary {
+    position: static !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .ph-checkout-page {
+    padding: 24px 0 60px;
+  }
+  .ph-checkout-section {
+    padding: 20px 16px;
+  }
+  .ph-fields-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .ph-field-half {
+    grid-column: 1 / -1 !important;
+  }
+  .ph-step__line {
+    width: 32px;
+  }
+  .ph-order-review {
+    padding: 20px 16px;
+  }
+  .ph-page-title {
+    font-size: 1.75rem;
+  }
+  .ph-order-item {
+    grid-template-columns: 48px 1fr auto;
+    gap: 10px;
+  }
+}
+
+/* ============================================================
+   WOO PAGE LAYOUT – CONTAINER & HERO FIXES
+   ============================================================ */
+
+/* Small hero for checkout/cart/account pages */
+.ph-page-hero--sm {
+  padding: 90px 0 28px;
+  background: linear-gradient(160deg, #120900 0%, #1a0d00 40%, #241100 100%);
+  border-bottom: 1px solid var(--ph-border);
+}
+
+.ph-page-hero--sm .ph-page-title {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+/* WooCommerce content wrapper inside 1140px container */
+.ph-woo-content {
+  padding: 40px 0 80px;
+}
+
+/* Remove WooCommerce's own max-width when we control the container */
+.ph-woo-content .woocommerce,
+.ph-woo-content > .woocommerce {
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* Cart and checkout layout use full width inside container */
+.ph-woo-content .woocommerce-cart-form,
+.ph-woo-content .woocommerce-checkout {
+  width: 100% !important;
+}
+
+/* Checkout page – reduce top spacing since hero gives enough separation */
+.ph-woo-content .woocommerce-checkout .woocommerce {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 640px) {
+  .ph-page-hero--sm {
+    padding: 80px 0 20px;
+  }
+  .ph-woo-content {
+    padding: 24px 0 60px;
+  }
+}
+
+
+/* ============================================================
+   FORCE 1140px CONTAINER ON CART & CHECKOUT
+   ============================================================ */
+body.woocommerce-checkout .ph-container,
+body.woocommerce-cart .ph-container,
+body.woocommerce-checkout .ph-woo-content,
+body.woocommerce-cart .ph-woo-content {
+  max-width: 1140px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+/* ============================================================
+   CHECKOUT MOBILE RESPONSIVENESS FIX
+   ============================================================ */
+@media (max-width: 768px) {
+  .ph-checkout-steps {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+  .ph-step__line {
+    width: 20px;
+  }
+  .ph-checkout-page {
+    padding-top: 20px;
+  }
+  .ph-fields-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .woocommerce .ph-checkout-section .form-row.ph-field-half,
+  .ph-field-half {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+  .woocommerce-checkout .woocommerce form .form-row {
+    width: 100% !important;
+    float: none !important;
+  }
+}
+
+/* ============================================================
+   CHECKOUT MOBILE RESPONSIVENESS FIX (ADDITIONAL)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Force inputs to be 100% width on mobile */
+  .woocommerce-checkout .ph-checkout-section .form-row input.input-text,
+  .woocommerce-checkout .ph-checkout-section .form-row select,
+  .woocommerce-checkout .ph-checkout-section .form-row textarea,
+  .woocommerce form .form-row input.input-text,
+  .woocommerce-page form .form-row input.input-text,
+  .woocommerce-checkout .woocommerce form .form-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Ensure the grid doesn't cause squished side-by-side elements */
+  .ph-fields-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .ph-fields-grid > * {
+    width: 100% !important;
+    margin-bottom: 14px !important;
+  }
+}
+
+/* ============================================================
+   ULTIMATE CHECKOUT MOBILE FIX
+   ============================================================ */
+@media (max-width: 820px) {
+  /* Fix header vs container alignment */
+  body.woocommerce-checkout .ph-container {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  
+  /* Force the layout to span the whole container */
+  .ph-checkout-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .ph-checkout-left, .ph-checkout-right {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .ph-fields-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  /* Force every single input container to be 100% */
+  .woocommerce .ph-checkout-section p.form-row,
+  .woocommerce-checkout .ph-checkout-section p.form-row,
+  .woocommerce-page .ph-checkout-section p.form-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+    display: block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Force inputs to be 100% */
+  .woocommerce .ph-checkout-section p.form-row input,
+  .woocommerce .ph-checkout-section p.form-row select,
+  .woocommerce .ph-checkout-section p.form-row textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .ph-checkout-steps {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center;
+  }
+}

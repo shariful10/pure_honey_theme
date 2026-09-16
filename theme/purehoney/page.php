@@ -6,14 +6,70 @@
 defined('ABSPATH') || exit;
 get_header();
 
-// For WooCommerce pages, render content directly (shortcodes need no wrapper)
-$is_woo_page = function_exists('WC') && (is_cart() || is_checkout() || is_account_page() || is_order_received_page());
+// Detect WooCommerce pages
+$is_woo_page    = function_exists('WC') && (is_cart() || is_checkout() || is_account_page() || is_order_received_page());
+$is_checkout    = function_exists('is_checkout') && is_checkout() && !is_order_received_page();
+$is_cart        = function_exists('is_cart') && is_cart();
+$is_order_recv  = function_exists('is_order_received_page') && is_order_received_page();
 ?>
 
 <?php if ($is_woo_page): ?>
-  <?php while (have_posts()): the_post(); ?>
-    <?php the_content(); ?>
-  <?php endwhile; ?>
+<!-- WooCommerce Page with our design wrapper -->
+<div class="ph-page-wrap ph-woo-page">
+
+  <?php if ($is_checkout): ?>
+  <!-- Checkout hero -->
+  <div class="ph-page-hero ph-page-hero--sm">
+    <div class="ph-container">
+      <nav class="ph-breadcrumb" aria-label="Breadcrumb">
+        <a href="<?php echo esc_url(home_url('/')); ?>">Home</a>
+        <span>›</span>
+        <a href="<?php echo esc_url(wc_get_cart_url()); ?>">Cart</a>
+        <span>›</span>
+        <span>Checkout</span>
+      </nav>
+      <h1 class="ph-page-title">Checkout</h1>
+    </div>
+  </div>
+
+  <?php elseif ($is_cart): ?>
+  <!-- Cart hero -->
+  <div class="ph-page-hero ph-page-hero--sm">
+    <div class="ph-container">
+      <h1 class="ph-page-title">
+        Shopping Cart
+        <?php if (function_exists('WC') && WC()->cart->get_cart_contents_count() > 0): ?>
+        <span class="ph-cart-badge"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+        <?php endif; ?>
+      </h1>
+    </div>
+  </div>
+
+  <?php elseif ($is_order_recv): ?>
+  <!-- Order confirmation hero -->
+  <div class="ph-page-hero ph-page-hero--sm">
+    <div class="ph-container">
+      <h1 class="ph-page-title">Order Confirmed 🎉</h1>
+    </div>
+  </div>
+
+  <?php else: ?>
+  <!-- Account hero -->
+  <div class="ph-page-hero ph-page-hero--sm">
+    <div class="ph-container">
+      <h1 class="ph-page-title"><?php the_title(); ?></h1>
+    </div>
+  </div>
+  <?php endif; ?>
+
+  <!-- WooCommerce content wrapped in 1140px container -->
+  <div class="ph-container ph-woo-content">
+    <?php while (have_posts()): the_post(); ?>
+      <?php the_content(); ?>
+    <?php endwhile; ?>
+  </div>
+
+</div>
 
 <?php else: ?>
 <!-- Regular Page -->
@@ -41,3 +97,4 @@ $is_woo_page = function_exists('WC') && (is_cart() || is_checkout() || is_accoun
 <?php endif; ?>
 
 <?php get_footer(); ?>
+

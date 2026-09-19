@@ -27,7 +27,9 @@ get_header();
   </div>
 
   <div class="ph-container ph-cart-page">
-    <?php wc_print_notices(); ?>
+    <div class="woocommerce-notices-wrapper">
+      <?php wc_print_notices(); ?>
+    </div>
 
     <?php if (WC()->cart->is_empty()): ?>
     <!-- Empty Cart -->
@@ -60,7 +62,7 @@ get_header();
             $product_id = apply_filters('woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key);
             if ($_product && $_product->exists() && $cart_item['quantity'] > 0):
           ?>
-          <div class="ph-cart-item ph-cart-row-grid <?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
+          <div class="ph-cart-item ph-cart-row-grid <?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>" data-cart-item-key="<?php echo esc_attr($cart_item_key); ?>" data-price="<?php echo esc_attr($_product->get_price()); ?>">
 
             <!-- Product Info -->
             <div class="ph-cart-item__product">
@@ -91,17 +93,25 @@ get_header();
             <!-- Quantity -->
             <div class="ph-cart-item__qty text-center">
               <div class="ph-qty-wrap">
-                <button type="button" class="ph-qty-btn minus" aria-label="Decrease">−</button>
+                <button type="button" class="ph-qty-btn minus" data-action="minus" data-step="1" data-cart-item-key="<?php echo esc_attr($cart_item_key); ?>" aria-label="Decrease quantity">−</button>
+                <?php
+                  $max_qty = $_product->get_max_purchase_quantity();
+                  $max_attr = ($max_qty && intval($max_qty) > 0) ? 'max="' . esc_attr($max_qty) . '"' : '';
+                  $current_qty = max(1, intval($cart_item['quantity']));
+                ?>
                 <input type="number" class="qty" name="cart[<?php echo esc_attr($cart_item_key); ?>][qty]"
-                  value="<?php echo esc_attr($cart_item['quantity']); ?>"
-                  min="0" max="<?php echo esc_attr($_product->get_max_purchase_quantity()); ?>"
-                  step="1" autocomplete="off">
-                <button type="button" class="ph-qty-btn plus" aria-label="Increase">+</button>
+                  value="<?php echo esc_attr($current_qty); ?>"
+                  data-saved-qty="<?php echo esc_attr($current_qty); ?>"
+                  min="1" <?php echo $max_attr; ?>
+                  step="1" autocomplete="off"
+                  data-cart-item-key="<?php echo esc_attr($cart_item_key); ?>"
+                  data-price="<?php echo esc_attr($_product->get_price()); ?>">
+                <button type="button" class="ph-qty-btn plus" data-action="plus" data-step="1" data-cart-item-key="<?php echo esc_attr($cart_item_key); ?>" aria-label="Increase quantity">+</button>
               </div>
             </div>
 
             <!-- Subtotal -->
-            <div class="ph-cart-item__subtotal text-right">
+            <div class="ph-cart-item__subtotal text-right" data-cart-item-key="<?php echo esc_attr($cart_item_key); ?>">
               <?php echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); ?>
             </div>
 
@@ -110,8 +120,7 @@ get_header();
 
           <!-- Cart Actions -->
           <div class="ph-cart-actions">
-
-            <button type="submit" name="update_cart" class="ph-btn ph-btn--ghost ph-btn--sm" value="Update cart">
+            <button type="button" name="update_cart" class="ph-btn ph-btn--ghost ph-btn--sm ph-update-cart-btn" value="Update cart">
               ↺ Update Cart
             </button>
           </div>

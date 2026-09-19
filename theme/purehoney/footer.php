@@ -9,7 +9,7 @@
 
       <!-- Brand -->
       <div>
-        <a href="<?php echo esc_url(home_url('/')); ?>" class="ph-footer__brand-logo"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" alt="PureHoney" width="130" style="height:auto; display:block; margin-bottom: 20px;"></a>
+        <a href="<?php echo esc_url(home_url('/')); ?>" class="ph-footer__brand-logo"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo.png?v=' . (defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '2.1.45')); ?>" alt="PureHoney" width="144" height="48" style="height:auto; display:block; margin-bottom: 20px;"></a>
         <p class="ph-footer__tagline">Nature's Gold, Elegantly Dispensed. Curating the world's most beautiful honey accessories for people who believe everyday rituals deserve a touch of luxury.</p>
         <div class="ph-footer__social">
           <a href="#" class="ph-footer__social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>

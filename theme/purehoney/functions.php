@@ -4,7 +4,7 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
-define('PUREHONEY_VERSION', '2.1.44');
+define('PUREHONEY_VERSION', '2.1.48');
 
 add_action('wp_head', function() {
     if (function_exists('is_checkout') && (is_checkout() || is_cart())) {
@@ -101,10 +101,103 @@ add_action('woocommerce_single_product_summary', function() {
     echo '</div>';
 }, 35);
 
+// Real studio product photography resolver: dynamically map products with missing thumbnails
+add_filter('woocommerce_product_get_image', function($image, $product, $size, $attr, $placeholder) {
+    if ($product && !has_post_thumbnail($product->get_id())) {
+        $sku = $product->get_sku();
+        $slug = $product->get_slug();
+        $theme_dir = get_template_directory();
+        $theme_uri = get_template_directory_uri();
+        
+        $img_src = '';
+        if ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
+            $img_src = $theme_uri . '/assets/images/products/' . $sku . '.jpg';
+        } elseif ($slug && file_exists($theme_dir . '/assets/images/products/' . $slug . '.jpg')) {
+            $img_src = $theme_uri . '/assets/images/products/' . $slug . '.jpg';
+        } elseif (file_exists($theme_dir . '/assets/images/products/placeholder.jpg')) {
+            $img_src = $theme_uri . '/assets/images/products/placeholder.jpg';
+        } else {
+            $img_src = $theme_uri . '/assets/images/product-placeholder.jpg';
+        }
+
+        $alt = esc_attr($product->get_name());
+        return sprintf(
+            '<img src="%s" class="attachment-%s size-%s wp-post-image ph-product-real-img" alt="%s" loading="lazy" />',
+            esc_url($img_src),
+            esc_attr($size),
+            esc_attr($size),
+            $alt
+        );
+    }
+    return $image;
+}, 20, 5);
+
 // Placeholder image for products with no image
 add_filter('woocommerce_placeholder_img_src', function() {
-    return get_template_directory_uri() . '/assets/images/product-placeholder.svg';
+    $placeholder_path = get_template_directory() . '/assets/images/products/placeholder.jpg';
+    if (file_exists($placeholder_path)) {
+        return get_template_directory_uri() . '/assets/images/products/placeholder.jpg';
+    }
+    return get_template_directory_uri() . '/assets/images/product-placeholder.jpg';
 });
+
+/**
+ * One-click helper to attach local theme product images into WP Media Library
+ * Trigger via: wp-admin/?purehoney_sync_images=1
+ */
+add_action('admin_init', function() {
+    if (!current_user_can('manage_woocommerce') || !isset($_GET['purehoney_sync_images'])) {
+        return;
+    }
+    
+    require_once(ABSPATH . 'wp-admin/includes/image.php');
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
+    require_once(ABSPATH . 'wp-admin/includes/media.php');
+    
+    $products = wc_get_products(['limit' => -1]);
+    $synced = 0;
+    $theme_dir = get_template_directory();
+
+    foreach ($products as $prod) {
+        if (!has_post_thumbnail($prod->get_id())) {
+            $sku = $prod->get_sku();
+            $slug = $prod->get_slug();
+            $file = '';
+            if ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
+                $file = $theme_dir . '/assets/images/products/' . $sku . '.jpg';
+            } elseif ($slug && file_exists($theme_dir . '/assets/images/products/' . $slug . '.jpg')) {
+                $file = $theme_dir . '/assets/images/products/' . $slug . '.jpg';
+            }
+            
+            if ($file) {
+                $filename = basename($file);
+                $upload_dir = wp_upload_dir();
+                $target_file = $upload_dir['path'] . '/' . $filename;
+                
+                if (!file_exists($target_file)) {
+                    copy($file, $target_file);
+                }
+                
+                $wp_filetype = wp_check_filetype($filename, null);
+                $attachment = [
+                    'post_mime_type' => $wp_filetype['type'],
+                    'post_title'     => sanitize_file_name($prod->get_name()),
+                    'post_content'   => '',
+                    'post_status'    => 'inherit'
+                ];
+                $attach_id = wp_insert_attachment($attachment, $target_file, $prod->get_id());
+                $attach_data = wp_generate_attachment_metadata($attach_id, $target_file);
+                wp_update_attachment_metadata($attach_id, $attach_data);
+                set_post_thumbnail($prod->get_id(), $attach_id);
+                $synced++;
+            }
+        }
+    }
+    
+    wp_safe_redirect(add_query_arg(['purehoney_synced' => $synced], admin_url('edit.php?post_type=product')));
+    exit;
+});
+
 
 // Quantity +/- buttons on single product
 add_action('woocommerce_before_add_to_cart_quantity', function() {
@@ -199,25 +292,275 @@ function purehoney_assets() {
         wp_enqueue_script('comment-reply');
     }
 
-    // Inline JS for cart qty buttons
+    // Inline JS for cart qty buttons & manual "Update Cart" action
     wp_add_inline_script('purehoney-main', '
-    document.addEventListener("click", function(e) {
-        var btn = e.target.closest(".ph-qty-btn, .plus, .minus");
-        if (!btn) return;
-        var wrap = btn.closest(".ph-qty-wrap, .quantity");
-        if (!wrap) return;
-        var qty = wrap.querySelector("input.qty, input[type=number]");
-        if (!qty) return;
-        var val = parseInt(qty.value) || 1;
-        var min = parseInt(qty.min) || 0;
-        var max = parseInt(qty.max) || 99;
-        if (btn.classList.contains("plus") || btn.classList.contains("ph-qty-btn") && btn.textContent.includes("+")) {
-            qty.value = Math.min(val + 1, max);
-        } else {
-            qty.value = Math.max(val - 1, min);
+    (function() {
+        // Remove invalid negative or zero max attributes that cause HTML5 validation errors
+        function sanitizeQtyMax(input) {
+            if (!input) return;
+            var m = input.getAttribute("max");
+            if (m !== null) {
+                var num = parseInt(m, 10);
+                if (isNaN(num) || num <= 0) {
+                    input.removeAttribute("max");
+                }
+            }
         }
-        qty.dispatchEvent(new Event("change", {bubbles: true}));
-    });
+
+        function cleanAllQtyInputs() {
+            document.querySelectorAll("input.qty, .ph-qty-wrap input, input[type=number]").forEach(function(inp) {
+                sanitizeQtyMax(inp);
+                if (!inp.hasAttribute("data-saved-qty")) {
+                    inp.setAttribute("data-saved-qty", inp.value || "1");
+                }
+            });
+        }
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", cleanAllQtyInputs);
+        } else {
+            cleanAllQtyInputs();
+        }
+
+        // Check if any draft input quantity differs from persisted/saved quantity
+        window.checkDraftChanges = function() {
+            var hasChanges = false;
+            document.querySelectorAll(".ph-cart-item input.qty, .ph-qty-wrap input.qty").forEach(function(inp) {
+                var current = Number(inp.value) || 1;
+                var saved = Number(inp.getAttribute("data-saved-qty") || inp.defaultValue || current);
+                if (current !== saved) {
+                    hasChanges = true;
+                }
+            });
+            var updateBtns = document.querySelectorAll(\'button[name="update_cart"], .ph-update-cart-btn\');
+            updateBtns.forEach(function(btn) {
+                if (hasChanges) {
+                    btn.classList.add("ph-btn--highlight");
+                    btn.disabled = false;
+                } else {
+                    btn.classList.remove("ph-btn--highlight");
+                }
+            });
+            return hasChanges;
+        };
+
+        // Universal Quantity Setter enforcing strict minimum boundary Math.max(1, newQuantity)
+        // Note: Updates ONLY local draft input state; does not auto-submit or reload
+        window.handleQuantityChange = function(target, newQty) {
+            var input = null;
+            if (typeof target === "number") {
+                var inputs = document.querySelectorAll("input.qty, .ph-qty-wrap input");
+                input = inputs[target];
+            } else if (typeof target === "string") {
+                input = document.querySelector(\'input[name*="\' + target + \'"], input[data-cart-item-key="\' + target + \'"]\');
+            } else if (target && target.nodeType) {
+                input = target.tagName === "INPUT" ? target : target.querySelector("input.qty");
+            }
+            if (!input) return;
+            sanitizeQtyMax(input);
+
+            var max = parseInt(input.max, 10);
+            if (isNaN(max) || max <= 0) max = 9999;
+            
+            var parsed = Number(newQty);
+            if (isNaN(parsed)) parsed = 1;
+            var validQty = Math.max(1, parsed);
+            if (!isNaN(max) && max > 0) validQty = Math.min(validQty, max);
+
+            input.value = String(validQty);
+            window.checkDraftChanges();
+        };
+
+        // Universal Quantity Increment/Decrement function
+        window.updateQuantity = function(target, delta) {
+            var input = null;
+            if (typeof target === "number") {
+                var inputs = document.querySelectorAll("input.qty, .ph-qty-wrap input");
+                input = inputs[target];
+            } else if (typeof target === "string") {
+                input = document.querySelector(\'input[name*="\' + target + \'"], input[data-cart-item-key="\' + target + \'"]\');
+            } else if (target && target.nodeType) {
+                input = target.tagName === "INPUT" ? target : target.querySelector("input.qty");
+            }
+            if (!input) return;
+
+            var current = Number(input.value);
+            if (isNaN(current) || current < 1) current = 1;
+
+            var d = Number(delta);
+            if (isNaN(d)) d = 1;
+
+            var nextQty = Math.max(1, current + d);
+            window.handleQuantityChange(input, nextQty);
+        };
+
+        // Commit Cart Updates Function: triggers on "Update Cart" button click
+        window.commitCartUpdates = function() {
+            var totalItemsCount = 0;
+            var subtotalSum = 0;
+
+            document.querySelectorAll(".ph-cart-item input.qty, .ph-qty-wrap input.qty").forEach(function(inp) {
+                var qtyVal = Math.max(1, Number(inp.value) || 1);
+                inp.value = String(qtyVal);
+                inp.setAttribute("data-saved-qty", String(qtyVal));
+
+                var price = parseFloat(inp.getAttribute("data-price")) || 0;
+                var lineTotal = (price * qtyVal).toFixed(2);
+                totalItemsCount += qtyVal;
+                subtotalSum += (price * qtyVal);
+
+                // 1. Update Cart Row subtotal in cart table
+                var row = inp.closest(".ph-cart-item");
+                if (row) {
+                    var subtotalEl = row.querySelector(".ph-cart-item__subtotal .woocommerce-Price-amount, .ph-cart-item__subtotal");
+                    if (subtotalEl) {
+                        var symbol = (subtotalEl.textContent.match(/[\\$\\€\\£\\¥]/) || ["$"])[0];
+                        var subtotalInner = row.querySelector(".ph-cart-item__subtotal .woocommerce-Price-amount");
+                        if (subtotalInner) {
+                            subtotalInner.innerHTML = \'<bdi><span class="woocommerce-Price-currencySymbol">\' + symbol + \'</span>\' + lineTotal + \'</bdi>\';
+                        } else {
+                            subtotalEl.textContent = symbol + lineTotal;
+                        }
+                    }
+                }
+
+                // 2. Update matching Itemized Order Summary row
+                var itemKey = inp.getAttribute("data-cart-item-key");
+                if (itemKey) {
+                    var summaryItem = document.querySelector(\'.ph-summary-item[data-cart-item-key="\' + itemKey + \'"]\');
+                    if (summaryItem) {
+                        var qtySpan = summaryItem.querySelector(".ph-summary-item__qty");
+                        if (qtySpan) qtySpan.textContent = "× " + qtyVal;
+                        var priceSpan = summaryItem.querySelector(".ph-summary-item__price .woocommerce-Price-amount, .ph-summary-item__price");
+                        if (priceSpan) {
+                            var sym = (priceSpan.textContent.match(/[\\$\\€\\£\\¥]/) || ["$"])[0];
+                            var priceInner = summaryItem.querySelector(".ph-summary-item__price .woocommerce-Price-amount");
+                            if (priceInner) {
+                                priceInner.innerHTML = \'<bdi><span class="woocommerce-Price-currencySymbol">\' + sym + \'</span>\' + lineTotal + \'</bdi>\';
+                            } else {
+                                priceSpan.textContent = sym + lineTotal;
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 3. Recalculate Subtotal, Total, and Cart Badge count
+            if (subtotalSum > 0) {
+                var formattedSum = subtotalSum.toFixed(2);
+                document.querySelectorAll(".ph-summary-row span:last-child .woocommerce-Price-amount, .order-total .woocommerce-Price-amount, .ph-summary-total .woocommerce-Price-amount").forEach(function(amountEl) {
+                    var curSym = (amountEl.textContent.match(/[\\$\\€\\£\\¥]/) || ["$"])[0];
+                    amountEl.innerHTML = \'<bdi><span class="woocommerce-Price-currencySymbol">\' + curSym + \'</span>\' + formattedSum + \'</bdi>\';
+                });
+
+                document.querySelectorAll(".ph-cart-badge, .ph-nav-cart__badge").forEach(function(badge) {
+                    badge.textContent = String(totalItemsCount);
+                });
+            }
+
+            // Remove highlight from Update Cart button
+            window.checkDraftChanges();
+
+            // Display "Cart updated." notification
+            var noticeWrap = document.querySelector(".woocommerce-notices-wrapper");
+            if (!noticeWrap) {
+                var cartPage = document.querySelector(".ph-cart-page, .woocommerce-cart");
+                if (cartPage) {
+                    noticeWrap = document.createElement("div");
+                    noticeWrap.className = "woocommerce-notices-wrapper";
+                    cartPage.insertBefore(noticeWrap, cartPage.firstChild);
+                }
+            }
+            if (noticeWrap) {
+                noticeWrap.innerHTML = \'<div class="woocommerce-message" role="alert">Cart updated.</div>\';
+                noticeWrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+
+            // Asynchronously sync to WooCommerce backend without full page reload
+            var form = document.querySelector("form.woocommerce-cart-form");
+            if (form) {
+                var formData = new FormData(form);
+                formData.append("update_cart", "Update cart");
+                fetch(form.getAttribute("action") || window.location.href, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                }).catch(function(err) {
+                    console.warn("WooCommerce cart sync background request:", err);
+                });
+            }
+        };
+
+        // Click Handler on Cart Quantity Buttons & Update Cart Button
+        document.addEventListener("click", function(e) {
+            // 1. "Update Cart" Button Click
+            var updateBtn = e.target.closest(\'button[name="update_cart"], .ph-update-cart-btn\');
+            if (updateBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.commitCartUpdates();
+                return;
+            }
+
+            // 2. Quantity +/- Buttons Click (only updates local draft state)
+            var btn = e.target.closest(".ph-qty-btn, .plus, .minus");
+            if (!btn) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            var wrap = btn.closest(".ph-qty-wrap, .quantity");
+            if (!wrap) return;
+            var qty = wrap.querySelector("input.qty, input[type=number]");
+            if (!qty) return;
+            sanitizeQtyMax(qty);
+
+            var currentVal = Number(qty.value);
+            if (isNaN(currentVal) || currentVal < 1) {
+                currentVal = 1;
+            }
+
+            var max = parseInt(qty.max, 10);
+            if (isNaN(max) || max <= 0) max = 9999;
+
+            var isPlus = btn.dataset.action === "plus" ||
+                         btn.classList.contains("plus") ||
+                         (btn.getAttribute("aria-label") && /increase/i.test(btn.getAttribute("aria-label"))) ||
+                         btn.textContent.trim() === "+" ||
+                         btn.textContent.includes("+");
+
+            var newQuantity = isPlus ? currentVal + 1 : currentVal - 1;
+            newQuantity = Math.max(1, newQuantity);
+            if (!isNaN(max) && max > 0) {
+                newQuantity = Math.min(newQuantity, max);
+            }
+
+            qty.value = String(newQuantity);
+            window.checkDraftChanges();
+        });
+
+        // Manual typing in quantity input
+        document.addEventListener("input", function(e) {
+            var qty = e.target.closest("input.qty, input[type=number]");
+            if (!qty) return;
+            sanitizeQtyMax(qty);
+            var val = Number(qty.value);
+            if (!isNaN(val) && val < 1) {
+                qty.value = "1";
+            }
+            window.checkDraftChanges();
+        });
+
+        // Form submit interception (e.g. Enter key inside input)
+        document.addEventListener("submit", function(e) {
+            if (e.target && e.target.matches("form.woocommerce-cart-form")) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.commitCartUpdates();
+            }
+        });
+    })();
     ');
 }
 add_action('wp_enqueue_scripts', 'purehoney_assets');

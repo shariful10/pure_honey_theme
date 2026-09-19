@@ -5,6 +5,63 @@ defined( 'ABSPATH' ) || exit;
   <div class="ph-summary-card">
     <h2 class="ph-summary-title">Order Summary</h2>
 
+    <!-- Itemized Cart Items List -->
+    <?php if ( ! WC()->cart->is_empty() ) : 
+      $cart_items = WC()->cart->get_cart();
+      $item_count = count($cart_items);
+    ?>
+    <div class="ph-summary-items-section">
+      <div class="ph-summary-items-list <?php echo $item_count > 3 ? 'ph-summary-items-list--scrollable' : ''; ?>">
+        <?php
+        foreach ( $cart_items as $cart_item_key => $cart_item ) :
+          $_product   = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+          $product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
+
+          if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) :
+            $product_name      = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
+            $product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
+            $thumbnail         = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( [40, 40] ), $cart_item, $cart_item_key );
+            $product_price     = WC()->cart->get_product_price( $_product );
+            $line_subtotal     = WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] );
+        ?>
+          <div class="ph-summary-item" data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>" data-price="<?php echo esc_attr( $_product->get_price() ); ?>">
+            <div class="ph-summary-item__thumb">
+              <?php
+              if ( ! $_product->is_visible() ) {
+                echo $thumbnail;
+              } else {
+                printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail );
+              }
+              ?>
+            </div>
+            <div class="ph-summary-item__details">
+              <div class="ph-summary-item__name">
+                <?php
+                if ( ! $_product->is_visible() ) {
+                  echo wp_kses_post( $product_name );
+                } else {
+                  printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), wp_kses_post( $product_name ) );
+                }
+                ?>
+              </div>
+              <div class="ph-summary-item__meta">
+                <span class="ph-summary-item__qty">&times; <?php echo esc_html( $cart_item['quantity'] ); ?></span>
+                <span class="ph-summary-item__unit-price">(<?php echo wp_kses_post( $product_price ); ?> each)</span>
+              </div>
+            </div>
+            <div class="ph-summary-item__price">
+              <?php echo wp_kses_post( $line_subtotal ); ?>
+            </div>
+          </div>
+        <?php
+          endif;
+        endforeach;
+        ?>
+      </div>
+      <div class="ph-summary-divider ph-summary-divider--amber"></div>
+    </div>
+    <?php endif; ?>
+
     <!-- Subtotal -->
     <div class="ph-summary-row">
       <span>Subtotal</span>

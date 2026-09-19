@@ -22,7 +22,7 @@ get_header();
     <div class="ph-container">
       <div class="ph-story">
         <div class="ph-story__visual" style="border-radius: var(--ph-radius-lg); overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/product-placeholder.svg" alt="Our Story" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; opacity: 0.7;" />
+          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/hexagonal-glass-honey-jar-with-bamboo-lid.jpg" alt="Our Story - Pure Honey" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; opacity: 1;" />
         </div>
         <div class="ph-story__content">
           <div class="ph-section-title" style="text-align: left; margin-bottom: 32px;">

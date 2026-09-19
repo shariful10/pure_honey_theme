@@ -16,6 +16,8 @@
 <?php
 $custom_logo_id = get_theme_mod('custom_logo');
 $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
+$ph_ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '2.1.45';
+$default_logo = get_template_directory_uri() . '/assets/images/logo.png?v=' . $ph_ver;
 ?>
 
 <!-- Loader -->
@@ -25,7 +27,7 @@ $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
       <?php if (has_custom_logo() && $logo_url): ?>
         <img src="<?php echo esc_url($logo_url); ?>" alt="<?php bloginfo('name'); ?>" style="height:60px; width:auto;">
       <?php else: ?>
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" alt="PureHoney" style="height:60px; width:auto;">
+        <img src="<?php echo esc_url($default_logo); ?>" alt="PureHoney" width="180" height="60" style="height:60px; width:auto;">
       <?php endif; ?>
     </div>
     <div class="ph-loader__bar"></div>
@@ -42,7 +44,7 @@ $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
       if (has_custom_logo() && $logo_url): ?>
         <img src="<?php echo esc_url($logo_url); ?>" alt="<?php bloginfo('name'); ?>" style="height:48px; width:auto; display:block;">
       <?php else: ?>
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" alt="PureHoney" style="height:48px; width:auto; display:block;">
+        <img src="<?php echo esc_url($default_logo); ?>" alt="PureHoney" width="144" height="48" style="height:48px; width:auto; display:block;">
       <?php endif; ?>
     </a>
 

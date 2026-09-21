@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PureHoney – Product Catalog Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme/purehoney/style.css">
+  <link rel="stylesheet" href="theme/purehoney/assets/css/woocommerce-ph.css">
+  <style>
+    :root {
+      --ph-gold: #D9822B;
+      --ph-text-light: #FAF4ED;
+      --ph-dark: #0D0702;
+      --ph-dark-card: #1A1208;
+      --ph-border: rgba(212, 175, 55, 0.15);
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+    }
+    
+    body {
+      margin: 0;
+      padding: 40px 20px 80px;
+      background: #0D0702;
+      color: #FAF4ED;
+      font-family: var(--font-body);
+      min-height: 100vh;
+    }
+
+    .preview-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .preview-header h1 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: #FFF;
+      margin: 0 0 12px;
+      font-weight: 700;
+    }
+
+    .preview-header p {
+      color: rgba(250, 244, 237, 0.7);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .preview-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(217, 130, 43, 0.12);
+      border: 1px solid rgba(217, 130, 43, 0.3);
+      color: #D9822B;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .catalog-container {
+      max-width: 1200px;
+      margin: 0 auto 70px;
+    }
+
+    .woocommerce ul.products {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 24px !important;
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    @media (max-width: 1024px) {
+      .woocommerce ul.products {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .woocommerce ul.products {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    .woocommerce ul.products li.product {
+      background: var(--ph-dark-card) !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      border: 1px solid var(--ph-border) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+      padding: 0 0 16px 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .woocommerce ul.products li.product:hover {
+      transform: translateY(-6px) !important;
+      border-color: rgba(217, 130, 43, 0.4) !important;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .woocommerce-loop-product__link,
+    .product-thumbnail-wrapper {
+      display: block !important;
+      text-decoration: none !important;
+      position: relative !important;
+      overflow: hidden !important;
+      aspect-ratio: 1 / 1 !important;
+      border-radius: 12px !important;
+      background: #180e04 !important;
+    }
+
+    .woocommerce-loop-product__link img,
+    .product-thumbnail-wrapper img {
+      aspect-ratio: 1 / 1 !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      border-radius: 12px !important;
+      width: 100% !important;
+      height: 100% !important;
+      display: block !important;
+      transition: transform 0.5s ease !important;
+    }
+
+    .woocommerce ul.products li.product:hover .woocommerce-loop-product__link img {
+      transform: scale(1.05) !important;
+    }
+
+    .product-info {
+      padding: 12px 4px 8px;
+      text-align: left;
+      flex-grow: 1;
+    }
+
+    .product-title {
+      font-family: serif;
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: #FAF4ED;
+      margin: 0 0 6px;
+    }
+
+    .product-title a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .product-title a:hover {
+      color: #D9822B;
+    }
+
+    .product-price {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #D9822B;
+    }
+
+    .product-actions {
+      padding: 0 4px !important;
+      margin-top: auto !important;
+    }
+
+    .button.add_to_cart_button {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      padding: 11px 16px !important;
+      border-radius: 6px !important;
+      border: 1px solid #D9822B !important;
+      background: transparent !important;
+      color: #D9822B !important;
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      transition: all 0.25s ease !important;
+      box-sizing: border-box !important;
+      letter-spacing: 0.02em !important;
+    }
+
+    .button.add_to_cart_button:hover {
+      background: #D9822B !important;
+      color: #110B02 !important;
+    }
+
+    .section-divider {
+      max-width: 1200px;
+      margin: 60px auto;
+      border: 0;
+      height: 1px;
+      background: rgba(212, 175, 55, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SECTION 1: TOP PICKS THIS SEASON -->
+  <div class="catalog-container" id="top-picks-section">
+    <div class="preview-header">
+      <span class="preview-badge">Handpicked For You</span>
+      <h1>Top Picks This Season</h1>
+      <p>Our most-loved dispensers and gift sets — crafted for beauty and everyday elegance.</p>
+    </div>
+
+    <div class="woocommerce">
+      <ul class="products columns-4">
+        <!-- 1. Pure Raw Wildflower Honey Jar (500g) -->
+        <li class="product type-product status-publish" id="product-top-1">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+            <img id="img-top-1" src="public/images/products/pure-raw-wildflower-honey-jar-500g.jpg" alt="Pure Raw Wildflower Honey Jar (500g)" loading="eager">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Pure Raw Wildflower Honey Jar (500g)
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$38.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button" id="btn-top-1">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- 2. Artisanal Ceramic Honey Pot with Wooden Dipper -->
+        <li class="product type-product status-publish" id="product-top-2">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+            <img id="img-top-2" src="public/images/products/artisanal-ceramic-honey-pot-with-wooden-dipper.jpg" alt="Artisanal Ceramic Honey Pot with Wooden Dipper" loading="eager">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Artisanal Ceramic Honey Pot with Wooden Dipper
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$42.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button" id="btn-top-2">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- 3. Signature Amber Honey Dispenser & Jar Duo -->
+        <li class="product type-product status-publish" id="product-top-3">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+            <img id="img-top-3" src="public/images/products/signature-amber-honey-dispenser-and-jar-duo.jpg" alt="Signature Amber Honey Dispenser & Jar Duo" loading="eager">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Signature Amber Honey Dispenser & Jar Duo
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$46.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button" id="btn-top-3">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- 4. Pure Honey Luxury Wooden Gift Box Set -->
+        <li class="product type-product status-publish" id="product-top-4">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+            <img id="img-top-4" src="public/images/products/pure-honey-luxury-wooden-gift-box-set.jpg" alt="Pure Honey Luxury Wooden Gift Box Set" loading="eager">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Pure Honey Luxury Wooden Gift Box Set
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$79.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button" id="btn-top-4">Add to cart</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- SECTION 2: BEST SELLERS -->
+  <div class="catalog-container" id="best-sellers-section">
+    <div class="preview-header">
+      <span class="preview-badge">Customer Favourites</span>
+      <h1>Best Sellers</h1>
+      <p>The products our customers can't stop gifting — or keeping for themselves.</p>
+    </div>
+
+    <div class="woocommerce">
+      <ul class="products columns-4">
+        <!-- BS 1: Beeswax Wrap Set Eco Packaging -->
+        <li class="product type-product status-publish" id="product-bs-1">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
+            <img src="public/images/products/beeswax-wrap-set-eco-packaging.jpg" alt="Beeswax Wrap Set Eco Packaging" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Beeswax Wrap Set Eco Packaging
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$24.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- BS 2: Brown Kraft Honey Gift Box -->
+        <li class="product type-product status-publish" id="product-bs-2">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
+            <img src="public/images/products/brown-kraft-honey-gift-box.jpg" alt="Brown Kraft Honey Gift Box" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Brown Kraft Honey Gift Box
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$34.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- BS 3: Ceramic Honey Pot Coaster Set -->
+        <li class="product type-product status-publish" id="product-bs-3">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
+            <img src="public/images/products/ceramic-honey-pot-coaster-set.jpg" alt="Ceramic Honey Pot Coaster Set" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Ceramic Honey Pot Coaster Set
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$22.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- BS 4: Copper Bee Measuring Spoon Set -->
+        <li class="product type-product status-publish" id="product-bs-4">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
+            <img src="public/images/products/copper-bee-measuring-spoon-set.jpg" alt="Copper Bee Measuring Spoon Set" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Copper Bee Measuring Spoon Set
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$28.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- BS 5: Pure Raw Wildflower Honey Jar (500g) -->
+        <li class="product type-product status-publish" id="product-bs-5">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
+            <img src="public/images/products/pure-raw-wildflower-honey-jar-500g.jpg" alt="Pure Raw Wildflower Honey Jar (500g)" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Pure Raw Wildflower Honey Jar (500g)
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$38.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- BS 6: Artisanal Ceramic Honey Pot with Wooden Dipper -->
+        <li class="product type-product status-publish" id="product-bs-6">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
+            <img src="public/images/products/artisanal-ceramic-honey-pot-with-wooden-dipper.jpg" alt="Artisanal Ceramic Honey Pot with Wooden Dipper" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Artisanal Ceramic Honey Pot with Wooden Dipper
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$42.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- BS 7: Signature Amber Honey Dispenser & Jar Duo -->
+        <li class="product type-product status-publish" id="product-bs-7">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
+            <img src="public/images/products/signature-amber-honey-dispenser-and-jar-duo.jpg" alt="Signature Amber Honey Dispenser & Jar Duo" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Signature Amber Honey Dispenser & Jar Duo
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$46.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- BS 8: Pure Honey Luxury Wooden Gift Box Set -->
+        <li class="product type-product status-publish" id="product-bs-8">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
+            <img src="public/images/products/pure-honey-luxury-wooden-gift-box-set.jpg" alt="Pure Honey Luxury Wooden Gift Box Set" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Pure Honey Luxury Wooden Gift Box Set
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$79.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+
+        <!-- BS 8 -->
+        <li class="product type-product status-publish" id="product-bs-8">
+          <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+            <img src="public/images/products/signature-amber-honey-dispenser-and-jar-duo.jpg" alt="Signature Amber Honey Dispenser & Jar Duo" loading="lazy">
+          </a>
+          <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
+            <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+              <a href="#" style="color: inherit; text-decoration: none;">
+                Signature Amber Honey Dispenser & Jar Duo
+              </a>
+            </h3>
+            <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+              <span class="woocommerce-Price-amount amount">$46.99</span>
+            </div>
+          </div>
+          <div class="product-actions">
+            <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>

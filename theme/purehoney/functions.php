@@ -4,7 +4,7 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
-define('PUREHONEY_VERSION', '2.1.48');
+define('PUREHONEY_VERSION', '2.1.59');
 
 add_action('wp_head', function() {
     if (function_exists('is_checkout') && (is_checkout() || is_cart())) {
@@ -101,36 +101,161 @@ add_action('woocommerce_single_product_summary', function() {
     echo '</div>';
 }, 35);
 
-// Real studio product photography resolver: dynamically map products with missing thumbnails
-add_filter('woocommerce_product_get_image', function($image, $product, $size, $attr, $placeholder) {
-    if ($product && !has_post_thumbnail($product->get_id())) {
-        $sku = $product->get_sku();
-        $slug = $product->get_slug();
-        $theme_dir = get_template_directory();
-        $theme_uri = get_template_directory_uri();
-        
-        $img_src = '';
-        if ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
-            $img_src = $theme_uri . '/assets/images/products/' . $sku . '.jpg';
-        } elseif ($slug && file_exists($theme_dir . '/assets/images/products/' . $slug . '.jpg')) {
-            $img_src = $theme_uri . '/assets/images/products/' . $slug . '.jpg';
-        } elseif (file_exists($theme_dir . '/assets/images/products/placeholder.jpg')) {
-            $img_src = $theme_uri . '/assets/images/products/placeholder.jpg';
-        } else {
-            $img_src = $theme_uri . '/assets/images/product-placeholder.jpg';
-        }
+// Real studio product photography resolver: dynamically map products to high-resolution theme images
+function purehoney_resolve_product_image_url($product) {
+    if (!$product) return '';
+    $theme_dir = get_template_directory();
+    $theme_uri = get_template_directory_uri();
+    $ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '2.1.59';
 
-        $alt = esc_attr($product->get_name());
-        return sprintf(
-            '<img src="%s" class="attachment-%s size-%s wp-post-image ph-product-real-img" alt="%s" loading="lazy" />',
-            esc_url($img_src),
-            esc_attr($size),
-            esc_attr($size),
-            $alt
-        );
+    $sku  = $product->get_sku();
+    $slug = $product->get_slug();
+    $name = strtolower(trim($product->get_name()));
+
+    // 1. Direct name/slug matches for high-priority accessories & gift boxes
+    if (strpos($name, 'brown kraft') !== false || strpos($name, 'kraft honey') !== false || $slug === 'brown-kraft-honey-gift-box') {
+        if (file_exists($theme_dir . '/assets/images/products/brown-kraft-honey-gift-box.jpg')) {
+            return $theme_uri . '/assets/images/products/brown-kraft-honey-gift-box.jpg?v=' . $ver;
+        }
+    }
+    if (strpos($name, 'beeswax') !== false || strpos($name, 'wrap') !== false || $slug === 'beeswax-wrap-set-eco-packaging') {
+        if (file_exists($theme_dir . '/assets/images/products/beeswax-wrap-set-eco-packaging.jpg')) {
+            return $theme_uri . '/assets/images/products/beeswax-wrap-set-eco-packaging.jpg?v=' . $ver;
+        }
+    }
+    if (strpos($name, 'coaster') !== false || $slug === 'ceramic-honey-pot-coaster-set') {
+        if (file_exists($theme_dir . '/assets/images/products/ceramic-honey-pot-coaster-set.jpg')) {
+            return $theme_uri . '/assets/images/products/ceramic-honey-pot-coaster-set.jpg?v=' . $ver;
+        }
+    }
+    if (strpos($name, 'measuring spoon') !== false || strpos($name, 'copper') !== false || $sku === 'PH-KE-004' || $slug === 'copper-bee-measuring-spoon-set') {
+        if (file_exists($theme_dir . '/assets/images/products/specialty-honey-copper-dipper-set.jpg')) {
+            return $theme_uri . '/assets/images/products/specialty-honey-copper-dipper-set.jpg?v=' . $ver;
+        }
+        if (file_exists($theme_dir . '/assets/images/products/copper-bee-measuring-spoon-set.jpg')) {
+            return $theme_uri . '/assets/images/products/copper-bee-measuring-spoon-set.jpg?v=' . $ver;
+        }
+    }
+    if (strpos($name, 'apron') !== false || strpos($name, 'linen') !== false || $sku === 'PH-KE-002' || $slug === 'linen-honey-bee-apron') {
+        if (file_exists($theme_dir . '/assets/images/products/artisanal-honey-pot-jar-set.jpg')) {
+            return $theme_uri . '/assets/images/products/artisanal-honey-pot-jar-set.jpg?v=' . $ver;
+        }
+        if (file_exists($theme_dir . '/assets/images/products/linen-honey-bee-apron.jpg')) {
+            return $theme_uri . '/assets/images/products/linen-honey-bee-apron.jpg?v=' . $ver;
+        }
+    }
+
+    // 2. Direct SKU match
+    if ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
+        return $theme_uri . '/assets/images/products/' . $sku . '.jpg?v=' . $ver;
+    }
+
+    // 3. Direct Slug match
+    if ($slug && file_exists($theme_dir . '/assets/images/products/' . $slug . '.jpg')) {
+        return $theme_uri . '/assets/images/products/' . $slug . '.jpg?v=' . $ver;
+    }
+
+    // 4. Fallback placeholder
+    if (!has_post_thumbnail($product->get_id())) {
+        if (file_exists($theme_dir . '/assets/images/products/placeholder.jpg')) {
+            return $theme_uri . '/assets/images/products/placeholder.jpg';
+        } else {
+            return $theme_uri . '/assets/images/product-placeholder.jpg';
+        }
+    }
+
+    return '';
+}
+
+function purehoney_resolve_product_image_path($product) {
+    if (!$product) return '';
+    $theme_dir = get_template_directory();
+
+    $sku  = $product->get_sku();
+    $slug = $product->get_slug();
+    $name = strtolower(trim($product->get_name()));
+
+    if (strpos($name, 'brown kraft') !== false || strpos($name, 'kraft honey') !== false || $slug === 'brown-kraft-honey-gift-box') {
+        if (file_exists($theme_dir . '/assets/images/products/brown-kraft-honey-gift-box.jpg')) {
+            return $theme_dir . '/assets/images/products/brown-kraft-honey-gift-box.jpg';
+        }
+    }
+    if (strpos($name, 'beeswax') !== false || strpos($name, 'wrap') !== false || $slug === 'beeswax-wrap-set-eco-packaging') {
+        if (file_exists($theme_dir . '/assets/images/products/beeswax-wrap-set-eco-packaging.jpg')) {
+            return $theme_dir . '/assets/images/products/beeswax-wrap-set-eco-packaging.jpg';
+        }
+    }
+    if (strpos($name, 'coaster') !== false || $slug === 'ceramic-honey-pot-coaster-set') {
+        if (file_exists($theme_dir . '/assets/images/products/ceramic-honey-pot-coaster-set.jpg')) {
+            return $theme_dir . '/assets/images/products/ceramic-honey-pot-coaster-set.jpg';
+        }
+    }
+    if (strpos($name, 'measuring spoon') !== false || strpos($name, 'copper') !== false || $sku === 'PH-KE-004' || $slug === 'copper-bee-measuring-spoon-set') {
+        if (file_exists($theme_dir . '/assets/images/products/specialty-honey-copper-dipper-set.jpg')) {
+            return $theme_dir . '/assets/images/products/specialty-honey-copper-dipper-set.jpg';
+        }
+        if (file_exists($theme_dir . '/assets/images/products/copper-bee-measuring-spoon-set.jpg')) {
+            return $theme_dir . '/assets/images/products/copper-bee-measuring-spoon-set.jpg';
+        }
+    }
+    if (strpos($name, 'apron') !== false || strpos($name, 'linen') !== false || $sku === 'PH-KE-002' || $slug === 'linen-honey-bee-apron') {
+        if (file_exists($theme_dir . '/assets/images/products/artisanal-honey-pot-jar-set.jpg')) {
+            return $theme_dir . '/assets/images/products/artisanal-honey-pot-jar-set.jpg';
+        }
+        if (file_exists($theme_dir . '/assets/images/products/linen-honey-bee-apron.jpg')) {
+            return $theme_dir . '/assets/images/products/linen-honey-bee-apron.jpg';
+        }
+    }
+
+    if ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
+        return $theme_dir . '/assets/images/products/' . $sku . '.jpg';
+    }
+    if ($slug && file_exists($theme_dir . '/assets/images/products/' . $slug . '.jpg')) {
+        return $theme_dir . '/assets/images/products/' . $slug . '.jpg';
+    }
+
+    return '';
+}
+
+add_filter('woocommerce_product_get_image', function($image, $product, $size, $attr, $placeholder) {
+    if ($product) {
+        $img_src = purehoney_resolve_product_image_url($product);
+        if ($img_src) {
+            $alt = esc_attr($product->get_name());
+            $size_class = is_array($size) ? implode('x', $size) : $size;
+            return sprintf(
+                '<img src="%s" class="attachment-%s size-%s wp-post-image ph-product-real-img" alt="%s" loading="lazy" />',
+                esc_url($img_src),
+                esc_attr($size_class),
+                esc_attr($size_class),
+                $alt
+            );
+        }
     }
     return $image;
-}, 20, 5);
+}, 999, 5);
+
+// Intercept get_the_post_thumbnail() for product posts
+add_filter('post_thumbnail_html', function($html, $post_id, $post_thumbnail_id, $size, $attr) {
+    if (get_post_type($post_id) === 'product') {
+        $product = function_exists('wc_get_product') ? wc_get_product($post_id) : null;
+        if ($product) {
+            $img_src = purehoney_resolve_product_image_url($product);
+            if ($img_src) {
+                $alt = esc_attr($product->get_name());
+                $size_class = is_array($size) ? implode('x', $size) : $size;
+                return sprintf(
+                    '<img src="%s" class="attachment-%s size-%s wp-post-image ph-product-real-img" alt="%s" loading="lazy" />',
+                    esc_url($img_src),
+                    esc_attr($size_class),
+                    esc_attr($size_class),
+                    $alt
+                );
+            }
+        }
+    }
+    return $html;
+}, 999, 5);
 
 // Placeholder image for products with no image
 add_filter('woocommerce_placeholder_img_src', function() {
@@ -141,12 +266,35 @@ add_filter('woocommerce_placeholder_img_src', function() {
     return get_template_directory_uri() . '/assets/images/product-placeholder.jpg';
 });
 
+// Ensure signature titles are displayed for core branded honey products
+add_filter('the_title', function($title, $id = null) {
+    if ($id && !is_admin() && get_post_type($id) === 'product') {
+        $product = function_exists('wc_get_product') ? wc_get_product($id) : null;
+        if ($product) {
+            $sku = $product->get_sku();
+            $signature_titles = [
+                'PH-AD-001' => 'Pure Raw Wildflower Honey Jar (500g)',
+                'PH-AD-004' => 'Artisanal Ceramic Honey Pot with Wooden Dipper',
+                'PH-AD-002' => 'Signature Amber Honey Dispenser & Jar Duo',
+                'PH-LG-001' => 'Pure Honey Luxury Wooden Gift Box Set',
+            ];
+            if (isset($signature_titles[$sku])) {
+                return $signature_titles[$sku];
+            }
+        }
+    }
+    return $title;
+}, 10, 2);
+
 /**
- * One-click helper to attach local theme product images into WP Media Library
- * Trigger via: wp-admin/?purehoney_sync_images=1
+ * Auto-sync & force-update product thumbnails in WP Media Library
+ * Runs automatically once on v2.1.52 when admin loads dashboard, or manually via wp-admin/?purehoney_sync_images=1
  */
 add_action('admin_init', function() {
-    if (!current_user_can('manage_woocommerce') || !isset($_GET['purehoney_sync_images'])) {
+    $force = isset($_GET['purehoney_sync_images']) && current_user_can('manage_woocommerce');
+    $auto  = (get_option('purehoney_media_v2_1_59_synced') !== 'yes') && current_user_can('manage_woocommerce');
+    
+    if (!$force && !$auto) {
         return;
     }
     
@@ -154,38 +302,30 @@ add_action('admin_init', function() {
     require_once(ABSPATH . 'wp-admin/includes/file.php');
     require_once(ABSPATH . 'wp-admin/includes/media.php');
     
-    $products = wc_get_products(['limit' => -1]);
+    $products = function_exists('wc_get_products') ? wc_get_products(['limit' => -1]) : [];
     $synced = 0;
     $theme_dir = get_template_directory();
 
     foreach ($products as $prod) {
-        if (!has_post_thumbnail($prod->get_id())) {
-            $sku = $prod->get_sku();
-            $slug = $prod->get_slug();
-            $file = '';
-            if ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
-                $file = $theme_dir . '/assets/images/products/' . $sku . '.jpg';
-            } elseif ($slug && file_exists($theme_dir . '/assets/images/products/' . $slug . '.jpg')) {
-                $file = $theme_dir . '/assets/images/products/' . $slug . '.jpg';
-            }
+        $file = purehoney_resolve_product_image_path($prod);
+        
+        if ($file && file_exists($file)) {
+            $filename = basename($file);
+            $upload_dir = wp_upload_dir();
+            $target_file = $upload_dir['path'] . '/' . $filename;
             
-            if ($file) {
-                $filename = basename($file);
-                $upload_dir = wp_upload_dir();
-                $target_file = $upload_dir['path'] . '/' . $filename;
-                
-                if (!file_exists($target_file)) {
-                    copy($file, $target_file);
-                }
-                
-                $wp_filetype = wp_check_filetype($filename, null);
-                $attachment = [
-                    'post_mime_type' => $wp_filetype['type'],
-                    'post_title'     => sanitize_file_name($prod->get_name()),
-                    'post_content'   => '',
-                    'post_status'    => 'inherit'
-                ];
-                $attach_id = wp_insert_attachment($attachment, $target_file, $prod->get_id());
+            // Force copy the newest file
+            copy($file, $target_file);
+            
+            $wp_filetype = wp_check_filetype($filename, null);
+            $attachment = [
+                'post_mime_type' => $wp_filetype['type'],
+                'post_title'     => sanitize_file_name($prod->get_name()),
+                'post_content'   => '',
+                'post_status'    => 'inherit'
+            ];
+            $attach_id = wp_insert_attachment($attachment, $target_file, $prod->get_id());
+            if ($attach_id && !is_wp_error($attach_id)) {
                 $attach_data = wp_generate_attachment_metadata($attach_id, $target_file);
                 wp_update_attachment_metadata($attach_id, $attach_data);
                 set_post_thumbnail($prod->get_id(), $attach_id);
@@ -194,8 +334,42 @@ add_action('admin_init', function() {
         }
     }
     
-    wp_safe_redirect(add_query_arg(['purehoney_synced' => $synced], admin_url('edit.php?post_type=product')));
-    exit;
+    update_option('purehoney_media_v2_1_59_synced', 'yes');
+    
+    // Purge LiteSpeed / site cache upon sync
+    if (class_exists('LiteSpeed\Purge')) {
+        \LiteSpeed\Purge::purge_all();
+    }
+    if (function_exists('litespeed_purge_all')) {
+        litespeed_purge_all();
+    }
+    do_action('litespeed_purge_all');
+    if (function_exists('wp_cache_flush')) {
+        wp_cache_flush();
+    }
+    
+    if ($force) {
+        wp_safe_redirect(add_query_arg(['purehoney_synced' => $synced], admin_url('edit.php?post_type=product')));
+        exit;
+    }
+});
+
+// Automatic cache flush on version upgrade or on-demand
+add_action('init', function() {
+    $needs_purge = (get_option('purehoney_cache_v2_1_59_purged') !== 'yes') || isset($_GET['purehoney_purge']);
+    if ($needs_purge) {
+        if (class_exists('LiteSpeed\Purge')) {
+            \LiteSpeed\Purge::purge_all();
+        }
+        if (function_exists('litespeed_purge_all')) {
+            litespeed_purge_all();
+        }
+        do_action('litespeed_purge_all');
+        if (function_exists('wp_cache_flush')) {
+            wp_cache_flush();
+        }
+        update_option('purehoney_cache_v2_1_59_purged', 'yes');
+    }
 });
 
 
@@ -806,6 +980,13 @@ add_action('woocommerce_after_main_content', function() {
 remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
 remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
 
+// Product loop customizations: unhook default link open/close and default titles/prices to use custom .product-info
+remove_action('woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10);
+remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5);
+remove_action('woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10);
+remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price', 10);
+remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5);
+
 /* ═══════════════════════════════════════════════
    6b. IMPORT PRODUCT IMAGES FROM STOCK PHOTOS
 ═══════════════════════════════════════════════ */
@@ -823,14 +1004,14 @@ function purehoney_import_product_images() {
         'PH-AD-005' => 'https://images.unsplash.com/photo-1504198453619-5c2cc7e2af0d?w=600&q=80',
         'PH-LG-001' => 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&q=80',
         'PH-LG-002' => 'https://images.unsplash.com/photo-1607082349566-187342175e2f?w=600&q=80',
-        'PH-LG-003' => 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80',
+        'PH-LG-003' => get_template_directory_uri() . '/assets/images/products/brown-kraft-honey-gift-box.jpg',
         'PH-LG-004' => 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&q=80',
         'PH-LG-005' => 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
         'PH-KE-001' => 'https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=600&q=80',
-        'PH-KE-002' => 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
-        'PH-KE-003' => 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80',
-        'PH-KE-004' => 'https://images.unsplash.com/photo-1565071559227-20ab25b7685e?w=600&q=80',
-        'PH-KE-005' => 'https://images.unsplash.com/photo-1544943910-4c1dc44aab44?w=600&q=80',
+        'PH-KE-002' => get_template_directory_uri() . '/assets/images/products/artisanal-honey-pot-jar-set.jpg',
+        'PH-KE-003' => get_template_directory_uri() . '/assets/images/products/PH-KE-003.jpg',
+        'PH-KE-004' => get_template_directory_uri() . '/assets/images/products/specialty-honey-copper-dipper-set.jpg',
+        'PH-KE-005' => get_template_directory_uri() . '/assets/images/products/PH-KE-005.jpg',
     ];
 
     require_once ABSPATH . 'wp-admin/includes/media.php';

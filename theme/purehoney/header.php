@@ -16,7 +16,7 @@
 <?php
 $custom_logo_id = get_theme_mod('custom_logo');
 $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
-$ph_ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '2.1.45';
+$ph_ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '2.1.59';
 $default_logo = get_template_directory_uri() . '/assets/images/logo.png?v=' . $ph_ver;
 ?>
 

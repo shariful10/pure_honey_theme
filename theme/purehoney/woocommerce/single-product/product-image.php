@@ -21,12 +21,13 @@ $theme_uri = get_template_directory_uri();
 
 // 1. Resolve Primary Image
 $primary_url = '';
-if (has_post_thumbnail($product_id)) {
-    $primary_url = wp_get_attachment_image_url(get_post_thumbnail_id($product_id), 'full');
-} elseif ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
-    $primary_url = $theme_uri . '/assets/images/products/' . $sku . '.jpg';
+$ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '2.1.52';
+if ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
+    $primary_url = $theme_uri . '/assets/images/products/' . $sku . '.jpg?v=' . $ver;
 } elseif ($slug && file_exists($theme_dir . '/assets/images/products/' . $slug . '.jpg')) {
-    $primary_url = $theme_uri . '/assets/images/products/' . $slug . '.jpg';
+    $primary_url = $theme_uri . '/assets/images/products/' . $slug . '.jpg?v=' . $ver;
+} elseif (has_post_thumbnail($product_id)) {
+    $primary_url = wp_get_attachment_image_url(get_post_thumbnail_id($product_id), 'full');
 } else {
     $primary_url = $theme_uri . '/assets/images/products/placeholder.jpg';
 }
@@ -77,7 +78,7 @@ if ($sku) {
         $alt = $v[2];
         $v_path = $theme_dir . '/assets/images/products/' . $sku . '-' . $sfx . '.jpg';
         if (file_exists($v_path)) {
-            $v_url = $theme_uri . '/assets/images/products/' . $sku . '-' . $sfx . '.jpg';
+            $v_url = $theme_uri . '/assets/images/products/' . $sku . '-' . $sfx . '.jpg?v=' . $ver;
             if (!isset($seen_urls[$v_url])) {
                 $seen_urls[$v_url] = true;
                 $gallery_items[] = [

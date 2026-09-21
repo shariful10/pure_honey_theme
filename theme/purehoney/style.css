@@ -4,7 +4,7 @@ Theme URI: https://purehoney.me
 Author: Sk Shariful Islam
 Author URI: https://developershariful.netlify.app
 Description: A modern luxury honey e-commerce theme with smooth scroll, custom cursor, and pre-built WooCommerce pages. Complete cart, checkout, shop, and product templates included. No parent theme required.
-Version: 2.1.51
+Version: 2.1.59
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -779,6 +779,8 @@ body:has(button:hover) .ph-cursor-follower {
   float: none !important;
   padding: 0 !important;
   width: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .woocommerce ul.products li.product:hover {
@@ -788,17 +790,25 @@ body:has(button:hover) .ph-cursor-follower {
 }
 
 /* Product image container */
-.woocommerce ul.products li.product .woocommerce-loop-product__link {
+.woocommerce ul.products li.product .woocommerce-loop-product__link,
+.product-thumbnail-wrapper {
   position: relative !important;
   display: block !important;
   overflow: hidden !important;
   text-decoration: none !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 12px !important;
+  background: #180e04 !important;
 }
 
-.woocommerce ul.products li.product .woocommerce-loop-product__link img {
+.woocommerce ul.products li.product .woocommerce-loop-product__link img,
+.product-thumbnail-wrapper img {
   width: 100% !important;
-  height: 220px !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
   object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 12px !important;
   transition: transform 0.6s ease !important;
 }
 
@@ -820,7 +830,67 @@ body:has(button:hover) .ph-cursor-follower {
   opacity: 1;
 }
 
-/* Product info */
+/* Product info container */
+.woocommerce ul.products li.product .product-info {
+  padding: 12px 16px 8px !important;
+  text-align: left !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.woocommerce ul.products li.product .product-info .product-title {
+  font-family: var(--font-heading, 'Cinzel', 'Playfair Display', Georgia, serif) !important;
+  font-size: 1.125rem !important;
+  font-weight: 500 !important;
+  color: #FAF4ED !important;
+  margin: 0 0 6px !important;
+  line-height: 1.3 !important;
+}
+
+.woocommerce ul.products li.product .product-info .product-title a {
+  color: #FAF4ED !important;
+  text-decoration: none !important;
+  transition: color var(--ph-transition, 0.2s ease) !important;
+}
+
+.woocommerce ul.products li.product .product-info .product-title a:hover {
+  color: var(--ph-gold, #D9822B) !important;
+}
+
+.woocommerce ul.products li.product .product-info .product-price {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #D9822B !important;
+  font-family: var(--font-body, 'Inter', sans-serif) !important;
+}
+
+.woocommerce ul.products li.product .product-info .product-price .woocommerce-Price-amount {
+  color: #D9822B !important;
+  font-weight: 600 !important;
+}
+
+.woocommerce ul.products li.product .product-info .product-price ins {
+  color: #D9822B !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
+}
+
+.woocommerce ul.products li.product .product-info .product-price del {
+  color: rgba(250, 244, 237, 0.5) !important;
+  margin-right: 6px !important;
+  font-size: 0.875rem !important;
+}
+
+.woocommerce ul.products li.product .product-actions {
+  margin-top: auto !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Product info legacy support */
 .woocommerce ul.products li.product .woocommerce-loop-product__title {
   padding: 18px 20px 6px !important;
   font-family: var(--font-heading) !important;

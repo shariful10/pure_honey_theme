@@ -1,0 +1,408 @@
+[
+  {
+    "id": 1,
+    "sku": "PH-AD-001",
+    "name": "Pure Raw Wildflower Honey Jar (500g)",
+    "title": "Pure Raw Wildflower Honey Jar (500g)",
+    "price": 38.99,
+    "regular_price": "38.99",
+    "category": "Artisan Dispensers",
+    "categories": [
+      "Artisan Dispensers"
+    ],
+    "short_description": "A premium hexagonal glass jar filled with luminous golden raw honey, wooden screw cap, and signature Pure Honey embossed gold bee label.",
+    "description": "Discover the perfect union of form and function with our Hexagonal Glass Honey Jar. Crafted from premium borosilicate glass that resists heat and breakage, the jar's geometric hexagonal shape is inspired by the natural beauty of the honeycomb itself. The tight-fitting bamboo lid keeps your honey fresh and protected while the included handcrafted wooden dipper ensures every serve is drip-free and graceful. Capacity: 350ml. Dimensions: 10cm x 10cm x 12cm. Dishwasher safe. BPA-free. Perfect for raw honey, wildflower honey, or flavoured honey.",
+    "image": "/public/images/products/pure-raw-wildflower-honey-jar-500g.jpg",
+    "thumbnail": "/public/images/products/pure-raw-wildflower-honey-jar-500g.jpg",
+    "featured": true,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "artisan",
+      "dispenser",
+      "glass",
+      "bamboo",
+      "honey",
+      "jar"
+    ]
+  },
+  {
+    "id": 2,
+    "sku": "PH-AD-002",
+    "name": "Signature Amber Honey Dispenser & Jar Duo",
+    "title": "Signature Amber Honey Dispenser & Jar Duo",
+    "price": 46.99,
+    "regular_price": "46.99",
+    "category": "Artisan Dispensers",
+    "categories": [
+      "Artisan Dispensers"
+    ],
+    "short_description": "Amber glass honey pump dispenser alongside a clear raw honeycomb slice jar with Pure Honey apothecary-style labels.",
+    "description": "The Amber Glass Honey Dispenser is engineered for the honey enthusiast who values elegance and precision. The warm amber glass not only looks stunning on any counter but also protects honey from UV light \u2014 preserving its natural enzymes and rich flavour. The innovative no-drip pump mechanism dispenses the perfect amount every time, with zero mess. The glass body is easy to clean and the pump is removable for thorough washing. Capacity: 500ml. Pump material: food-grade stainless steel. Amber UV-protective glass. Ideal gift for kitchen lovers.",
+    "image": "/public/images/products/signature-amber-honey-dispenser-and-jar-duo.jpg",
+    "thumbnail": "/public/images/products/signature-amber-honey-dispenser-and-jar-duo.jpg",
+    "featured": true,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "dispenser",
+      "pump",
+      "amber",
+      "glass",
+      "honey"
+    ]
+  },
+  {
+    "id": 3,
+    "sku": "PH-AD-003",
+    "name": "Crystal Clear Honeycomb Jar & Dipper Set",
+    "title": "Crystal Clear Honeycomb Jar & Dipper Set",
+    "price": 34.99,
+    "regular_price": "34.99",
+    "category": "Artisan Dispensers",
+    "categories": [
+      "Artisan Dispensers"
+    ],
+    "short_description": "A minimalist crystal-clear glass jar with a honeycomb-embossed base and a precision-turned acacia wood dipper. Clean, modern, beautiful.",
+    "description": "The Crystal Clear Honeycomb Jar & Dipper Set is our most minimalist offering \u2014 a beautifully proportioned jar with a honeycomb texture embossed at its base, creating a stunning light effect when filled with golden honey. The precision-turned acacia wood dipper is balanced for effortless honey gathering and the cork lid seals with a satisfying press. 300ml capacity. Perfect for gifting or everyday use. BPA-free. Food-safe materials throughout.",
+    "image": "/public/images/products/crystal-clear-honeycomb-jar-and-dipper-set.jpg",
+    "thumbnail": "/public/images/products/crystal-clear-honeycomb-jar-and-dipper-set.jpg",
+    "featured": false,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "honeycomb",
+      "glass",
+      "jar",
+      "dipper",
+      "set",
+      "clear"
+    ]
+  },
+  {
+    "id": 4,
+    "sku": "PH-AD-004",
+    "name": "Artisanal Ceramic Honey Pot with Wooden Dipper",
+    "title": "Artisanal Ceramic Honey Pot with Wooden Dipper",
+    "price": 42.99,
+    "regular_price": "42.99",
+    "category": "Artisan Dispensers",
+    "categories": [
+      "Artisan Dispensers"
+    ],
+    "short_description": "Artisanal matte-cream ceramic honey pot with lid, embossed with subtle golden Pure Honey logo, and carved wooden honey dipper.",
+    "description": "Our Rustic Ceramic Honey Pot is handmade by skilled artisan potters. Each piece is unique \u2014 the reactive glaze creates slightly different patterns with every firing, meaning your pot is one of a kind. The wide mouth makes refilling easy while the generous ceramic drip tray catches any stray drips. Includes a beautifully carved wooden spoon. Holds 400ml. Microwave and dishwasher safe. Available in cream with honey-gold reactive glaze. The perfect centrepiece for any table.",
+    "image": "/public/images/products/artisanal-ceramic-honey-pot-with-wooden-dipper.jpg",
+    "thumbnail": "/public/images/products/artisanal-ceramic-honey-pot-with-wooden-dipper.jpg",
+    "featured": true,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "ceramic",
+      "honey",
+      "pot",
+      "rustic",
+      "handmade"
+    ]
+  },
+  {
+    "id": 5,
+    "sku": "PH-AD-005",
+    "name": "Premium Acacia Wood Honey Crock Set",
+    "title": "Premium Acacia Wood Honey Crock Set",
+    "price": 52.99,
+    "regular_price": "52.99",
+    "category": "Artisan Dispensers",
+    "categories": [
+      "Artisan Dispensers"
+    ],
+    "short_description": "A sophisticated acacia wood honey crock with a tight-fitting lid and a matching wood-handled dipper. A statement piece for your kitchen counter.",
+    "description": "Elevate your kitchen with the Premium Acacia Wood Honey Crock \u2014 a statement piece that combines natural warmth with practical elegance. The rich grain of sustainably sourced acacia wood gives each crock a unique character. The interior is lined with food-safe resin for easy cleaning while the natural wood exterior develops a beautiful patina over time. Includes matching dipper with acacia wood handle and stainless steel helix. Capacity: 450ml. Hand wash only. FSC certified wood.",
+    "image": "/public/images/products/premium-acacia-wood-honey-crock-set.jpg",
+    "thumbnail": "/public/images/products/premium-acacia-wood-honey-crock-set.jpg",
+    "featured": false,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "acacia",
+      "wood",
+      "honey",
+      "crock",
+      "premium",
+      "set"
+    ]
+  },
+  {
+    "id": 6,
+    "sku": "PH-LG-001",
+    "name": "Pure Honey Luxury Wooden Gift Box Set",
+    "title": "Pure Honey Luxury Wooden Gift Box Set",
+    "price": 79.99,
+    "regular_price": "79.99",
+    "category": "Luxury Gift Sets",
+    "categories": [
+      "Luxury Gift Sets"
+    ],
+    "short_description": "Dark stained pine wooden keepsake gift box featuring three artisanal honey jars in natural wood straw, laser-engraved with Pure Honey emblem.",
+    "description": "The Golden Harvest Gift Box is our signature gifting experience. Three handpicked artisan glass honey jars \u2014 our Hexagonal Jar, Crystal Clear Jar, and a miniature Amber Dispenser \u2014 are nestled in a premium rigid gift box lined with gold foil tissue paper and tied with a satin ribbon. A complimentary hand-written gift card is included. Each jar is filled with space for the recipient to fill with their favourite honey. This set makes a spectacular birthday, housewarming, wedding or thank-you gift. Beautifully boxed. Fast dispatch.",
+    "image": "/public/images/products/pure-honey-luxury-wooden-gift-box-set.jpg",
+    "thumbnail": "/public/images/products/pure-honey-luxury-wooden-gift-box-set.jpg",
+    "featured": true,
+    "stock": 50,
+    "in_stock": true,
+    "tags": [
+      "gift",
+      "box",
+      "set",
+      "honey",
+      "jar",
+      "gold",
+      "luxury"
+    ]
+  },
+  {
+    "id": 7,
+    "sku": "PH-LG-002",
+    "name": "Artisan Bee & Honey Hamper",
+    "title": "Artisan Bee & Honey Hamper",
+    "price": 94.99,
+    "regular_price": "94.99",
+    "category": "Luxury Gift Sets",
+    "categories": [
+      "Luxury Gift Sets"
+    ],
+    "short_description": "Our premium gift hamper featuring 5 honey accessories beautifully arranged in a hand-woven willow basket \u2014 a gift that will truly impress.",
+    "description": "The Artisan Bee & Honey Hamper is our grandest gifting statement. A hand-woven willow basket contains: our Hexagonal Glass Honey Jar, Amber Glass Dispenser, Acacia Wood Dipper Set (3 pieces), Copper Bee Measuring Spoon Set, and a Linen Honey Bee Kitchen Towel. Each item is nestled in natural kraft paper shreds and the basket is tied with a generous gold ribbon. Perfect for weddings, housewarmings, corporate gifting, and special occasions. Free personalised gift card. Express shipping available.",
+    "image": "/public/images/products/artisan-bee-and-honey-hamper.jpg",
+    "thumbnail": "/public/images/products/artisan-bee-and-honey-hamper.jpg",
+    "featured": false,
+    "stock": 30,
+    "in_stock": true,
+    "tags": [
+      "hamper",
+      "gift",
+      "set",
+      "honey",
+      "bee",
+      "artisan",
+      "basket"
+    ]
+  },
+  {
+    "id": 8,
+    "sku": "PH-LG-003",
+    "name": "Wildflower Honey Lovers Gift Set",
+    "title": "Wildflower Honey Lovers Gift Set",
+    "price": 67.99,
+    "regular_price": "67.99",
+    "category": "Luxury Gift Sets",
+    "categories": [
+      "Luxury Gift Sets"
+    ],
+    "short_description": "A curated gift set for the honey lover: a glass dispenser, three wooden dippers, and a hand-illustrated wildflower honey recipe card in a kraft gift box.",
+    "description": "The Wildflower Honey Lovers Gift Set celebrates nature's sweetest gift with a thoughtfully curated selection. The set includes our Crystal Clear Honeycomb Jar, a set of three different-sized acacia wood dippers (perfect for different honey viscosities), and a beautiful hand-illustrated wildflower recipe card booklet featuring 12 recipes using honey. All presented in a recyclable kraft gift box with a wildflower botanical print and tied with twine and dried lavender. The ideal gift for cooks, foodies, and nature lovers.",
+    "image": "/public/images/products/wildflower-honey-lovers-gift-set.jpg",
+    "thumbnail": "/public/images/products/wildflower-honey-lovers-gift-set.jpg",
+    "featured": false,
+    "stock": 50,
+    "in_stock": true,
+    "tags": [
+      "wildflower",
+      "honey",
+      "gift",
+      "set",
+      "lovers",
+      "recipe"
+    ]
+  },
+  {
+    "id": 9,
+    "sku": "PH-LG-004",
+    "name": "Honeymoon Brunch Box",
+    "title": "Honeymoon Brunch Box",
+    "price": 89.99,
+    "regular_price": "89.99",
+    "category": "Luxury Gift Sets",
+    "categories": [
+      "Luxury Gift Sets"
+    ],
+    "short_description": "A romantic gift set for two: matching his-and-hers honey dispensers, two artisan honey dippers, two ceramic honey bowls, and a recipe card \u2014 ideal for weddings and anniversaries.",
+    "description": "The Honeymoon Brunch Box is our most romantic offering \u2014 designed for couples who share a love of beautiful mornings. The set contains two of our Crystal Clear Honeycomb Jars (one slightly larger), two hand-turned acacia dippers, two matching miniature ceramic honey bowls, and a recipe card for a honey-infused brunch menu. Everything is packaged in a luxurious two-tone gift box with a magnetic closure and gold ribbon. A favourite for wedding gifts, anniversary presents, and engagement gifts. Add a personalised message at checkout.",
+    "image": "/public/images/products/honeymoon-brunch-box.jpg",
+    "thumbnail": "/public/images/products/honeymoon-brunch-box.jpg",
+    "featured": false,
+    "stock": 40,
+    "in_stock": true,
+    "tags": [
+      "honeymoon",
+      "brunch",
+      "gift",
+      "set",
+      "romantic",
+      "couple"
+    ]
+  },
+  {
+    "id": 10,
+    "sku": "PH-LG-005",
+    "name": "The Beekeeper's Treasure Chest",
+    "title": "The Beekeeper's Treasure Chest",
+    "price": 119.99,
+    "regular_price": "119.99",
+    "category": "Luxury Gift Sets",
+    "categories": [
+      "Luxury Gift Sets"
+    ],
+    "short_description": "Our ultimate luxury gift \u2014 a wooden keepsake chest packed with 7 premium honey accessories. The grandest gift for the most special occasions.",
+    "description": "The Beekeeper's Treasure Chest is for when only the very best will do. A beautiful hinged wooden keepsake chest (which the recipient will treasure long after the contents are used) contains: Hexagonal Glass Honey Jar, Amber Glass Dispenser with Pump, Rustic Ceramic Honey Pot, Acacia Wood Honey Crock, Copper Bee Measuring Spoon Set, Acacia Wood Dipper Set (3 pieces), and a Linen Honey Bee Apron. A hand-written gift card and wax seal certificate of authenticity complete this extraordinary gift. Limited quantities. Ideal for weddings, milestone birthdays, and luxury corporate gifting.",
+    "image": "/public/images/products/the-beekeeper's-treasure-chest.jpg",
+    "thumbnail": "/public/images/products/the-beekeeper's-treasure-chest.jpg",
+    "featured": false,
+    "stock": 20,
+    "in_stock": true,
+    "tags": [
+      "treasure",
+      "chest",
+      "honey",
+      "luxury",
+      "ultimate",
+      "gift"
+    ]
+  },
+  {
+    "id": 11,
+    "sku": "PH-KE-001",
+    "name": "Acacia Wood Honey Dipper Set of 3",
+    "title": "Acacia Wood Honey Dipper Set of 3",
+    "price": 18.99,
+    "regular_price": "18.99",
+    "category": "Kitchen Elegance",
+    "categories": [
+      "Kitchen Elegance"
+    ],
+    "short_description": "Three hand-turned acacia wood honey dippers in graduated sizes \u2014 small medium and large \u2014 for perfect honey serving every time. Food-safe oil finish.",
+    "description": "Our Acacia Wood Honey Dipper Set contains three beautifully turned dippers in three practical sizes: small (16cm, ideal for miniature jars), medium (18cm, our everyday favourite), and large (22cm, perfect for wide-mouth crocks). Each dipper is turned from sustainably sourced acacia wood and finished with food-safe mineral oil to bring out the wood's natural warmth and grain. The spiral grooves are precision-cut to hold just the right amount of honey. Hand wash. FSC certified acacia. A must-have for any honey lover's kitchen.",
+    "image": "/public/images/products/acacia-wood-honey-dipper-set-of-3.jpg",
+    "thumbnail": "/public/images/products/acacia-wood-honey-dipper-set-of-3.jpg",
+    "featured": false,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "acacia",
+      "wood",
+      "honey",
+      "dipper",
+      "set",
+      "3",
+      "pieces"
+    ]
+  },
+  {
+    "id": 12,
+    "sku": "PH-KE-002",
+    "name": "Linen Honey Bee Apron",
+    "title": "Linen Honey Bee Apron",
+    "price": 34.99,
+    "regular_price": "34.99",
+    "category": "Kitchen Elegance",
+    "categories": [
+      "Kitchen Elegance"
+    ],
+    "short_description": "A beautiful stonewashed linen apron with an embroidered honey bee motif and two generous pockets. Made from 100% European flax linen. One size fits most.",
+    "description": "The Linen Honey Bee Apron is made from premium 100% European flax linen \u2014 stonewashed for instant softness and a lived-in feel. The front features a delicate embroidered honey bee motif in warm gold thread. Two large front pockets easily hold your phone, recipe cards, or kitchen tools. Long adjustable neck strap and wide back ties for a comfortable, flattering fit. Machine washable. Gets softer with every wash. One size fits most adults. Available in natural linen and charcoal. The perfect gift for the home cook or baker in your life.",
+    "image": "/public/images/products/linen-honey-bee-apron.jpg",
+    "thumbnail": "/public/images/products/linen-honey-bee-apron.jpg",
+    "featured": false,
+    "stock": 80,
+    "in_stock": true,
+    "tags": [
+      "linen",
+      "apron",
+      "honey",
+      "bee",
+      "embroidered",
+      "kitchen"
+    ]
+  },
+  {
+    "id": 13,
+    "sku": "PH-KE-003",
+    "name": "Beeswax Wrap Set Eco Packaging",
+    "title": "Beeswax Wrap Set Eco Packaging",
+    "price": 24.99,
+    "regular_price": "24.99",
+    "category": "Kitchen Elegance",
+    "categories": [
+      "Kitchen Elegance"
+    ],
+    "short_description": "A set of 4 reusable beeswax wraps in different sizes \u2014 a sustainable and beautiful alternative to plastic wrap for covering your honey jars and food.",
+    "description": "Our Beeswax Wrap Set is the perfect eco-conscious addition to any kitchen. Made from 100% organic cotton infused with sustainably sourced beeswax, tree resin, and jojoba oil, each wrap molds to the shape of your containers with the warmth of your hands to create a natural, airtight seal. The set includes 4 wraps (small, medium, large, extra-large) in our signature honeycomb botanical print. Washable and reusable for up to a year. Compostable at end of life. A thoughtful, sustainable gift.",
+    "image": "/public/images/products/beeswax-wrap-set-eco-packaging.jpg",
+    "thumbnail": "/public/images/products/beeswax-wrap-set-eco-packaging.jpg",
+    "featured": false,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "beeswax",
+      "wrap",
+      "set",
+      "eco",
+      "sustainable",
+      "reusable"
+    ]
+  },
+  {
+    "id": 14,
+    "sku": "PH-KE-004",
+    "name": "Copper Bee Measuring Spoon Set",
+    "title": "Copper Bee Measuring Spoon Set",
+    "price": 28.99,
+    "regular_price": "28.99",
+    "category": "Kitchen Elegance",
+    "categories": [
+      "Kitchen Elegance"
+    ],
+    "short_description": "A stunning set of 5 copper-finish measuring spoons with intricate honey bee engravings on each handle. Food-safe. Makes a gorgeous display piece too.",
+    "description": "The Copper Bee Measuring Spoon Set is as beautiful as it is functional. Five graduated spoons (1 tbsp, 1 tsp, 1/2 tsp, 1/4 tsp, 1/8 tsp) are crafted in zinc alloy with a warm copper electroplate finish and detailed honey bee engravings on each handle. The engravings are hand-finished for depth and character. The spoons nest together on a metal ring for easy storage. Food-safe. Hand wash recommended to preserve the finish. These spoons look stunning hanging in the kitchen or displayed in a jar. A bestselling gift item.",
+    "image": "/public/images/products/copper-bee-measuring-spoon-set.jpg",
+    "thumbnail": "/public/images/products/copper-bee-measuring-spoon-set.jpg",
+    "featured": false,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "copper",
+      "measuring",
+      "spoon",
+      "bee",
+      "set",
+      "kitchen"
+    ]
+  },
+  {
+    "id": 15,
+    "sku": "PH-KE-005",
+    "name": "Ceramic Honey Pot Coaster Set",
+    "title": "Ceramic Honey Pot Coaster Set",
+    "price": 22.99,
+    "regular_price": "22.99",
+    "category": "Kitchen Elegance",
+    "categories": [
+      "Kitchen Elegance"
+    ],
+    "short_description": "A set of 4 hand-painted ceramic coasters designed to perfectly cradle your honey pot or jar \u2014 protecting surfaces and adding beauty to your table.",
+    "description": "The Ceramic Honey Pot Coaster Set is the finishing touch your honey collection deserves. Each of the four coasters is hand-painted in our studio with a honeycomb-inspired pattern in warm gold and cream tones. A cork backing protects your surfaces from scratching. The coasters have a gentle concave shape that cradles most honey pots and jars, preventing drips from reaching your counter. Dishwasher safe. Each set comes in a gift-ready kraft box with our signature honeycomb ribbon. Diameter: 11cm. Set of 4.",
+    "image": "/public/images/products/ceramic-honey-pot-coaster-set.jpg",
+    "thumbnail": "/public/images/products/ceramic-honey-pot-coaster-set.jpg",
+    "featured": false,
+    "stock": 100,
+    "in_stock": true,
+    "tags": [
+      "ceramic",
+      "coaster",
+      "honey",
+      "pot",
+      "set",
+      "handpainted"
+    ]
+  }
+]

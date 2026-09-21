@@ -52,10 +52,37 @@ $dir          = get_template_directory_uri();
     </div>
     <div data-ph-stagger>
       <?php
-      $q = new WP_Query(['post_type' => 'product', 'posts_per_page' => 4, 'meta_key' => '_featured', 'meta_value' => 'yes', 'post_status' => 'publish']);
+      $featured_skus = ['PH-AD-001', 'PH-AD-004', 'PH-AD-002', 'PH-LG-001'];
+      $product_ids = [];
+      if (function_exists('wc_get_product_id_by_sku')) {
+        foreach ($featured_skus as $sku) {
+          $id = wc_get_product_id_by_sku($sku);
+          if ($id) {
+            $product_ids[] = $id;
+          }
+        }
+      }
+
+      $query_args = ['post_type' => 'product', 'posts_per_page' => 4, 'post_status' => 'publish'];
+      if (!empty($product_ids)) {
+        $query_args['post__in'] = $product_ids;
+        $query_args['orderby'] = 'post__in';
+      } else {
+        $query_args['meta_key'] = '_featured';
+        $query_args['meta_value'] = 'yes';
+      }
+
+      $q = new WP_Query($query_args);
       if ($q->have_posts()):
         echo '<div class="woocommerce"><ul class="products columns-4">';
-        while ($q->have_posts()) { $q->the_post(); wc_get_template_part('content', 'product'); }
+        while ($q->have_posts()) {
+          $q->the_post();
+          if (function_exists('wc_get_template_part')) {
+            wc_get_template_part('content', 'product');
+          } else {
+            get_template_part('template-parts/product-card');
+          }
+        }
         wp_reset_postdata();
         echo '</ul></div>';
       else:
@@ -146,7 +173,42 @@ $dir          = get_template_directory_uri();
       <p>The products our customers can't stop gifting — or keeping for themselves.</p>
     </div>
     <div data-ph-stagger>
-      <?php echo do_shortcode('[products best_selling="true" limit="8" columns="4"]'); ?>
+      <?php
+      $bs_query = new WP_Query([
+        'post_type'      => 'product',
+        'posts_per_page' => 8,
+        'post_status'    => 'publish',
+        'meta_key'       => 'total_sales',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'DESC',
+      ]);
+
+      if (!$bs_query->have_posts()) {
+        $bs_query = new WP_Query([
+          'post_type'      => 'product',
+          'posts_per_page' => 8,
+          'post_status'    => 'publish',
+          'orderby'        => 'date',
+          'order'          => 'DESC',
+        ]);
+      }
+
+      if ($bs_query->have_posts()):
+        echo '<div class="woocommerce"><ul class="products columns-4">';
+        while ($bs_query->have_posts()) {
+          $bs_query->the_post();
+          if (function_exists('wc_get_template_part')) {
+            wc_get_template_part('content', 'product');
+          } else {
+            get_template_part('template-parts/product-card');
+          }
+        }
+        wp_reset_postdata();
+        echo '</ul></div>';
+      else:
+        echo do_shortcode('[products best_selling="true" limit="8" columns="4"]');
+      endif;
+      ?>
     </div>
   </div>
 </section>

@@ -4,7 +4,7 @@ Theme URI: https://purehoney.me
 Author: Sk Shariful Islam
 Author URI: https://developershariful.netlify.app
 Description: A modern luxury honey e-commerce theme with smooth scroll, custom cursor, and pre-built WooCommerce pages. Complete cart, checkout, shop, and product templates included. No parent theme required.
-Version: 2.1.59
+Version: 2.2.1
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -1322,6 +1322,61 @@ body:has(button:hover) .ph-cursor-follower {
 .ph-summary-divider--amber { border-top: 1px solid rgba(232, 150, 26, 0.25) !important; margin: 16px 0 !important; }
 
 /* ============================================================
+   SHOP BY CATEGORY
+   ============================================================ */
+.ph-shop-cats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  justify-items: center;
+  text-align: center;
+  margin-top: 40px;
+}
+.ph-shop-cat-card {
+  text-decoration: none !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+.ph-shop-cat-image-wrap {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  padding: 8px;
+  border: 2px solid rgba(230,202,101,0.4);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  background: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ph-shop-cat-image-wrap img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.ph-shop-cat-card:hover .ph-shop-cat-image-wrap {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(230,202,101,0.3);
+  border-color: var(--ph-gold);
+}
+.ph-shop-cat-card h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--ph-dark);
+  transition: color 0.3s ease;
+  margin: 0;
+}
+.ph-shop-cat-card:hover h3 {
+  color: var(--ph-gold);
+}
+
+/* ============================================================
    PAGE CONTENT
    ============================================================ */
 .site-main { min-height: 60vh; }
@@ -1344,6 +1399,7 @@ body:has(button:hover) .ph-cursor-follower {
 @media (max-width: 1024px) {
   .ph-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .ph-shop-cats { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .woocommerce ul.products.columns-5,
   .woocommerce ul.products.columns-4,
   .woocommerce ul.products.columns-3 { grid-template-columns: repeat(2, 1fr); }
@@ -1368,6 +1424,8 @@ body:has(button:hover) .ph-cursor-follower {
   .ph-logo { font-size: 1.375rem; }
   .ph-logo img, .ph-logo .custom-logo { height: 36px !important; max-height: 36px !important; max-width: 140px !important; }
   .ph-cat-grid { grid-template-columns: 1fr; }
+  .ph-shop-cats { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .ph-shop-cat-image-wrap { width: 110px; height: 110px; }
   .ph-footer__grid { grid-template-columns: 1fr; }
   .woocommerce ul.products.columns-5,
   .woocommerce ul.products.columns-4,

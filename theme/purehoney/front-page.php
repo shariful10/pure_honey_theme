@@ -42,6 +42,54 @@ $dir          = get_template_directory_uri();
 <!-- ══ TRUST BAR ══ -->
 <?php echo do_shortcode('[ph_trust_bar]'); ?>
 
+<!-- ══ SHOP BY CATEGORY ══ -->
+<section class="ph-section ph-section--cream" id="shop-categories" style="padding-top: 60px; padding-bottom: 60px;">
+  <div class="ph-container">
+    <div class="ph-section-title text-center" data-ph-animate style="margin-bottom: 40px;">
+      <h2 style="display:flex; align-items:center; justify-content:center; gap:20px;">
+        <span style="height:1px; width:60px; background:var(--ph-gold);"></span>
+        Shop by Category
+        <span style="height:1px; width:60px; background:var(--ph-gold);"></span>
+      </h2>
+      <p style="color:#5C4033; font-size:0.95rem; font-style:italic; margin-top:8px;">Find your favorite natural products</p>
+    </div>
+    
+    <div class="ph-shop-cats" data-ph-stagger>
+      <?php
+      $target_cats = ['gift-boxes', 'honey-dispensers', 'handpicked-honey', 'essentials'];
+      foreach ($target_cats as $cat_slug) {
+          $term = get_term_by('slug', $cat_slug, 'product_cat');
+          if ($term) {
+              $thumbnail_id = get_term_meta($term->term_id, 'thumbnail_id', true);
+              $image_url = $thumbnail_id ? wp_get_attachment_url($thumbnail_id) : get_template_directory_uri() . '/assets/images/product-placeholder.svg';
+              $cat_link = get_term_link($term);
+              $cat_name = $term->name;
+          } else {
+              // Fallbacks if not created
+              $cat_names = [
+                  'gift-boxes' => 'Gift Boxes',
+                  'honey-dispensers' => 'Honey Dispensers',
+                  'handpicked-honey' => 'Handpicked Honey',
+                  'essentials' => 'Essentials'
+              ];
+              $cat_name = $cat_names[$cat_slug] ?? ucfirst(str_replace('-', ' ', $cat_slug));
+              $image_url = get_template_directory_uri() . '/assets/images/product-placeholder.svg';
+              $cat_link = '#';
+          }
+          ?>
+          <a href="<?php echo esc_url($cat_link); ?>" class="ph-shop-cat-card" data-ph-animate>
+            <div class="ph-shop-cat-image-wrap">
+              <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($cat_name); ?>">
+            </div>
+            <h3><?php echo esc_html($cat_name); ?></h3>
+          </a>
+          <?php
+      }
+      ?>
+    </div>
+  </div>
+</section>
+
 <!-- ══ FEATURED PRODUCTS ══ -->
 <section class="ph-section" id="featured">
   <div class="ph-container">

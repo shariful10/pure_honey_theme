@@ -4,7 +4,7 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
-define('PUREHONEY_VERSION', '2.2.1');
+define('PUREHONEY_VERSION', '2.2.3');
 
 add_action('wp_head', function() {
     if (function_exists('is_checkout') && (is_checkout() || is_cart())) {

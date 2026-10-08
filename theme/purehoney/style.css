@@ -4,7 +4,7 @@ Theme URI: https://purehoney.me
 Author: Sk Shariful Islam
 Author URI: https://developershariful.netlify.app
 Description: A modern luxury honey e-commerce theme with smooth scroll, custom cursor, and pre-built WooCommerce pages. Complete cart, checkout, shop, and product templates included. No parent theme required.
-Version: 2.2.1
+Version: 2.2.3
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -1427,6 +1427,7 @@ body:has(button:hover) .ph-cursor-follower {
   .ph-shop-cats { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .ph-shop-cat-image-wrap { width: 110px; height: 110px; }
   .ph-footer__grid { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: 1fr; }
   .woocommerce ul.products.columns-5,
   .woocommerce ul.products.columns-4,
   .woocommerce ul.products.columns-3 { grid-template-columns: 1fr; }

@@ -56,25 +56,29 @@ $dir          = get_template_directory_uri();
     
     <div class="ph-shop-cats" data-ph-stagger>
       <?php
-      $target_cats = ['gift-boxes', 'honey-dispensers', 'handpicked-honey', 'essentials'];
-      foreach ($target_cats as $cat_slug) {
+      $cat_defaults = [
+          'gift-boxes'       => ['name' => 'Gift Boxes',       'img' => 'gift-boxes.jpg'],
+          'honey-dispensers' => ['name' => 'Honey Dispensers', 'img' => 'honey-dispensers.jpg'],
+          'handpicked-honey' => ['name' => 'Handpicked Honey', 'img' => 'handpicked-honey.jpg'],
+          'essentials'       => ['name' => 'Essentials',       'img' => 'essentials.jpg'],
+      ];
+      foreach ($cat_defaults as $cat_slug => $defaults) {
           $term = get_term_by('slug', $cat_slug, 'product_cat');
-          if ($term) {
+
+          // Always use dedicated category images as primary fallback
+          $fallback_img = get_template_directory_uri() . '/assets/images/categories/' . $defaults['img'];
+
+          if ($term && !is_wp_error($term)) {
               $thumbnail_id = get_term_meta($term->term_id, 'thumbnail_id', true);
-              $image_url = $thumbnail_id ? wp_get_attachment_url($thumbnail_id) : get_template_directory_uri() . '/assets/images/product-placeholder.svg';
+              $image_url = ($thumbnail_id && wp_get_attachment_url($thumbnail_id))
+                  ? wp_get_attachment_url($thumbnail_id)
+                  : $fallback_img;
               $cat_link = get_term_link($term);
               $cat_name = $term->name;
           } else {
-              // Fallbacks if not created
-              $cat_names = [
-                  'gift-boxes' => 'Gift Boxes',
-                  'honey-dispensers' => 'Honey Dispensers',
-                  'handpicked-honey' => 'Handpicked Honey',
-                  'essentials' => 'Essentials'
-              ];
-              $cat_name = $cat_names[$cat_slug] ?? ucfirst(str_replace('-', ' ', $cat_slug));
-              $image_url = get_template_directory_uri() . '/assets/images/product-placeholder.svg';
-              $cat_link = '#';
+              $cat_name  = $defaults['name'];
+              $image_url = $fallback_img;
+              $cat_link  = wc_get_page_permalink('shop') ?: home_url('/shop/');
           }
           ?>
           <a href="<?php echo esc_url($cat_link); ?>" class="ph-shop-cat-card" data-ph-animate>

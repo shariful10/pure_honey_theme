@@ -4,9 +4,18 @@
   "description": "PureHoney Artisan Accessories E-Commerce Catalog",
   "scripts": {
     "dev": "npx -y serve . -p 3000",
-    "start": "npx -y serve . -p 3000"
+    "start": "npx -y serve . -p 3000",
+    "zip": "node scripts/build-zip.js",
+    "clean": "node -e \"const fs=require('fs');['purehoney.zip','purehoney-lite.zip','theme/purehoney-export.zip'].forEach(f=>{if(fs.existsSync(f)){fs.unlinkSync(f);console.log('Deleted',f);}});\""
   },
-  "keywords": ["purehoney", "woocommerce", "artisan"],
-  "author": "PureHoney",
-  "license": "ISC"
+  "keywords": [
+    "purehoney",
+    "woocommerce",
+    "artisan"
+  ],
+  "author": "Sk Shariful Islam",
+  "license": "ISC",
+  "devDependencies": {
+    "adm-zip": "^0.6.1"
+  }
 }

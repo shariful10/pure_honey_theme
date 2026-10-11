@@ -4,7 +4,7 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
-define('PUREHONEY_VERSION', '2.2.3');
+define('PUREHONEY_VERSION', '2.3.1');
 
 add_action('wp_head', function() {
     if (function_exists('is_checkout') && (is_checkout() || is_cart())) {
@@ -1156,8 +1156,111 @@ add_action('template_redirect', function() {
     }
 });
 
+/* ═══════════════════════════════════════════════
+   BUY NOW – Skip cart, redirect to checkout
+═══════════════════════════════════════════════ */
 
+/**
+ * Direct "Buy Now" handler:
+ * Reads product ID and quantity from POST/GET, empties previous cart,
+ * adds the current product with chosen quantity, and redirects straight to checkout.
+ */
+function purehoney_handle_direct_buy_now() {
+    if ( headers_sent() ) {
+        return;
+    }
 
+    $is_buy_now = false;
+    $product_id = 0;
 
+    if ( ! empty( $_POST['purehoney_buy_now'] ) ) {
+        $is_buy_now = true;
+        $product_id = absint( $_POST['purehoney_buy_now'] );
+    } elseif ( ! empty( $_POST['buy_now'] ) ) {
+        $is_buy_now = true;
+        if ( is_numeric( $_POST['buy_now'] ) ) {
+            $product_id = absint( $_POST['buy_now'] );
+        } elseif ( ! empty( $_POST['add-to-cart'] ) ) {
+            $product_id = absint( $_POST['add-to-cart'] );
+        }
+    } elseif ( ! empty( $_GET['purehoney_buy_now'] ) ) {
+        $is_buy_now = true;
+        $product_id = absint( $_GET['purehoney_buy_now'] );
+    } elseif ( ! empty( $_GET['buy_now'] ) ) {
+        $is_buy_now = true;
+        if ( is_numeric( $_GET['buy_now'] ) ) {
+            $product_id = absint( $_GET['buy_now'] );
+        } elseif ( ! empty( $_GET['add-to-cart'] ) ) {
+            $product_id = absint( $_GET['add-to-cart'] );
+        }
+    }
+
+    if ( ! $is_buy_now || ! $product_id ) {
+        return;
+    }
+
+    if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+        return;
+    }
+
+    // Read selected quantity (default 1)
+    $quantity = 1;
+    if ( isset( $_POST['quantity'] ) ) {
+        $quantity = wc_stock_amount( wp_unslash( $_POST['quantity'] ) );
+    } elseif ( isset( $_GET['quantity'] ) ) {
+        $quantity = wc_stock_amount( wp_unslash( $_GET['quantity'] ) );
+    }
+    if ( $quantity <= 0 ) {
+        $quantity = 1;
+    }
+
+    // Read optional variation ID
+    $variation_id = 0;
+    if ( ! empty( $_POST['variation_id'] ) ) {
+        $variation_id = absint( $_POST['variation_id'] );
+    } elseif ( ! empty( $_GET['variation_id'] ) ) {
+        $variation_id = absint( $_GET['variation_id'] );
+    }
+
+    $variations = array();
+    if ( ! empty( $_POST['variation'] ) && is_array( $_POST['variation'] ) ) {
+        $variations = wc_clean( wp_unslash( $_POST['variation'] ) );
+    }
+
+    // 1. Clear out previous cart so only this product is purchased
+    WC()->cart->empty_cart();
+
+    // 2. Add current product with quantity
+    $passed_validation = apply_filters( 'woocommerce_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variations );
+    if ( $passed_validation ) {
+        WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variations );
+    }
+
+    // 3. Redirect immediately to checkout
+    wp_safe_redirect( wc_get_checkout_url() );
+    exit;
+}
+add_action( 'wp_loaded', 'purehoney_handle_direct_buy_now', 15 );
+add_action( 'template_redirect', 'purehoney_handle_direct_buy_now', 5 );
+
+/**
+ * Filter fallbacks for standard WooCommerce add_to_cart pipeline
+ */
+add_filter( 'woocommerce_add_to_cart_redirect', function( $url ) {
+    if ( ! empty( $_REQUEST['purehoney_buy_now'] ) || ! empty( $_REQUEST['buy_now'] ) ) {
+        return wc_get_checkout_url();
+    }
+    return $url;
+}, 99 );
+
+add_filter( 'woocommerce_add_cart_item_data', function( $cart_item_data ) {
+    if ( ! empty( $_REQUEST['purehoney_buy_now'] ) || ! empty( $_REQUEST['buy_now'] ) ) {
+        if ( function_exists( 'WC' ) && WC()->cart ) {
+            WC()->cart->empty_cart();
+        }
+        $cart_item_data['purehoney_buy_now'] = true;
+    }
+    return $cart_item_data;
+}, 10 );
 
 

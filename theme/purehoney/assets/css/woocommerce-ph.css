@@ -1747,6 +1747,84 @@
   transform: translateY(-2px) !important;
 }
 
+/* ── Add to Cart Row (quantity + buttons) ── */
+.woocommerce div.product form.cart .ph-atc-row {
+  display: flex !important;
+  gap: 12px !important;
+  margin-top: 4px !important;
+  flex-wrap: wrap !important;
+  align-items: stretch !important;
+}
+
+/* Override: inside .ph-atc-row the button takes equal share */
+.ph-atc-row .single_add_to_cart_button {
+  flex: 1 !important;
+  min-width: 140px !important;
+}
+
+/* ── Buy Now Button ── */
+.ph-buy-now-btn {
+  flex: 1 !important;
+  min-width: 140px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: transparent !important;
+  color: var(--ph-cream, #FAF4ED) !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.55) !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  padding: 15px 24px !important;
+  font-family: var(--font-body) !important;
+  box-shadow: inset 0 0 0 0 rgba(212, 175, 55, 0.15) !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer !important;
+}
+
+.ph-buy-now-btn:hover {
+  background: rgba(212, 175, 55, 0.1) !important;
+  border-color: var(--ph-gold) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.25) !important;
+  transform: translateY(-2px) !important;
+}
+
+.ph-buy-now-btn svg {
+  transition: transform 0.25s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.ph-buy-now-btn:hover svg {
+  transform: translateX(4px) !important;
+}
+
+/* Mobile: stack buttons */
+@media (max-width: 480px) {
+  .woocommerce div.product form.cart .ph-atc-row {
+    flex-direction: column !important;
+  }
+}
+
+/* Buy Now – loading spinner */
+@keyframes ph-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.ph-spin {
+  animation: ph-spin 0.75s linear infinite !important;
+}
+.ph-buy-now-spinner {
+  align-items: center !important;
+  justify-content: center !important;
+}
+.ph-buy-now-btn:disabled {
+  opacity: 0.7 !important;
+  cursor: wait !important;
+  transform: none !important;
+}
+
 /* Trust badges */
 .ph-product-trust {
   display: flex;

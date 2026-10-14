@@ -87,12 +87,12 @@ defined( 'ABSPATH' ) || exit;
         if (!empty($packages)) {
           $rates = WC()->cart->calculate_shipping();
           if (WC()->cart->show_shipping()) {
-            echo '<span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">Calculated at checkout</span>';
+            echo '<span style="color:var(--text-secondary, #57534E);font-size:0.8rem;">Calculated at checkout</span>';
           } else {
-            echo '<span style="color:var(--ph-gold);">Free</span>';
+            echo '<span style="color:var(--accent-gold, #D97706);font-weight:700;">Free</span>';
           }
         } else {
-          echo '<span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">Calculated at checkout</span>';
+          echo '<span style="color:var(--text-secondary, #57534E);font-size:0.8rem;">Calculated at checkout</span>';
         }
         ?>
       </span>

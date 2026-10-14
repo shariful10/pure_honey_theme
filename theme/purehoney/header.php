@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <?php wp_head(); ?>
-<link rel="icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=2.1.4'); ?>" type="image/jpeg">
-<link rel="apple-touch-icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=2.1.4'); ?>">
+<link rel="icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=3.1.0'); ?>" type="image/jpeg">
+<link rel="apple-touch-icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=3.1.0'); ?>">
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
@@ -16,7 +16,7 @@
 <?php
 $custom_logo_id = get_theme_mod('custom_logo');
 $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
-$ph_ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '2.1.59';
+$ph_ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '3.1.0';
 $default_logo = get_template_directory_uri() . '/assets/images/logo.png?v=' . $ph_ver;
 ?>
 

@@ -432,6 +432,8 @@
       if (!isNaN(max) && max > 0) validQty = Math.min(validQty, max);
 
       input.value = String(validQty);
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
       window.checkDraftChanges();
     };
 
@@ -574,6 +576,14 @@
 
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      // Prevent rapid double-fire on identical tick / touch
+      const now = Date.now();
+      if (btn._phLastClick && (now - btn._phLastClick) < 180) {
+        return;
+      }
+      btn._phLastClick = now;
 
       const wrap = btn.closest('.ph-qty-wrap, .quantity');
       if (!wrap) return;
@@ -581,7 +591,7 @@
       if (!qty) return;
       sanitizeQtyMax(qty);
 
-      let currentVal = Number(qty.value);
+      let currentVal = parseInt(qty.value, 10);
       if (isNaN(currentVal) || currentVal < 1) {
         currentVal = 1;
       }
@@ -595,19 +605,16 @@
                      btn.textContent.trim() === '+' ||
                      btn.textContent.includes('+');
 
-      let newQuantity;
-      if (isPlus) {
-        newQuantity = currentVal + 1;
-      } else {
-        newQuantity = currentVal - 1;
-      }
-
+      const step = 1;
+      let newQuantity = isPlus ? (currentVal + step) : (currentVal - step);
       newQuantity = Math.max(1, newQuantity);
       if (!isNaN(max) && max > 0) {
         newQuantity = Math.min(newQuantity, max);
       }
 
       qty.value = String(newQuantity);
+      qty.dispatchEvent(new Event('input', { bubbles: true }));
+      qty.dispatchEvent(new Event('change', { bubbles: true }));
       window.checkDraftChanges();
     });
 

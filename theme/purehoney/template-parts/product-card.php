@@ -29,13 +29,13 @@ if (empty($product) && function_exists('wc_get_product')) {
     </a>
 
     <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
-        <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 500; color: #FAF4ED; margin: 0 0 6px;">
+        <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 600; color: #1C1917; margin: 0 0 6px;">
             <a href="<?php the_permalink(); ?>" style="color: inherit; text-decoration: none;">
                 <?php the_title(); ?>
             </a>
         </h3>
 
-        <div class="product-price" style="font-size: 1rem; font-weight: 600; color: #D9822B;">
+        <div class="product-price" style="font-size: 1rem; font-weight: 700; color: #D97706;">
             <?php 
             if ( class_exists( 'WooCommerce' ) ) {
                 global $product;

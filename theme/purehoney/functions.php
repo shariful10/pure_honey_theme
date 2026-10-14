@@ -4,7 +4,7 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
-define('PUREHONEY_VERSION', '2.3.2');
+define('PUREHONEY_VERSION', '3.1.0');
 
 add_action('wp_head', function() {
     if (function_exists('is_checkout') && (is_checkout() || is_cart())) {
@@ -587,7 +587,7 @@ function purehoney_inject_homepage_elementor($page_id) {
                     'elType' => 'column',
                     'settings' => [
                         'background_background' => 'classic',
-                        'background_color' => 'rgba(17,11,2,0.75)',
+                        'background_color' => 'rgba(250,246,240,0.85)',
                         'padding' => ['unit' => 'px', 'top' => '120', 'right' => '80', 'bottom' => '120', 'left' => '80', 'isLinked' => false],
                         '_column_size' => 100,
                     ],
@@ -605,7 +605,7 @@ function purehoney_inject_homepage_elementor($page_id) {
                                 'typography_font_weight' => '700',
                                 'typography_letter_spacing' => ['unit' => 'px', 'size' => 3],
                                 'typography_text_transform' => 'uppercase',
-                                'title_color' => '#E8961A',
+                                'title_color' => '#92400E',
                             ],
                         ],
                         [
@@ -613,12 +613,12 @@ function purehoney_inject_homepage_elementor($page_id) {
                             'elType' => 'widget',
                             'widgetType' => 'heading',
                             'settings' => [
-                                'title' => 'Where <span style="color:#E8961A">Honey Meets</span> Artisan Elegance',
+                                'title' => 'Where <span style="color:#D97706">Honey Meets</span> Artisan Elegance',
                                 'description' => 'Discover our exclusive collection of premium honey accessories.',
                                 'typography_typography' => 'custom',
                                 'typography_font_size' => ['unit' => 'vw', 'size' => 6],
                                 'typography_font_weight' => '800',
-                                'title_color' => '#FFFFFF',
+                                'title_color' => '#1C1917',
                             ],
                         ],
                         [
@@ -629,7 +629,8 @@ function purehoney_inject_homepage_elementor($page_id) {
                                 'editor' => '<p>Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials.</p>',
                                 'typography_typography' => 'custom',
                                 'typography_font_size' => ['unit' => 'px', 'size' => 18],
-                                'text_color' => 'rgba(255,255,255,0.72)',
+                                'typography_font_weight' => '500',
+                                'text_color' => '#292524',
                             ],
                         ],
                         [
@@ -640,8 +641,8 @@ function purehoney_inject_homepage_elementor($page_id) {
                                 'text' => 'Shop the Collection',
                                 'link' => ['url' => $shop_url],
                                 'align' => 'left',
-                                'background_color' => '#E8961A',
-                                'button_text_color' => '#241100',
+                                'background_color' => '#D97706',
+                                'button_text_color' => '#FFFFFF',
                                 'border_radius' => ['unit' => 'px', 'top' => 6, 'right' => 6, 'bottom' => 6, 'left' => 6, 'isLinked' => true],
                                 'padding' => ['unit' => 'px', 'top' => '16', 'right' => '36', 'bottom' => '16', 'left' => '36', 'isLinked' => false],
                                 'typography_typography' => 'custom',
@@ -780,7 +781,7 @@ add_action('admin_init', 'purehoney_import_product_images');
 
 // Breadcrumb separator
 add_filter('woocommerce_breadcrumb_defaults', function($defaults) {
-    $defaults['delimiter'] = ' <span style="color:#E8961A;opacity:0.5;">›</span> ';
+    $defaults['delimiter'] = ' <span style="color:#D97706;opacity:0.6;">›</span> ';
     return $defaults;
 });
 

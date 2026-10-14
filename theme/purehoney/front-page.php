@@ -13,30 +13,70 @@ $about_url    = home_url('/about-us');
 $dir          = get_template_directory_uri();
 ?>
 
-<!-- ══ HERO ══ -->
+<!-- ══ HERO: 2-COLUMN SPLIT LAYOUT ══ -->
 <section class="ph-hero" id="home-hero">
-  <div class="ph-hero__bg" style="background-image:url('<?php echo esc_url($dir . '/assets/images/hero-bg.jpg'); ?>');" role="img" aria-label="Golden honey jars on marble countertop"></div>
-  <div class="ph-hero__overlay"></div>
   <div class="ph-container">
-    <div class="ph-hero__content" data-ph-animate>
-      <span class="ph-hero__eyebrow">Nature's Gold, Elegantly Dispensed</span>
-      <h1 class="ph-hero__title">Where <span>Honey Meets</span><br>Artisan Elegance</h1>
-      <p class="ph-hero__text">Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials — for those who believe every moment deserves beauty.</p>
-      <div class="ph-hero__cta">
-        <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn ph-btn--primary ph-btn--lg">
-          Shop the Collection
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="<?php echo esc_url($about_url); ?>" class="ph-btn ph-btn--ghost ph-btn--lg">Our Story</a>
+    <div class="ph-hero__grid">
+
+      <!-- Left Column: Copy, Actions & Trust -->
+      <div class="ph-hero__left" data-ph-animate>
+        <div class="ph-hero__tagline-pill">
+          <span>✨</span> NATURE'S GOLD, ELEGANTLY DISPENSED
+        </div>
+
+        <h1 class="ph-hero__title">
+          Where <span class="ph-hero__highlight">Honey Meets</span><br>Artisan Elegance
+        </h1>
+
+        <p class="ph-hero__desc">
+          Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials — for those who believe every moment deserves beauty.
+        </p>
+
+        <div class="ph-hero__actions">
+          <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn ph-btn--primary ph-btn--lg">
+            Shop the Collection
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="<?php echo esc_url($about_url); ?>" class="ph-btn ph-btn--secondary ph-btn--lg">Our Story</a>
+        </div>
+
+        <!-- Trust Indicators in a compact row beneath the buttons -->
+        <div class="ph-hero__trust-row">
+          <div class="ph-hero__trust-badge">
+            <span class="ph-hero__trust-icon">⭐</span>
+            <div class="ph-hero__trust-text">
+              <strong>4.9/5 Rating</strong>
+              <small>2,000+ Reviews</small>
+            </div>
+          </div>
+          <div class="ph-hero__trust-badge">
+            <span class="ph-hero__trust-icon">🚀</span>
+            <div class="ph-hero__trust-text">
+              <strong>Fast Shipping</strong>
+              <small>2–4 Business Days</small>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- Right Column: Visual Product Showcase -->
+      <div class="ph-hero__right" data-ph-animate>
+        <div class="ph-hero__showcase-card">
+          <img 
+            src="<?php echo esc_url($dir . '/assets/images/hero-bg.jpg'); ?>" 
+            alt="Handcrafted artisan honey dispensers, raw wildflower jars, and wooden dippers" 
+            class="ph-hero__showcase-img"
+            loading="eager"
+            fetchpriority="high"
+          >
+          <div class="ph-hero__showcase-pill">
+            <span>🌿 100% Raw &amp; Cold Extracted</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="ph-hero__badge ph-hero__badge--1"><strong>⭐ 4.9/5</strong><small>2,000+ Reviews</small></div>
-  <div class="ph-hero__badge ph-hero__badge--2"><strong>🚀 Fast Shipping</strong><small>2–4 Business Days</small></div>
-  <a href="#featured" class="ph-hero__scroll" aria-label="Scroll down" onclick="if(window.purehoneyLenis){window.purehoneyLenis.scrollTo('#featured', {offset: -100, duration: 1.5}); return false;}">
-    <span>Scroll</span>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-  </a>
 </section>
 
 <!-- ══ TRUST BAR ══ -->
@@ -47,11 +87,11 @@ $dir          = get_template_directory_uri();
   <div class="ph-container">
     <div class="ph-section-title text-center" data-ph-animate style="margin-bottom: 40px;">
       <h2 style="display:flex; align-items:center; justify-content:center; gap:20px;">
-        <span style="height:1px; width:60px; background:var(--ph-gold);"></span>
+        <span style="height:1px; width:60px; background:var(--accent-gold);"></span>
         Shop by Category
-        <span style="height:1px; width:60px; background:var(--ph-gold);"></span>
+        <span style="height:1px; width:60px; background:var(--accent-gold);"></span>
       </h2>
-      <p style="color:#5C4033; font-size:0.95rem; font-style:italic; margin-top:8px;">Find your favorite natural products</p>
+      <p style="color:var(--text-secondary); font-size:0.95rem; font-style:italic; margin-top:8px;">Find your favorite natural products</p>
     </div>
     
     <div class="ph-shop-cats" data-ph-stagger>
@@ -95,7 +135,7 @@ $dir          = get_template_directory_uri();
 </section>
 
 <!-- ══ FEATURED PRODUCTS ══ -->
-<section class="ph-section" id="featured">
+<section class="ph-section ph-section--white" id="featured" style="background:#FFFFFF;">
   <div class="ph-container">
     <div class="ph-section-title" data-ph-animate>
       <span class="eyebrow">Handpicked For You</span>
@@ -149,7 +189,7 @@ $dir          = get_template_directory_uri();
 </section>
 
 <!-- ══ CATEGORY CARDS ══ -->
-<section class="ph-section ph-section--dark2" id="categories">
+<section class="ph-section ph-section--cream" id="categories">
   <div class="ph-container">
     <div class="ph-section-title" data-ph-animate>
       <span class="eyebrow">Browse By Category</span>
@@ -185,7 +225,7 @@ $dir          = get_template_directory_uri();
 </section>
 
 <!-- ══ STORY ══ -->
-<section class="ph-section--cream" id="our-story">
+<section class="ph-section ph-section--white" id="our-story" style="background:#FFFFFF;">
   <div class="ph-container">
     <div class="ph-story">
       <div class="ph-story__visual" data-ph-animate="fade-left">
@@ -196,7 +236,7 @@ $dir          = get_template_directory_uri();
         <h2>Born from a Love of<br>Nature's Sweetest Gift</h2>
         <p>PureHoney started with a simple belief: that honey — the world's oldest natural sweetener — deserves to be presented as the treasure it truly is.</p>
         <p>We partnered with artisan craftspeople across Europe and North America to create dispensers and accessories that honor both the bees and the people who love their golden harvest.</p>
-        <a href="<?php echo esc_url($about_url); ?>" class="ph-btn ph-btn--dark" style="margin-top:8px;">Read Our Story</a>
+        <a href="<?php echo esc_url($about_url); ?>" class="ph-btn ph-btn--primary" style="margin-top:8px;">Read Our Story</a>
         <div class="ph-story__stats">
           <div>
             <span class="ph-story__stat-number" data-ph-count="2000" data-ph-count-suffix="+">2000+</span>
@@ -217,7 +257,7 @@ $dir          = get_template_directory_uri();
 </section>
 
 <!-- ══ BEST SELLERS ══ -->
-<section class="ph-section ph-section--dark" id="best-sellers">
+<section class="ph-section ph-section--cream" id="best-sellers">
   <div class="ph-container">
     <div class="ph-section-title" data-ph-animate>
       <span class="eyebrow">Customer Favourites</span>
@@ -266,10 +306,10 @@ $dir          = get_template_directory_uri();
 </section>
 
 <!-- ══ FEATURES ══ -->
-<section class="ph-section ph-section--dark2" id="why-purehoney">
+<section class="ph-section ph-section--white" id="why-purehoney" style="background:#FFFFFF;">
   <div class="ph-container">
     <div class="ph-section-title" data-ph-animate>
-      <span class="eyebrow" style="color:var(--ph-gold);">Why PureHoney</span>
+      <span class="eyebrow" style="color:var(--accent-gold);">Why PureHoney</span>
       <h2>Crafted With Intention</h2>
     </div>
     <div class="grid-4" data-ph-stagger>
@@ -295,7 +335,7 @@ $dir          = get_template_directory_uri();
 </section>
 
 <!-- ══ TESTIMONIALS ══ -->
-<section class="ph-section" id="reviews">
+<section class="ph-section ph-section--cream" id="reviews">
   <div class="ph-container">
     <div class="ph-section-title" data-ph-animate>
       <span class="eyebrow">Real Reviews</span>
@@ -313,12 +353,12 @@ $dir          = get_template_directory_uri();
       <div class="ph-testimonial" data-ph-animate>
         <div class="ph-testimonial__stars">
           <?php for ($i = 0; $i < 5; $i++): ?>
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#E8961A"/></svg>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#D97706"/></svg>
           <?php endfor; ?>
         </div>
         <p class="ph-testimonial__text"><?php echo esc_html($r['text']); ?></p>
         <div class="ph-testimonial__author">
-          <div style="width:44px;height:44px;border-radius:50%;background:var(--ph-gold-gradient);display:flex;align-items:center;justify-content:center;color:var(--ph-charcoal);font-weight:800;font-size:1.125rem;flex-shrink:0;">
+          <div style="width:44px;height:44px;border-radius:50%;background:var(--ph-gold-gradient);display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-weight:800;font-size:1.125rem;flex-shrink:0;">
             <?php echo esc_html(substr($r['name'], 0, 1)); ?>
           </div>
           <div>
@@ -336,14 +376,14 @@ $dir          = get_template_directory_uri();
 <section class="ph-newsletter" id="newsletter">
   <div class="ph-container">
     <div class="ph-newsletter__inner" data-ph-animate>
-      <span class="eyebrow" style="color:var(--ph-gold);">Stay in the Loop</span>
+      <span class="eyebrow" style="color:var(--accent-gold);">Stay in the Loop</span>
       <h2 class="ph-newsletter__title">Get 10% Off Your First Order</h2>
       <p class="ph-newsletter__subtitle">Subscribe for exclusive deals, new arrivals, and honey lifestyle inspiration.</p>
       <form class="ph-newsletter__form" novalidate>
         <input type="email" class="ph-newsletter__input" placeholder="Enter your email address…" required autocomplete="email">
         <button type="submit" class="ph-btn ph-btn--primary">Subscribe</button>
       </form>
-      <p style="font-size:0.75rem;color:rgba(255,255,255,0.25);margin-top:14px;margin-bottom:0;">No spam, ever. Unsubscribe anytime.</p>
+      <p style="font-size:0.8125rem;color:var(--text-muted);margin-top:14px;margin-bottom:0;">No spam, ever. Unsubscribe anytime.</p>
     </div>
   </div>
 </section>

@@ -10,10 +10,10 @@ get_header();
 
 <div class="ph-page-wrap">
   <!-- Hero Section -->
-  <div class="ph-page-hero" style="background: linear-gradient(rgba(250, 246, 240, 0.88), rgba(250, 246, 240, 0.94)), url('<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg.jpg') center/cover; padding: 160px 0 100px;">
+  <div class="ph-page-hero ph-page-hero--banner" style="background: radial-gradient(ellipse at center, rgba(250, 246, 240, 0.60) 0%, rgba(250, 246, 240, 0.35) 60%, rgba(250, 246, 240, 0.15) 100%), url('<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg.jpg') center/cover; padding: 160px 0 100px;">
     <div class="ph-container text-center">
-      <h1 class="ph-page-title" style="margin-bottom: 24px; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--text-primary); justify-content: center;"><?php the_title(); ?></h1>
-      <p style="color: var(--accent-gold); font-size: 1.125rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Discover the PureHoney difference</p>
+      <h1 class="ph-page-title" style="margin-bottom: 16px; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: #1C1917; justify-content: center; text-shadow: 0 1px 12px rgba(255, 255, 255, 0.85);"><?php the_title(); ?></h1>
+      <p style="color: #B45309; font-size: 1.125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">Discover the PureHoney difference</p>
     </div>
   </div>
 
@@ -21,8 +21,20 @@ get_header();
   <div class="ph-section" style="background: #FFFFFF;">
     <div class="ph-container">
       <div class="ph-story">
-        <div class="ph-story__visual" style="border-radius: var(--ph-radius-lg); overflow: hidden; box-shadow: 0 10px 30px rgba(78,52,23,0.08); border: 1px solid var(--border-subtle);">
-          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/hexagonal-glass-honey-jar-with-bamboo-lid.jpg" alt="Our Story - Pure Honey" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; opacity: 1;" />
+        <div class="ph-story__visual story-image-container" style="border-radius: var(--ph-radius-lg, 1rem); overflow: hidden; box-shadow: 0 10px 30px rgba(78,52,23,0.08); border: 1px solid var(--border-subtle, #EFE6D8); aspect-ratio: 4 / 5; min-height: 480px;">
+          <?php 
+          $story_img = get_theme_mod('about_story_image') ?: get_the_post_thumbnail_url(get_the_ID(), 'large');
+          if (!$story_img) {
+              $story_img = get_stylesheet_directory_uri() . '/assets/images/about-story.jpg';
+          }
+          ?>
+          <img src="<?php echo esc_url($story_img); ?>" 
+               alt="<?php esc_attr_e('Our Story - Pure Honey', 'purehoney'); ?>" 
+               class="w-full h-full object-cover rounded-2xl shadow-md" 
+               loading="lazy" 
+               style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; display: block;"
+               onerror="this.src='<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/hero-bg.jpg'); ?>';"
+          />
         </div>
         <div class="ph-story__content">
           <div class="ph-section-title" style="text-align: left; margin-bottom: 32px;">

@@ -4,7 +4,7 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
-define('PUREHONEY_VERSION', '3.1.0');
+define('PUREHONEY_VERSION', '3.3.6');
 
 add_action('wp_head', function() {
     if (function_exists('is_checkout') && (is_checkout() || is_cart())) {
@@ -95,7 +95,7 @@ add_action('woocommerce_single_product_summary', function() {
         $sub = $item[2];
         echo '<div class="ph-product-trust__item">';
         echo '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">' . $icon . '</svg>';
-        echo '<div><div style="color:rgba(255,255,255,0.8);font-weight:600;font-size:0.875rem;">' . esc_html($label) . '</div><div style="font-size:0.75rem;color:var(--ph-text-muted);">' . esc_html($sub) . '</div></div>';
+        echo '<div><div style="color:#1C1917;font-weight:600;font-size:0.875rem;">' . esc_html($label) . '</div><div style="font-size:0.75rem;color:#78716C;">' . esc_html($sub) . '</div></div>';
         echo '</div>';
     }
     echo '</div>';

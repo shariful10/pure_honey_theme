@@ -87,8 +87,14 @@ function addFolder(srcDir, zipPrefix) {
   }
 }
 
-addFolder(EXPORT_TMP, '');
+// IMPORTANT: WordPress requires theme files inside a named subfolder within the zip.
+// The zip must contain: purehoney/style.css, purehoney/functions.php, etc.
+addFolder(EXPORT_TMP, 'purehoney');
 zip.writeZip(ZIP_DEST);
+
+// Also sync to theme/purehoney-export.zip
+const EXPORT_ZIP = path.join(__dirname, '..', 'theme', 'purehoney-export.zip');
+fs.copyFileSync(ZIP_DEST, EXPORT_ZIP);
 
 // Cleanup temp
 fs.rmSync(EXPORT_TMP, { recursive: true, force: true });
@@ -96,4 +102,5 @@ fs.rmSync(EXPORT_TMP, { recursive: true, force: true });
 const sizeMB = (fs.statSync(ZIP_DEST).size / (1024 * 1024)).toFixed(1);
 console.log(`\n🎉 purehoney.zip ready: ${sizeMB} MB`);
 console.log(`   Location: ${ZIP_DEST}`);
+console.log(`   Export:   ${EXPORT_ZIP}`);
 console.log(`\n   Upload to: WP Admin → Appearance → Themes → Add New → Upload Theme`);

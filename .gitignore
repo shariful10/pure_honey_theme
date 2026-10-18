@@ -1,1 +1,5 @@
 node_modules
+theme/purehoney-export/
+theme/purehoney-temp-stage/
+theme/purehoney-export-stage/
+*.bak

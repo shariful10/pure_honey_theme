@@ -161,34 +161,74 @@
       font-weight: 700;
     }
 
-    /* Hero Section — 2-Column Split Layout */
+    /* Hero Section — Right-Aligned Editorial Layout with Directional Gradient */
     .ph-hero {
       position: relative;
-      background-color: var(--bg-primary);
-      padding: 60px 24px 70px;
+      width: 100%;
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: left;
+      background-size: cover;
+      background-position: left center;
+      background-repeat: no-repeat;
+      padding: 100px 24px 70px;
       border-bottom: 1px solid var(--border-subtle);
       overflow: hidden;
+      box-sizing: border-box;
     }
-    .ph-hero-inner {
-      max-width: 1200px;
-      margin: 0 auto;
+    @media (min-width: 1024px) {
+      .ph-hero {
+        min-height: 720px;
+        padding: 120px 24px 80px;
+      }
     }
-    .ph-hero__grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      align-items: center;
-      gap: 56px;
-      min-height: 520px;
+    .ph-hero__scrim {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        rgba(250, 246, 240, 0.15) 0%,
+        rgba(250, 246, 240, 0.55) 45%,
+        rgba(250, 246, 240, 0.92) 75%,
+        rgba(250, 246, 240, 0.98) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
     }
-    .ph-hero__left {
+    .ph-hero__content {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 38rem;
+      margin-left: auto;
+      margin-right: 24px;
+      padding: 16px 20px 24px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       text-align: left;
+      box-sizing: border-box;
+    }
+    @media (min-width: 1024px) {
+      .ph-hero__content {
+        max-width: 42rem;
+        margin-right: 64px;
+        padding: 24px 28px 32px;
+      }
+    }
+    @media (min-width: 1440px) {
+      .ph-hero__content {
+        margin-right: 96px;
+      }
     }
     .ph-hero__tagline-pill {
       display: inline-flex;
       align-items: center;
+      justify-content: flex-start;
       gap: 8px;
       padding: 7px 18px;
       background-color: #FDF3E3;
@@ -199,45 +239,52 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       border-radius: 9999px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       box-shadow: 0 1px 4px rgba(230, 202, 101, 0.2);
     }
-    .ph-hero-title {
+    .ph-hero-title, .ph-hero__title {
       font-family: var(--font-heading);
-      font-size: clamp(2.5rem, 4.8vw, 4.25rem);
-      line-height: 1.1;
+      font-size: clamp(2.35rem, 4.5vw, 3.85rem);
+      line-height: 1.15;
       font-weight: 800;
       color: #1C1917;
-      margin: 0 0 20px 0;
+      margin: 0 0 16px 0;
       letter-spacing: -0.025em;
+      text-align: left;
     }
-    .ph-hero-title em {
+    .ph-hero-title em, .ph-hero__highlight, .ph-hero__title span {
       font-style: normal;
+      color: #D97706;
       background: linear-gradient(135deg, #D97706 0%, #EA580C 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       font-weight: 800;
     }
-    .ph-hero-desc {
+    .ph-hero-desc, .ph-hero__desc {
       font-size: 1.125rem;
       color: #4A3E39;
       font-weight: 500;
-      max-width: 540px;
-      margin: 0 0 34px 0;
+      max-width: 38rem;
+      margin: 0 0 28px 0;
       line-height: 1.7;
+      text-align: left;
     }
-    .ph-hero-cta {
+    .ph-hero-cta, .ph-hero__actions {
       display: flex;
+      flex-direction: row;
       align-items: center;
       justify-content: flex-start;
       gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 34px;
+      margin-top: 4px;
+      margin-bottom: 30px;
     }
     .ph-hero__trust-row {
       display: flex;
+      flex-direction: row;
       align-items: center;
+      justify-content: flex-start;
       gap: 16px;
       flex-wrap: wrap;
     }
@@ -258,6 +305,7 @@
     .ph-hero__trust-text {
       display: flex;
       flex-direction: column;
+      text-align: left;
     }
     .ph-hero__trust-text strong {
       font-size: 0.8125rem;
@@ -269,76 +317,85 @@
       font-size: 0.725rem;
       color: #57534E;
     }
-    .ph-hero__right {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-    }
-    .ph-hero__showcase-card {
-      position: relative;
-      width: 100%;
-      max-width: 520px;
-      aspect-ratio: 4 / 3.4;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 20px 45px rgba(78, 52, 23, 0.12);
-      border: 1px solid rgba(120, 53, 15, 0.12);
-      background: #FFFDF9;
-    }
-    .ph-hero__showcase-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .ph-hero__showcase-card:hover .ph-hero__showcase-img {
-      transform: scale(1.04);
-    }
-    .ph-hero__showcase-pill {
-      position: absolute;
-      bottom: 18px;
-      left: 18px;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--border-subtle);
-      border-radius: 100px;
-      padding: 7px 14px;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: #1C1917;
-      box-shadow: 0 4px 14px rgba(78, 52, 23, 0.08);
-    }
-    @media (max-width: 1024px) {
-      .ph-hero__grid {
-        grid-template-columns: 1fr;
-        gap: 44px;
+    @media (max-width: 768px) {
+      .ph-hero {
+        justify-content: center !important;
+        text-align: center !important;
+        background-position: center center !important;
+        padding: 90px 20px 50px;
+        min-height: 560px;
       }
-      .ph-hero__showcase-card {
-        max-width: 100%;
-        aspect-ratio: 16 / 10;
+      .ph-hero__scrim {
+        background: linear-gradient(
+          180deg,
+          rgba(250, 246, 240, 0.88) 0%,
+          rgba(250, 246, 240, 0.94) 50%,
+          rgba(250, 246, 240, 0.98) 100%
+        ) !important;
       }
-    }
-    @media (max-width: 640px) {
-      .ph-hero-title {
-        font-size: 2.25rem;
+      .ph-hero__content {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: 16px 12px !important;
+        align-items: center !important;
+        text-align: center !important;
+        max-width: 100% !important;
       }
-      .ph-hero-cta {
-        flex-direction: column;
-        align-items: stretch;
+      .ph-hero__tagline-pill {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .ph-hero-title, .ph-hero__title {
+        text-align: center !important;
+        font-size: 2.25rem !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .ph-hero-desc, .ph-hero__desc {
+        text-align: center !important;
+        font-size: 1rem !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        margin-bottom: 22px !important;
+      }
+      .ph-hero-cta, .ph-hero__actions {
+        justify-content: center !important;
+        width: 100% !important;
+        gap: 12px !important;
+        margin-bottom: 24px !important;
       }
       .ph-hero-cta .ph-btn-primary,
-      .ph-hero-cta .ph-btn-secondary {
-        width: 100%;
+      .ph-hero-cta .ph-btn-secondary,
+      .ph-hero__actions .ph-btn {
+        flex: 1 1 auto;
+        min-width: 140px;
         text-align: center;
         justify-content: center;
       }
       .ph-hero__trust-row {
-        flex-direction: column;
-        align-items: stretch;
+        justify-content: center !important;
+        width: 100% !important;
+        gap: 12px !important;
+      }
+    }
+      .ph-hero-cta .ph-btn-primary,
+      .ph-hero-cta .ph-btn-secondary,
+      .ph-hero__actions .ph-btn {
+        flex: 1 1 auto;
+        min-width: 140px;
+        padding: 12px 18px;
+        font-size: 0.9rem;
+        text-align: center;
+        justify-content: center;
+      }
+      .ph-hero__trust-row {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+      }
+      .ph-hero__trust-badge {
+        padding: 6px 12px;
       }
     }
     .ph-btn-primary {
@@ -846,64 +903,55 @@
     </div>
   </header>
 
-  <!-- 2-COLUMN SPLIT HERO SECTION -->
-  <section class="ph-hero">
-    <div class="ph-hero-inner">
-      <div class="ph-hero__grid">
+  <!-- RIGHT-ALIGNED EDITORIAL HERO SECTION -->
+  <section class="ph-hero relative w-full min-h-[620px] lg:min-h-[720px] flex items-center justify-end text-left bg-cover bg-left overflow-hidden" 
+           id="home-hero"
+           style="background-image: url('theme/purehoney/assets/images/hero-banner.jpg');">
+    <!-- Directional Gradient Overlay (Clear on left for glowing glassware, warm ivory reading canvas on right) -->
+    <div class="ph-hero__scrim absolute inset-0 pointer-events-none" 
+         style="background: linear-gradient(to right, rgba(250, 246, 240, 0.15) 0%, rgba(250, 246, 240, 0.55) 45%, rgba(250, 246, 240, 0.92) 75%, rgba(250, 246, 240, 0.98) 100%);"></div>
 
-        <!-- Left Column: Copy, Actions & Trust -->
-        <div class="ph-hero__left">
-          <div class="ph-hero__tagline-pill">
-            <span>✨</span> NATURE'S GOLD, ELEGANTLY DISPENSED
-          </div>
+    <!-- Right-Aligned Content Wrapper -->
+    <div class="ph-hero__content relative z-10 w-full max-w-xl xl:max-w-2xl ml-auto mr-6 lg:mr-16 px-4 sm:px-6 py-12 lg:py-16 flex flex-col items-start text-left">
+      <!-- Tagline Pill -->
+      <div class="ph-hero__tagline-pill">
+        <span>✨</span> NATURE'S GOLD, ELEGANTLY DISPENSED
+      </div>
 
-          <h1 class="ph-hero-title">
-            Where <em>Honey Meets</em><br>Artisan Elegance
-          </h1>
+      <!-- Headline -->
+      <h1 class="ph-hero__title text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1C1917]">
+        Where <span class="ph-hero__highlight text-[#D97706]">Honey Meets</span><br>Artisan Elegance
+      </h1>
 
-          <p class="ph-hero-desc">
-            Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials — for those who believe every moment deserves beauty.
-          </p>
+      <!-- Description -->
+      <p class="ph-hero__desc max-w-xl text-[#4A3E39] text-lg font-medium leading-relaxed my-4">
+        Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials — for those who believe every moment deserves beauty.
+      </p>
 
-          <div class="ph-hero-cta">
-            <a href="#top-picks-section" class="ph-btn-primary">Shop the Collection →</a>
-            <a href="#checkout-preview-section" class="ph-btn-secondary">Our Story</a>
-          </div>
+      <!-- Action Buttons -->
+      <div class="ph-hero__actions flex flex-row items-center gap-4 mt-2 mb-8">
+        <a href="#top-picks-section" class="ph-btn-primary ph-btn ph-btn--primary ph-btn--lg">
+          Shop the Collection →
+        </a>
+        <a href="#checkout-preview-section" class="ph-btn-secondary ph-btn ph-btn--secondary ph-btn--lg">Our Story</a>
+      </div>
 
-          <!-- Trust Indicators Row Beneath Buttons -->
-          <div class="ph-hero__trust-row">
-            <div class="ph-hero__trust-badge">
-              <span class="ph-hero__trust-icon">⭐</span>
-              <div class="ph-hero__trust-text">
-                <strong>4.9/5 Rating</strong>
-                <small>2,000+ Reviews</small>
-              </div>
-            </div>
-            <div class="ph-hero__trust-badge">
-              <span class="ph-hero__trust-icon">🚀</span>
-              <div class="ph-hero__trust-text">
-                <strong>Fast Shipping</strong>
-                <small>2–4 Business Days</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Visual Product Showcase -->
-        <div class="ph-hero__right">
-          <div class="ph-hero__showcase-card">
-            <img 
-              src="theme/purehoney/assets/images/hero-bg.jpg" 
-              alt="Handcrafted artisan honey dispensers, raw wildflower jars, and wooden dippers" 
-              class="ph-hero__showcase-img"
-              loading="eager"
-            >
-            <div class="ph-hero__showcase-pill">
-              <span>🌿 100% Raw &amp; Cold Extracted</span>
-            </div>
+      <!-- Trust Badges Row -->
+      <div class="ph-hero__trust-row">
+        <div class="ph-hero__trust-badge">
+          <span class="ph-hero__trust-icon">⭐</span>
+          <div class="ph-hero__trust-text">
+            <strong>4.9/5 Rating</strong>
+            <small>2,000+ Reviews</small>
           </div>
         </div>
-
+        <div class="ph-hero__trust-badge">
+          <span class="ph-hero__trust-icon">🚀</span>
+          <div class="ph-hero__trust-text">
+            <strong>Fast Shipping</strong>
+            <small>2–4 Business Days</small>
+          </div>
+        </div>
       </div>
     </div>
   </section>

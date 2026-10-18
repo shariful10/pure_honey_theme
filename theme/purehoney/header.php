@@ -7,8 +7,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <?php wp_head(); ?>
-<link rel="icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=3.1.0'); ?>" type="image/jpeg">
-<link rel="apple-touch-icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=3.1.0'); ?>">
+<link rel="icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=3.3.6'); ?>" type="image/jpeg">
+<link rel="apple-touch-icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.jpg?v=3.3.6'); ?>">
+<!-- Emergency failsafe: if JS is broken or slow, ensure loader never permanently blocks the page -->
+<noscript><style>#ph-loader{display:none!important}</style></noscript>
+<script>
+/* Inline early-exit loader script — runs before main.js is parsed.
+   Ensures page is never permanently white even if main.js errors out. */
+(function(){
+  var TIMEOUT_MS = 3500;
+  function emergencyHide(){
+    var el = document.getElementById('ph-loader');
+    if(el){ el.style.display='none'; }
+    document.body && document.body.classList.add('ph-loaded');
+  }
+  // Absolute fallback: force-hide at TIMEOUT_MS
+  setTimeout(emergencyHide, TIMEOUT_MS);
+  // Also hook window.load in case main.js never runs
+  window.addEventListener('load', function(){
+    setTimeout(emergencyHide, 600);
+  });
+})();
+</script>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
@@ -16,8 +36,8 @@
 <?php
 $custom_logo_id = get_theme_mod('custom_logo');
 $logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
-$ph_ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '3.1.0';
-$default_logo = get_template_directory_uri() . '/assets/images/logo.png?v=' . $ph_ver;
+$ph_ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '3.3.6';
+$default_logo = get_template_directory_uri() . '/assets/images/logo-dark-text.png?v=' . $ph_ver;
 ?>
 
 <!-- Loader -->
@@ -25,9 +45,13 @@ $default_logo = get_template_directory_uri() . '/assets/images/logo.png?v=' . $p
   <div class="ph-loader__inner">
     <div class="ph-loader__logo">
       <?php if (has_custom_logo() && $logo_url): ?>
-        <img src="<?php echo esc_url($logo_url); ?>" alt="<?php bloginfo('name'); ?>" style="height:60px; width:auto;">
+        <img src="<?php echo esc_url($logo_url); ?>" alt="<?php bloginfo('name'); ?>" style="height:50px; width:auto;"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+        <span style="display:none;font-family:var(--font-heading,serif);font-size:2rem;font-weight:700;color:#1C1917;letter-spacing:-0.02em;">Pure<span style="color:#D97706;">Honey</span></span>
       <?php else: ?>
-        <img src="<?php echo esc_url($default_logo); ?>" alt="PureHoney" width="180" height="60" style="height:60px; width:auto;">
+        <img src="<?php echo esc_url($default_logo); ?>" alt="PureHoney" width="180" height="50" style="height:50px; width:auto;"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+        <span style="display:none;font-family:var(--font-heading,serif);font-size:2rem;font-weight:700;color:#1C1917;letter-spacing:-0.02em;">Pure<span style="color:#D97706;">Honey</span></span>
       <?php endif; ?>
     </div>
     <div class="ph-loader__bar"></div>
@@ -40,11 +64,17 @@ $default_logo = get_template_directory_uri() . '/assets/images/logo.png?v=' . $p
 
     <!-- Logo -->
     <a href="<?php echo esc_url(home_url('/')); ?>" class="ph-logo" rel="home" aria-label="<?php bloginfo('name'); ?> – Home">
-      <?php 
-      if (has_custom_logo() && $logo_url): ?>
-        <img src="<?php echo esc_url($logo_url); ?>" alt="<?php bloginfo('name'); ?>" style="height:48px; width:auto; display:block;">
+      <?php if (has_custom_logo() && $logo_url): ?>
+        <img src="<?php echo esc_url($logo_url); ?>" alt="<?php bloginfo('name'); ?>" style="height:40px; width:auto; display:block;">
       <?php else: ?>
-        <img src="<?php echo esc_url($default_logo); ?>" alt="PureHoney" width="144" height="48" style="height:48px; width:auto; display:block;">
+        <img src="<?php echo esc_url($default_logo); ?>" alt="PureHoney" width="160" height="42" style="height:40px; width:auto; display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+        <span class="ph-logo-fallback" style="display:none; align-items:center; gap:8px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L20.5 7V17L12 22L3.5 17V7L12 2Z" stroke="#D97706" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 7C12 7 8 11.5 8 14C8 16.2091 9.79086 18 12 18C14.2091 18 16 16.2091 16 14C16 11.5 12 7 12 7Z" fill="#D97706"/>
+          </svg>
+          <span style="font-family:var(--font-heading,serif); font-size:1.5rem; font-weight:700; color:#1C1917; letter-spacing:-0.02em;">Pure<span style="color:#D97706;">Honey</span></span>
+        </span>
       <?php endif; ?>
     </a>
 

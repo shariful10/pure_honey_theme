@@ -85,14 +85,36 @@
   function initLoader() {
     const loader = document.getElementById('ph-loader');
     if (!loader) return;
-    window.addEventListener('load', () => {
-      setTimeout(() => {
+
+    /**
+     * Two-step dismiss:
+     * 1. Add .is-hiding → triggers CSS opacity/visibility fade (0.55s)
+     * 2. After transition, add .is-hidden → display:none removes from flow
+     * This avoids the classic "display:none kills the CSS transition" bug.
+     */
+    function hideLoader() {
+      if (loader.classList.contains('is-hiding') || loader.classList.contains('is-hidden')) return;
+      loader.classList.add('is-hiding');
+      document.body.classList.add('ph-loaded');
+      setTimeout(function () {
         loader.classList.add('is-hidden');
-        document.body.classList.add('ph-loaded');
-      }, 500);
+      }, 600); // slightly longer than the 0.55s CSS transition
+    }
+
+    // Primary trigger: hide after window fully loads + 400ms settle
+    window.addEventListener('load', function () {
+      setTimeout(hideLoader, 400);
     });
-    // Failsafe
-    setTimeout(() => loader.classList.add('is-hidden'), 3000);
+
+    // Hard failsafe #1: hide at 2.5s from DOMContentLoaded regardless
+    setTimeout(hideLoader, 2500);
+
+    // Hard failsafe #2: hide at 4s absolutely (covers very slow connections)
+    setTimeout(function () {
+      loader.classList.add('is-hiding');
+      loader.classList.add('is-hidden');
+      document.body.classList.add('ph-loaded');
+    }, 4000);
   }
 
   /* ─────────────────────────────────────────

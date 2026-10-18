@@ -4,7 +4,7 @@ Theme URI: https://purehoney.me
 Author: Sk Shariful Islam
 Author URI: https://developershariful.netlify.app
 Description: A luminous artisanal honey e-commerce theme with warm ivory canvas, rich amber accents, deep charcoal typography, smooth scroll, and pre-built WooCommerce templates.
-Version: 3.1.0
+Version: 3.3.6
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -58,7 +58,7 @@ Tags: e-commerce, woocommerce, organic, honey, artisanal, light, gold, smooth-sc
   /* Gradients */
   --ph-gold-gradient:    linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #D97706 100%);
   --ph-dark-gradient:    linear-gradient(180deg, #FAF6F0 0%, #FFFFFF 100%);
-  --ph-hero-overlay:     linear-gradient(to right, rgba(250, 246, 240, 0.94) 0%, rgba(250, 246, 240, 0.78) 35%, rgba(250, 246, 240, 0.20) 65%, rgba(250, 246, 240, 0) 88%);
+  --ph-hero-overlay:     linear-gradient(to right, rgba(250, 246, 240, 0.15) 0%, rgba(250, 246, 240, 0.55) 45%, rgba(250, 246, 240, 0.92) 75%, rgba(250, 246, 240, 0.98) 100%);
 
   /* Typography */
   --font-heading:        'Playfair Display', Georgia, serif;
@@ -169,13 +169,21 @@ body:has(button:hover) .ph-cursor-follower {
   align-items: center;
   justify-content: center;
   z-index: 99990;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+  /* Opacity + visibility transition — do NOT use display:none here
+     as it instantly kills the element before the fade can run.
+     JS adds display:none AFTER the transition ends. */
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.55s ease, visibility 0.55s ease;
 }
 
-.ph-loader.is-hidden {
+.ph-loader.is-hiding {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+
+.ph-loader.is-hidden {
   display: none !important;
 }
 
@@ -414,29 +422,43 @@ body:has(button:hover) .ph-cursor-follower {
 
 /* Logo */
 .ph-logo {
-  font-family: var(--font-heading);
-  font-size: 1.625rem;
+  font-family: var(--font-heading, "Playfair Display", serif);
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 0.02em;
-  display: flex;
+  color: #1C1917 !important; /* Deep warm charcoal / espresso */
+  letter-spacing: -0.02em;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
+  line-height: 1;
 }
 
-.ph-logo span { color: var(--accent-gold); }
-.ph-logo:hover { color: var(--accent-gold); }
+.ph-logo span { 
+  color: #D97706 !important; /* Vibrant golden honey amber */
+}
+
+.ph-logo:hover { 
+  color: #D97706 !important; 
+}
+
 .ph-logo img,
 .ph-logo .custom-logo { 
-  height: 48px !important; 
-  max-height: 48px !important; 
+  height: 40px !important; 
+  max-height: 42px !important; 
   width: auto !important; 
-  max-width: 220px !important; 
+  max-width: 200px !important; 
   object-fit: contain; 
+  display: block;
   image-rendering: -webkit-optimize-contrast;
+}
+
+.ph-logo-fallback {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Primary Nav Wrapper & Nav */
@@ -695,39 +717,87 @@ body:has(button:hover) .ph-cursor-follower {
 .ph-mobile-menu__footer { margin-top: auto; padding: 20px 24px; border-top: 1px solid var(--border-subtle); }
 
 /* ============================================================
-   HERO SECTION
+   HERO SECTION (LEFT-ALIGNED EDITORIAL WITH FULL-WIDTH BANNER)
    ============================================================ */
 .ph-hero {
   position: relative;
-  background-color: var(--bg-primary);
-  padding-top: 130px;
-  padding-bottom: 70px;
+  width: 100%;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Left-align content container */
+  text-align: left;
+  background-size: cover;
+  background-position: right center; /* Showcase glowing glassware and honey jars on right */
+  background-repeat: no-repeat;
+  padding-top: 140px;
+  padding-bottom: 72px;
   border-bottom: 1px solid var(--border-subtle);
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  min-height: 580px;
+  box-sizing: border-box;
 }
 
-.ph-hero__grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  align-items: center;
-  gap: 56px;
+@media (min-width: 1024px) {
+  .ph-hero {
+    min-height: 720px;
+    padding-top: 156px;
+    padding-bottom: 84px;
+  }
+}
+
+/* Scrim / Directional Gradient Overlay (Opaque warm ivory on left, clear on right for glowing glassware) */
+.ph-hero__scrim {
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(250, 246, 240, 0.98) 0%,
+    rgba(250, 246, 240, 0.92) 25%,
+    rgba(250, 246, 240, 0.55) 55%,
+    rgba(250, 246, 240, 0.15) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Left Column */
-.ph-hero__left {
+/* Left-Anchored Content Container */
+.ph-hero__content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 38rem; /* 608px / max-w-xl */
+  margin-left: 24px; /* ml-6 */
+  margin-right: auto;
+  padding: 16px 20px 24px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-start; /* Clean left-aligned text & buttons */
   text-align: left;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .ph-hero__content {
+    max-width: 42rem; /* 672px / xl:max-w-2xl */
+    margin-left: 64px; /* lg:ml-16 */
+    margin-right: auto;
+    padding: 24px 28px 32px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .ph-hero__content {
+    margin-left: 96px; /* xl:ml-24 */
+    margin-right: auto;
+  }
 }
 
 .ph-hero__tagline-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
   padding: 7px 18px;
   background-color: #FDF3E3;
@@ -738,23 +808,24 @@ body:has(button:hover) .ph-cursor-follower {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border-radius: 9999px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
   box-shadow: 0 1px 4px rgba(230, 202, 101, 0.2);
 }
 
 .ph-hero__title {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 4.8vw, 4.25rem);
+  font-size: clamp(2.35rem, 4.5vw, 3.85rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.15;
   color: #1C1917;
   letter-spacing: -0.025em;
-  margin: 0 0 20px 0;
+  margin: 0 0 16px 0;
+  text-align: left;
 }
 
 .ph-hero__highlight,
 .ph-hero__title span {
-  color: var(--accent-gold);
+  color: #D97706;
   background: linear-gradient(135deg, #D97706 0%, #EA580C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -766,35 +837,109 @@ body:has(button:hover) .ph-cursor-follower {
   font-weight: 500;
   color: #4A3E39;
   line-height: 1.7;
-  max-width: 540px;
-  margin: 0 0 34px 0;
+  max-width: 38rem;
+  margin: 0 0 28px 0;
+  text-align: left;
 }
 
 .ph-hero__actions {
   display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 34px;
+  margin-top: 4px;
+  margin-bottom: 30px;
+}
+
+/* Floating Keyframe Animations for Hero Trust Badges */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes floatDelayed {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes floatSlowMobile {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes floatDelayedMobile {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
 /* Trust Indicators Row Beneath Buttons */
 .ph-hero__trust-row {
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 16px;
   flex-wrap: wrap;
+  padding-top: 6px;
 }
 
 .ph-hero__trust-badge {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #FFFFFF;
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 8px 16px;
-  box-shadow: 0 2px 10px rgba(78, 52, 23, 0.04);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(230, 202, 101, 0.35);
+  border-radius: 14px;
+  padding: 9px 18px;
+  box-shadow: 0 8px 20px -4px rgba(60, 40, 15, 0.08);
+  cursor: default;
+  will-change: transform;
+}
+
+/* Badge 1: 4.9/5 Rating */
+.hero-floating-badge-1,
+.badge-rating {
+  animation: floatSlow 4s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Badge 2: Fast Shipping (Offset timing) */
+.hero-floating-badge-2,
+.badge-shipping {
+  animation: floatDelayed 5s ease-in-out 1.2s infinite;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hover interaction */
+.hero-floating-badge-1:hover,
+.hero-floating-badge-2:hover,
+.badge-rating:hover,
+.badge-shipping:hover,
+.ph-hero__trust-badge:hover {
+  animation-play-state: paused;
+  transform: translateY(-10px) scale(1.03);
+  border-color: rgba(217, 119, 6, 0.5);
+  box-shadow: 0 14px 26px -4px rgba(78, 52, 23, 0.16);
 }
 
 .ph-hero__trust-icon {
@@ -805,6 +950,7 @@ body:has(button:hover) .ph-cursor-follower {
 .ph-hero__trust-text {
   display: flex;
   flex-direction: column;
+  text-align: left;
 }
 
 .ph-hero__trust-text strong {
@@ -819,53 +965,25 @@ body:has(button:hover) .ph-cursor-follower {
   color: #57534E;
 }
 
-/* Right Column: Dedicated Visual Showcase */
-.ph-hero__right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+@media (max-width: 640px) {
+  .hero-floating-badge-1,
+  .badge-rating {
+    animation: floatSlowMobile 4s ease-in-out infinite;
+  }
+  .hero-floating-badge-2,
+  .badge-shipping {
+    animation: floatDelayedMobile 5s ease-in-out 1.2s infinite;
+  }
 }
 
-.ph-hero__showcase-card {
-  position: relative;
-  width: 100%;
-  max-width: 520px;
-  aspect-ratio: 4 / 3.4;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 20px 45px rgba(78, 52, 23, 0.12);
-  border: 1px solid rgba(120, 53, 15, 0.12);
-  background: #FFFDF9;
-}
-
-.ph-hero__showcase-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.ph-hero__showcase-card:hover .ph-hero__showcase-img {
-  transform: scale(1.04);
-}
-
-.ph-hero__showcase-pill {
-  position: absolute;
-  bottom: 18px;
-  left: 18px;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 100px;
-  padding: 7px 14px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: #1C1917;
-  box-shadow: 0 4px 14px rgba(78, 52, 23, 0.08);
+@media (prefers-reduced-motion: reduce) {
+  .hero-floating-badge-1,
+  .hero-floating-badge-2,
+  .badge-rating,
+  .badge-shipping,
+  .ph-hero__trust-badge {
+    animation: none !important;
+  }
 }
 
 /* ============================================================
@@ -1106,11 +1224,13 @@ body:has(button:hover) .ph-cursor-follower {
   padding: var(--ph-section-pad) 0;
 }
 
+.story-image-container,
 .ph-story__visual {
   position: relative;
-  border-radius: var(--ph-radius-lg);
+  border-radius: var(--ph-radius-lg, 1rem);
   overflow: hidden;
   aspect-ratio: 4/5;
+  min-height: 480px;
   border: 1px solid var(--border-subtle);
   box-shadow: 0 10px 30px rgba(78, 52, 23, 0.08);
 }
@@ -1562,16 +1682,8 @@ body:has(button:hover) .ph-cursor-follower {
    ============================================================ */
 @media (max-width: 1024px) {
   .ph-hero {
-    padding-top: 116px;
-    padding-bottom: 60px;
-  }
-  .ph-hero__grid {
-    grid-template-columns: 1fr;
-    gap: 44px;
-  }
-  .ph-hero__showcase-card {
-    max-width: 100%;
-    aspect-ratio: 16 / 10;
+    padding-top: 124px;
+    padding-bottom: 64px;
   }
   .ph-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -1592,35 +1704,110 @@ body:has(button:hover) .ph-cursor-follower {
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 600px) {
-  :root { --ph-section-pad: 56px; }
+@media (max-width: 768px) {
   .ph-hero {
-    padding-top: 92px;
-    padding-bottom: 44px;
+    justify-content: center !important;
+    text-align: center !important;
+    background-position: center center !important;
+    padding-top: 116px;
+    padding-bottom: 56px;
+    min-height: 560px;
+  }
+  .ph-hero__scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(250, 246, 240, 0.88) 0%,
+      rgba(250, 246, 240, 0.94) 50%,
+      rgba(250, 246, 240, 0.98) 100%
+    ) !important;
+  }
+  .ph-hero__content {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    align-items: center !important;
+    text-align: center !important;
+    max-width: 100% !important;
+  }
+  .ph-hero__tagline-pill {
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   .ph-hero__title {
-    font-size: 2.25rem;
+    text-align: center !important;
+    font-size: 2.25rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .ph-hero__desc {
+    text-align: center !important;
+    font-size: 1rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 22px !important;
   }
   .ph-hero__actions {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: 12px;
+    justify-content: center !important;
+    width: 100% !important;
+    gap: 12px !important;
+    margin-bottom: 24px !important;
   }
   .ph-hero__actions .ph-btn {
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 140px;
     text-align: center;
     justify-content: center;
   }
   .ph-hero__trust-row {
-    flex-direction: column;
-    align-items: stretch;
+    justify-content: center !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  :root { --ph-section-pad: 56px; }
+  .ph-hero {
+    padding-top: 108px;
+    padding-bottom: 48px;
+    min-height: 540px;
+  }
+  .ph-hero__content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .ph-hero__title {
+    font-size: 2.15rem;
+  }
+  .ph-hero__desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .ph-hero__actions {
+    flex-direction: row;
+    justify-content: center;
     width: 100%;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .ph-hero__actions .ph-btn {
+    flex: 1 1 auto;
+    min-width: 140px;
+    padding: 12px 18px;
+    font-size: 0.9rem;
+    text-align: center;
+    justify-content: center;
+  }
+  .ph-hero__trust-row {
+    flex-direction: row;
+    justify-content: center;
     gap: 10px;
+    width: 100%;
   }
   .ph-hero__trust-badge {
-    width: 100%;
-    box-sizing: border-box;
+    padding: 6px 12px;
   }
   .ph-header__inner { height: 70px; gap: 16px; }
   .ph-logo { font-size: 1.375rem; }
@@ -1637,4 +1824,67 @@ body:has(button:hover) .ph-cursor-follower {
   .ph-trust__grid { flex-direction: column; }
   .ph-trust__item { border-right: none; border-bottom: 1px solid var(--border-subtle); }
   .ph-trust__item:last-child { border-bottom: none; }
+}
+
+/* ============================================================
+   SHOP FILTER CARDS & SIDEBAR WIDGET TYPOGRAPHY
+   ============================================================ */
+.ph-sidebar-widget,
+.filter-card {
+  background: var(--bg-surface, #FFFFFF) !important;
+  border: 1px solid var(--border-subtle, #EFE6D8) !important;
+}
+
+.ph-sidebar-widget h3,
+.filter-card h3 {
+  font-size: 0.8125rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1C1917 !important;
+  font-family: var(--font-body);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.filter-card a,
+.filter-card label,
+.filter-card li,
+.ph-sidebar-widget a,
+.ph-sidebar-widget label,
+.ph-sidebar-widget li,
+.widget_product_categories a,
+.widget_product_categories li {
+  color: #292524 !important; /* Deep warm charcoal / espresso */
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.filter-card a:hover,
+.ph-sidebar-widget a:hover,
+.widget_product_categories a:hover {
+  color: #D97706 !important; /* Golden amber accent on hover */
+}
+
+.filter-count,
+.ph-sidebar-widget .count,
+.widget_product_categories span.count {
+  color: #78716C !important; /* Warm stone gray */
+  background: #F5EFE6 !important;
+  font-size: 0.875rem !important;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* Page Hero Banner Overlay Treatment */
+.ph-page-hero--banner {
+  position: relative;
+  overflow: hidden;
+}
+
+.ph-page-hero--banner .ph-page-title {
+  color: #1C1917 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.85) !important;
 }

@@ -10,10 +10,10 @@ get_header();
 
 <div class="ph-page-wrap">
   <!-- Hero Section -->
-  <div class="ph-page-hero" style="background: linear-gradient(rgba(250, 246, 240, 0.88), rgba(250, 246, 240, 0.94)), url('<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg.jpg') center/cover; padding: 160px 0 100px;">
+  <div class="ph-page-hero ph-page-hero--banner" style="background: radial-gradient(ellipse at center, rgba(250, 246, 240, 0.60) 0%, rgba(250, 246, 240, 0.35) 60%, rgba(250, 246, 240, 0.15) 100%), url('<?php echo get_template_directory_uri(); ?>/assets/images/hero-bg.jpg') center/cover; padding: 160px 0 100px;">
     <div class="ph-container text-center">
-      <h1 class="ph-page-title" style="margin-bottom: 24px; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--text-primary); justify-content: center;"><?php the_title(); ?></h1>
-      <p style="color: var(--accent-gold); font-size: 1.125rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">We're Here for You</p>
+      <h1 class="ph-page-title" style="margin-bottom: 16px; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: #1C1917; justify-content: center; text-shadow: 0 1px 12px rgba(255, 255, 255, 0.85);"><?php the_title(); ?></h1>
+      <p style="color: #B45309; font-size: 1.125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">We're Here for You</p>
     </div>
   </div>
 

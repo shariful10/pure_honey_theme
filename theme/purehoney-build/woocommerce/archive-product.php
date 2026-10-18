@@ -22,7 +22,7 @@ get_header();
     <!-- Sidebar -->
     <aside class="ph-shop-sidebar">
       <!-- Categories -->
-      <div class="ph-sidebar-widget">
+      <div class="ph-sidebar-widget filter-card">
         <h3>Collections</h3>
         <?php
         $cats = get_terms(['taxonomy' => 'product_cat', 'hide_empty' => true, 'parent' => 0]);
@@ -30,13 +30,15 @@ get_header();
           $current_cat = get_queried_object();
         ?>
         <ul class="widget_product_categories">
-          <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-            <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" style="color:<?php echo (!is_product_category()) ? 'var(--ph-gold)' : 'rgba(255,255,255,0.65)'; ?>;font-size:0.9rem;">All Products</a>
+          <li style="padding:10px 0;border-bottom:1px solid var(--border-subtle, #EFE6D8);">
+            <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" style="color:<?php echo (!is_product_category()) ? '#D97706' : '#292524'; ?>;font-size:0.95rem;font-weight:<?php echo (!is_product_category()) ? '600' : '500'; ?>;transition:color 0.2s ease;">All Products</a>
           </li>
-          <?php foreach ($cats as $cat): ?>
-          <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;align-items:center;">
-            <a href="<?php echo esc_url(get_term_link($cat)); ?>" style="color:<?php echo (is_product_category() && $current_cat->term_id === $cat->term_id) ? 'var(--ph-gold)' : 'rgba(255,255,255,0.65)'; ?>;font-size:0.9rem;transition:color 0.2s;"><?php echo esc_html($cat->name); ?></a>
-            <span style="font-size:0.75rem;color:var(--ph-text-muted);background:rgba(255,255,255,0.05);padding:1px 7px;border-radius:20px;"><?php echo esc_html($cat->count); ?></span>
+          <?php foreach ($cats as $cat): 
+            $is_active = (is_product_category() && $current_cat && isset($current_cat->term_id) && $current_cat->term_id === $cat->term_id);
+          ?>
+          <li style="padding:10px 0;border-bottom:1px solid var(--border-subtle, #EFE6D8);display:flex;justify-content:space-between;align-items:center;">
+            <a href="<?php echo esc_url(get_term_link($cat)); ?>" style="color:<?php echo $is_active ? '#D97706' : '#292524'; ?>;font-size:0.95rem;font-weight:<?php echo $is_active ? '600' : '500'; ?>;transition:color 0.2s ease;"><?php echo esc_html($cat->name); ?></a>
+            <span class="filter-count" style="font-size:0.875rem;color:#78716C;background:#F5EFE6;padding:2px 8px;border-radius:20px;font-weight:500;"><?php echo esc_html($cat->count); ?></span>
           </li>
           <?php endforeach; ?>
         </ul>
@@ -44,13 +46,13 @@ get_header();
       </div>
 
       <!-- Price filter -->
-      <div class="ph-sidebar-widget">
+      <div class="ph-sidebar-widget filter-card">
         <h3>Price Range</h3>
         <?php the_widget('WC_Widget_Price_Filter'); ?>
       </div>
 
       <!-- Sort -->
-      <div class="ph-sidebar-widget">
+      <div class="ph-sidebar-widget filter-card">
         <h3>Sort By</h3>
         <div style="display:flex;flex-direction:column;gap:6px;">
           <?php
@@ -64,11 +66,12 @@ get_header();
           ];
           $current_orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : '';
           foreach ($sort_options as $val => $label):
+            $is_current = ($current_orderby === $val);
             $url = add_query_arg('orderby', $val);
           ?>
-          <a href="<?php echo esc_url($url); ?>" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:6px;font-size:0.875rem;color:<?php echo $current_orderby === $val ? 'var(--ph-gold)' : 'rgba(255,255,255,0.55)'; ?>;background:<?php echo $current_orderby === $val ? 'rgba(212,175,55,0.1)' : 'transparent'; ?>;transition:all 0.2s;">
-            <?php if ($current_orderby === $val): ?>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--ph-gold)"><path d="M20 6 9 17l-5-5"/></svg>
+          <a href="<?php echo esc_url($url); ?>" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:6px;font-size:0.95rem;font-weight:<?php echo $is_current ? '600' : '500'; ?>;color:<?php echo $is_current ? '#D97706' : '#292524'; ?>;background:<?php echo $is_current ? '#FDF3E3' : 'transparent'; ?>;transition:all 0.2s ease;">
+            <?php if ($is_current): ?>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#D97706"><path d="M20 6 9 17l-5-5"/></svg>
             <?php else: ?>
             <span style="width:14px;"></span>
             <?php endif; ?>

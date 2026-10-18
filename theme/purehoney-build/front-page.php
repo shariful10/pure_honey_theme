@@ -13,68 +13,55 @@ $about_url    = home_url('/about-us');
 $dir          = get_template_directory_uri();
 ?>
 
-<!-- ══ HERO: 2-COLUMN SPLIT LAYOUT ══ -->
-<section class="ph-hero" id="home-hero">
-  <div class="ph-container">
-    <div class="ph-hero__grid">
+<!-- ══ HERO: LEFT-ALIGNED EDITORIAL BANNER ══ -->
+<section class="ph-hero relative w-full min-h-[620px] lg:min-h-[720px] flex items-center justify-start text-left bg-cover bg-right overflow-hidden" 
+         id="home-hero"
+         style="background-image: url('<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/hero-banner.jpg' ); ?>');">
+  <!-- Directional Gradient Overlay (Warm ivory reading canvas on left, clear on right for glowing glassware) -->
+  <div class="ph-hero__scrim absolute inset-0 pointer-events-none" 
+       style="background: linear-gradient(to right, rgba(250, 246, 240, 0.98) 0%, rgba(250, 246, 240, 0.92) 25%, rgba(250, 246, 240, 0.55) 55%, rgba(250, 246, 240, 0.15) 100%);"></div>
 
-      <!-- Left Column: Copy, Actions & Trust -->
-      <div class="ph-hero__left" data-ph-animate>
-        <div class="ph-hero__tagline-pill">
-          <span>✨</span> NATURE'S GOLD, ELEGANTLY DISPENSED
-        </div>
+  <!-- Left-Aligned Content Wrapper -->
+  <div class="ph-hero__content relative z-10 w-full max-w-xl xl:max-w-2xl ml-6 lg:ml-16 xl:ml-24 mr-auto px-4 sm:px-6 py-12 lg:py-16 flex flex-col items-start text-left" data-ph-animate>
+    <!-- Tagline Pill -->
+    <div class="ph-hero__tagline-pill">
+      <span>✨</span> NATURE'S GOLD, ELEGANTLY DISPENSED
+    </div>
 
-        <h1 class="ph-hero__title">
-          Where <span class="ph-hero__highlight">Honey Meets</span><br>Artisan Elegance
-        </h1>
+    <!-- Headline -->
+    <h1 class="ph-hero__title text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1C1917]">
+      Where <span class="ph-hero__highlight text-[#D97706]">Honey Meets</span><br>Artisan Elegance
+    </h1>
 
-        <p class="ph-hero__desc">
-          Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials — for those who believe every moment deserves beauty.
-        </p>
+    <!-- Description -->
+    <p class="ph-hero__desc max-w-xl text-[#4A3E39] text-lg font-medium leading-relaxed my-4">
+      Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials — for those who believe every moment deserves beauty.
+    </p>
 
-        <div class="ph-hero__actions">
-          <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn ph-btn--primary ph-btn--lg">
-            Shop the Collection
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-          <a href="<?php echo esc_url($about_url); ?>" class="ph-btn ph-btn--secondary ph-btn--lg">Our Story</a>
-        </div>
+    <!-- Action Buttons -->
+    <div class="ph-hero__actions flex flex-row items-center gap-4 mt-2 mb-8">
+      <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn ph-btn--primary ph-btn--lg">
+        Shop the Collection →
+      </a>
+      <a href="<?php echo esc_url($about_url); ?>" class="ph-btn ph-btn--secondary ph-btn--lg">Our Story</a>
+    </div>
 
-        <!-- Trust Indicators in a compact row beneath the buttons -->
-        <div class="ph-hero__trust-row">
-          <div class="ph-hero__trust-badge">
-            <span class="ph-hero__trust-icon">⭐</span>
-            <div class="ph-hero__trust-text">
-              <strong>4.9/5 Rating</strong>
-              <small>2,000+ Reviews</small>
-            </div>
-          </div>
-          <div class="ph-hero__trust-badge">
-            <span class="ph-hero__trust-icon">🚀</span>
-            <div class="ph-hero__trust-text">
-              <strong>Fast Shipping</strong>
-              <small>2–4 Business Days</small>
-            </div>
-          </div>
+    <!-- Trust Badges Row -->
+    <div class="ph-hero__trust-row">
+      <div class="ph-hero__trust-badge hero-floating-badge-1 badge-rating">
+        <span class="ph-hero__trust-icon">⭐</span>
+        <div class="ph-hero__trust-text">
+          <strong>4.9/5 Rating</strong>
+          <small>2,000+ Reviews</small>
         </div>
       </div>
-
-      <!-- Right Column: Visual Product Showcase -->
-      <div class="ph-hero__right" data-ph-animate>
-        <div class="ph-hero__showcase-card">
-          <img 
-            src="<?php echo esc_url($dir . '/assets/images/hero-bg.jpg'); ?>" 
-            alt="Handcrafted artisan honey dispensers, raw wildflower jars, and wooden dippers" 
-            class="ph-hero__showcase-img"
-            loading="eager"
-            fetchpriority="high"
-          >
-          <div class="ph-hero__showcase-pill">
-            <span>🌿 100% Raw &amp; Cold Extracted</span>
-          </div>
+      <div class="ph-hero__trust-badge hero-floating-badge-2 badge-shipping">
+        <span class="ph-hero__trust-icon">🚀</span>
+        <div class="ph-hero__trust-text">
+          <strong>Fast Shipping</strong>
+          <small>2–4 Business Days</small>
         </div>
       </div>
-
     </div>
   </div>
 </section>

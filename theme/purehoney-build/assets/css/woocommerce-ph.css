@@ -1447,23 +1447,58 @@
   outline: none !important;
 }
 
-.ph-sidebar-widget {
-  background: var(--bg-surface, #FFFFFF);
-  border: 1px solid var(--border-subtle, #EFE6D8);
+.ph-sidebar-widget,
+.filter-card {
+  background: var(--bg-surface, #FFFFFF) !important;
+  border: 1px solid var(--border-subtle, #EFE6D8) !important;
   border-radius: var(--ph-radius);
   padding: 22px;
   margin-bottom: 0;
   box-shadow: 0 4px 16px rgba(78, 52, 23, 0.04);
 }
 
-.ph-sidebar-widget h3 {
+.ph-sidebar-widget h3,
+.filter-card h3 {
   font-size: 0.8125rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--text-primary, #1C1917);
+  color: #1C1917 !important;
   font-family: var(--font-body);
   font-weight: 700;
   margin-bottom: 16px;
+}
+
+/* Typography in Filter Cards */
+.filter-card a,
+.filter-card label,
+.filter-card li,
+.ph-sidebar-widget a,
+.ph-sidebar-widget label,
+.ph-sidebar-widget li,
+.widget_product_categories a,
+.widget_product_categories li {
+  color: #292524 !important; /* Deep warm charcoal / espresso */
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.filter-card a:hover,
+.ph-sidebar-widget a:hover,
+.widget_product_categories a:hover {
+  color: #D97706 !important; /* Golden amber accent on hover */
+}
+
+/* Category Count Badges */
+.filter-count,
+.ph-sidebar-widget .count,
+.widget_product_categories span.count {
+  color: #78716C !important; /* Warm stone gray */
+  background: #F5EFE6 !important;
+  font-size: 0.875rem !important;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
 }
 
 /* ══════════════════════════════════════

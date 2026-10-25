@@ -1,7 +1,7 @@
 <?php
 /**
  * The template for displaying product content within loops
- * PureHoney Theme Override
+ * PureHoney Avoraix-Style High-Converting Product Card
  */
 
 defined('ABSPATH') || exit;
@@ -16,55 +16,120 @@ if (empty($product) && function_exists('wc_get_product')) {
 if (!empty($product) && !$product->is_visible()) {
     return;
 }
+
+// Calculate savings and badges
+$is_on_sale = false;
+$save_badge = '';
+$regular_price_val = 0;
+$sale_price_val = 0;
+
+if ($product) {
+    $is_on_sale = $product->is_on_sale();
+    if ($is_on_sale) {
+        $regular_price_val = (float) $product->get_regular_price();
+        $sale_price_val = (float) $product->get_sale_price();
+        if ($regular_price_val > $sale_price_val) {
+            $save_diff = $regular_price_val - $sale_price_val;
+            $save_badge = 'Save $' . number_format($save_diff, 2);
+        }
+    }
+}
+
+// Category extraction
+$cat_name = 'HONEY ESSENTIAL';
+if ($product) {
+    $terms = get_the_terms($product->get_id(), 'product_cat');
+    if ($terms && !is_wp_error($terms)) {
+        $cat_name = $terms[0]->name;
+    }
+}
 ?>
-<li <?php if (function_exists('wc_product_class')) { wc_product_class('', $product); } else { post_class('product'); } ?>>
-    <a href="<?php the_permalink(); ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
-        <?php
-        if (function_exists('woocommerce_show_product_loop_sale_flash')) {
-            woocommerce_show_product_loop_sale_flash();
-        }
-        if (function_exists('woocommerce_template_loop_product_thumbnail')) {
-            woocommerce_template_loop_product_thumbnail();
-        } elseif (has_post_thumbnail()) {
-            the_post_thumbnail('woocommerce_thumbnail');
-        } else {
-            echo '<img src="' . esc_url(get_template_directory_uri() . '/assets/images/cat-dispensers.jpg') . '" alt="' . esc_attr(get_the_title()) . '">';
-        }
-        ?>
-    </a>
+<li <?php if (function_exists('wc_product_class')) { wc_product_class('ph-product-card', $product); } else { post_class('ph-product-card product'); } ?>>
+    <div class="ph-card-inner">
+        <!-- Thumbnail Wrap with Badges -->
+        <div class="ph-card-media">
+            <!-- Badges: Red/Orange Sale! + Save Amount -->
+            <div class="ph-card-badges">
+                <?php if ($is_on_sale): ?>
+                    <span class="ph-badge-sale">Sale!</span>
+                    <?php if ($save_badge): ?>
+                        <span class="ph-badge-save"><?php echo esc_html($save_badge); ?></span>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <span class="ph-badge-save ph-badge-save--natural">100% Pure</span>
+                <?php endif; ?>
+            </div>
 
-    <div class="product-info" style="padding: 12px 4px 8px; text-align: left;">
-        <h3 class="product-title" style="font-family: serif; font-size: 1.125rem; font-weight: 600; color: #1C1917; margin: 0 0 6px;">
-            <a href="<?php the_permalink(); ?>" style="color: inherit; text-decoration: none;">
-                <?php the_title(); ?>
-            </a>
-        </h3>
-
-        <div class="product-price" style="font-size: 1rem; font-weight: 700; color: #D97706;">
-            <?php 
-            if ( class_exists( 'WooCommerce' ) ) {
-                global $product;
-                if ( ! empty( $product ) ) {
-                    echo $product->get_price_html();
+            <a href="<?php the_permalink(); ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link ph-card-img-link">
+                <?php
+                if (function_exists('woocommerce_template_loop_product_thumbnail')) {
+                    woocommerce_template_loop_product_thumbnail();
+                } elseif (has_post_thumbnail()) {
+                    the_post_thumbnail('woocommerce_thumbnail');
+                } else {
+                    echo '<img src="' . esc_url(get_template_directory_uri() . '/assets/images/cat-dispensers.jpg') . '" alt="' . esc_attr(get_the_title()) . '" loading="lazy">';
                 }
-            } else {
-                // Fallback for custom post meta / custom fields
-                $price = get_post_meta( get_the_ID(), '_product_price', true ) ?: get_post_meta( get_the_ID(), 'price', true );
-                echo esc_html( $price ? '$' . number_format((float)$price, 2) : '' );
-            }
-            ?>
-        </div>
-    </div>
+                ?>
+            </a>
 
-    <div class="product-actions">
-        <?php
-        if (function_exists('woocommerce_template_loop_add_to_cart')) {
-            woocommerce_template_loop_add_to_cart();
-        } else {
-            ?>
-            <a href="<?php the_permalink(); ?>" class="button product_type_simple add_to_cart_button">Add to cart</a>
-            <?php
-        }
-        ?>
+            <!-- Quick Add to Cart overlay button -->
+            <div class="ph-card-quick-add">
+                <?php
+                if (function_exists('woocommerce_template_loop_add_to_cart')) {
+                    woocommerce_template_loop_add_to_cart();
+                } else {
+                    echo '<a href="' . esc_url(get_permalink()) . '" class="button add_to_cart_button">Add to Cart</a>';
+                }
+                ?>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="ph-card-content">
+            <!-- Category label in uppercase stone -->
+            <div class="ph-card-category"><?php echo esc_html(strtoupper($cat_name)); ?></div>
+
+            <!-- Product Title with 2-line clamp -->
+            <h3 class="ph-card-title">
+                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+            </h3>
+
+            <!-- Rating Stars -->
+            <div class="ph-card-rating">
+                <div class="ph-stars" aria-label="5 out of 5 stars">
+                    ★★★★★
+                </div>
+                <span class="ph-rating-count">(4.9)</span>
+            </div>
+
+            <!-- Pricing: Strikethrough + bold red/amber sale price -->
+            <div class="ph-card-price">
+                <?php 
+                if (class_exists('WooCommerce') && !empty($product)) {
+                    echo $product->get_price_html();
+                } else {
+                    $price = get_post_meta(get_the_ID(), '_product_price', true) ?: get_post_meta(get_the_ID(), 'price', true);
+                    echo esc_html($price ? '$' . number_format((float)$price, 2) : '$34.99');
+                }
+                ?>
+            </div>
+
+            <!-- Stock status indicator with green dot -->
+            <div class="ph-card-stock">
+                <span class="ph-dot-stock"></span>
+                <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+            </div>
+
+            <!-- Bottom Button -->
+            <div class="ph-card-btn-wrap">
+                <?php
+                if (function_exists('woocommerce_template_loop_add_to_cart')) {
+                    woocommerce_template_loop_add_to_cart();
+                } else {
+                    echo '<a href="' . esc_url(get_permalink()) . '" class="ph-btn-card-add">Add to Cart →</a>';
+                }
+                ?>
+            </div>
+        </div>
     </div>
 </li>

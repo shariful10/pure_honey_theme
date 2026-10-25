@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" fill="none">
+  <rect width="600" height="600" fill="#1a1208"/>
+  <!-- Honeycomb pattern -->
+  <path d="M150 180 L180 165 L210 180 L210 210 L180 225 L150 210 Z" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="1.5"/>
+  <path d="M210 180 L240 165 L270 180 L270 210 L240 225 L210 210 Z" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="1.5"/>
+  <path d="M270 180 L300 165 L330 180 L330 210 L300 225 L270 210 Z" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="1.5"/>
+  <path d="M330 180 L360 165 L390 180 L390 210 L360 225 L330 210 Z" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="1.5"/>
+  <path d="M390 180 L420 165 L450 180 L450 210 L420 225 L390 210 Z" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="1.5"/>
+  <path d="M180 210 L210 225 L210 255 L180 270 L150 255 L150 225 Z" fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="1.5"/>
+  <path d="M240 210 L270 225 L270 255 L240 270 L210 255 L210 225 Z" fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="1.5"/>
+  <path d="M300 210 L330 225 L330 255 L300 270 L270 255 L270 225 Z" fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="1.5"/>
+  <path d="M360 210 L390 225 L390 255 L360 270 L330 255 L330 225 Z" fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="1.5"/>
+  <path d="M420 210 L450 225 L450 255 L420 270 L390 255 L390 225 Z" fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="1.5"/>
+  <!-- Jar icon -->
+  <rect x="225" y="220" width="150" height="200" rx="16" fill="rgba(212,175,55,0.06)" stroke="rgba(212,175,55,0.25)" stroke-width="1.5"/>
+  <rect x="218" y="198" width="164" height="30" rx="8" fill="rgba(212,175,55,0.1)" stroke="rgba(212,175,55,0.3)" stroke-width="1.5"/>
+  <!-- Honey fill -->
+  <rect x="228" y="285" width="144" height="130" rx="10" fill="rgba(212,175,55,0.08)"/>
+  <!-- Dipper -->
+  <line x1="310" y1="200" x2="310" y2="180" stroke="rgba(212,175,55,0.3)" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="310" cy="178" rx="10" ry="5" fill="rgba(212,175,55,0.25)"/>
+  <!-- Label text -->
+  <text x="300" y="270" font-family="Georgia, serif" font-size="18" fill="rgba(212,175,55,0.4)" text-anchor="middle" font-style="italic">Pure</text>
+  <text x="300" y="292" font-family="Georgia, serif" font-size="18" fill="rgba(212,175,55,0.4)" text-anchor="middle" font-style="italic">Honey</text>
+  <!-- Bottom text -->
+  <text x="300" y="460" font-family="-apple-system, sans-serif" font-size="13" fill="rgba(255,255,255,0.2)" text-anchor="middle">Product image coming soon</text>
+</svg>

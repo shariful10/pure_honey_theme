@@ -21,7 +21,7 @@ $theme_uri = get_template_directory_uri();
 
 // 1. Resolve Primary Image
 $primary_url = '';
-$ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '3.3.6';
+$ver = defined('PUREHONEY_VERSION') ? PUREHONEY_VERSION : '3.4.0';
 if ($sku && file_exists($theme_dir . '/assets/images/products/' . $sku . '.jpg')) {
     $primary_url = $theme_uri . '/assets/images/products/' . $sku . '.jpg?v=' . $ver;
 } elseif ($slug && file_exists($theme_dir . '/assets/images/products/' . $slug . '.jpg')) {

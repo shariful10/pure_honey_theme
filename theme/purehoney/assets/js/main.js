@@ -8,75 +8,35 @@
   /* ─────────────────────────────────────────
    * 1. CUSTOM CURSOR
    * ───────────────────────────────────────── */
-  function initCursor() {
-    const cursor   = document.createElement('div');
-    const follower = document.createElement('div');
-    cursor.className   = 'ph-cursor';
-    follower.className = 'ph-cursor-follower';
-    document.body.appendChild(cursor);
-    document.body.appendChild(follower);
+  function initProductTabs() {
+    const tabBtns = document.querySelectorAll('.ph-tab-btn');
+    if (!tabBtns.length) return;
 
-    let mouseX = 0, mouseY = 0;
-    let followerX = 0, followerY = 0;
-    let raf;
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetTab = btn.getAttribute('data-tab');
+        const targetPanelId = 'tab-' + targetTab;
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.left = mouseX + 'px';
-      cursor.style.top  = mouseY + 'px';
-    });
+        // Toggle button states
+        tabBtns.forEach(b => {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected', 'true');
 
-    // Smooth follower
-    function animateFollower() {
-      followerX += (mouseX - followerX) * 0.1;
-      followerY += (mouseY - followerY) * 0.1;
-      follower.style.left = followerX + 'px';
-      follower.style.top  = followerY + 'px';
-      raf = requestAnimationFrame(animateFollower);
-    }
-    animateFollower();
-
-    // Hover states — scale up follower on interactive elements
-    const interactiveSelectors = 'a, button, [role="button"], input, textarea, select, label, .ph-btn, .woocommerce ul.products li.product';
-
-    document.querySelectorAll(interactiveSelectors).forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform   = 'translate(-50%,-50%) scale(0.6)';
-        follower.style.transform = 'translate(-50%,-50%) scale(1.5)';
-        follower.style.borderColor = 'rgba(212,175,55,0.7)';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform   = 'translate(-50%,-50%) scale(1)';
-        follower.style.transform = 'translate(-50%,-50%) scale(1)';
-        follower.style.borderColor = 'rgba(212,175,55,0.5)';
+        // Toggle panel states
+        document.querySelectorAll('.ph-tab-panel').forEach(panel => {
+          if (panel.id === targetPanelId) {
+            panel.classList.add('is-active');
+            panel.style.display = 'block';
+          } else {
+            panel.classList.remove('is-active');
+            panel.style.display = 'none';
+          }
+        });
       });
     });
-
-    // Hide when leaving window
-    document.addEventListener('mouseleave', () => {
-      cursor.style.opacity   = '0';
-      follower.style.opacity = '0';
-    });
-    document.addEventListener('mouseenter', () => {
-      cursor.style.opacity   = '1';
-      follower.style.opacity = '1';
-    });
-
-    // Click effect
-    document.addEventListener('mousedown', () => {
-      cursor.style.transform = 'translate(-50%,-50%) scale(0.7)';
-    });
-    document.addEventListener('mouseup', () => {
-      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-    });
-
-    // Disable on touch devices
-    if ('ontouchstart' in window) {
-      cursor.style.display   = 'none';
-      follower.style.display = 'none';
-      document.body.style.cursor = 'auto';
-    }
   }
 
   /* ─────────────────────────────────────────
@@ -96,6 +56,7 @@
       if (loader.classList.contains('is-hiding') || loader.classList.contains('is-hidden')) return;
       loader.classList.add('is-hiding');
       document.body.classList.add('ph-loaded');
+      document.body.classList.remove('no-scroll');
       setTimeout(function () {
         loader.classList.add('is-hidden');
       }, 600); // slightly longer than the 0.55s CSS transition
@@ -120,36 +81,42 @@
   /* ─────────────────────────────────────────
    * 3. LENIS SMOOTH SCROLL
    * ───────────────────────────────────────── */
-  let lenis;
+  let lenis = window.lenis || null;
 
   function initLenis() {
-    if (typeof Lenis === 'undefined') return;
+    if (window.lenis) {
+      lenis = window.lenis;
+    } else if (typeof Lenis !== 'undefined') {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        touchMultiplier: 1.5,
+      });
 
-    lenis = new Lenis({
-      duration: 1.4,
-      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
       requestAnimationFrame(raf);
+      window.lenis = lenis;
     }
-    requestAnimationFrame(raf);
 
     window.purehoneyLenis = lenis;
 
-    // Smooth anchor links
+    // Smooth anchor links with 80px sticky header offset
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
+        const href = a.getAttribute('href');
+        if (!href || href === '#' || href === '#!') return;
+        const target = document.querySelector(href);
         if (target) {
           e.preventDefault();
-          lenis.scrollTo(target, { offset: -100, duration: 1.5 });
+          if (lenis && typeof lenis.scrollTo === 'function') {
+            lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+          } else {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       });
     });
@@ -237,8 +204,18 @@
     const overlay = document.getElementById('ph-mobile-overlay');
     const close   = document.getElementById('ph-mobile-close');
 
-    function open()  { document.body.classList.add('menu-open'); }
-    function closeMenu() { document.body.classList.remove('menu-open'); }
+    function open()  {
+      document.body.classList.add('menu-open');
+      if (window.lenis && typeof window.lenis.stop === 'function') {
+        window.lenis.stop();
+      }
+    }
+    function closeMenu() {
+      document.body.classList.remove('menu-open');
+      if (window.lenis && typeof window.lenis.start === 'function') {
+        window.lenis.start();
+      }
+    }
 
     toggle  && toggle.addEventListener('click', open);
     overlay && overlay.addEventListener('click', closeMenu);
@@ -270,14 +247,20 @@
     function openSearch() {
       overlay.classList.add('is-open');
       overlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('no-scroll');
       setTimeout(() => input && input.focus(), 200);
-      if (lenis) lenis.stop();
+      if (window.lenis && typeof window.lenis.stop === 'function') {
+        window.lenis.stop();
+      }
     }
 
     function closeSearch() {
       overlay.classList.remove('is-open');
       overlay.setAttribute('aria-hidden', 'true');
-      if (lenis) lenis.start();
+      document.body.classList.remove('no-scroll');
+      if (window.lenis && typeof window.lenis.start === 'function') {
+        window.lenis.start();
+      }
     }
 
     toggles.forEach(t => t.addEventListener('click', e => { e.preventDefault(); openSearch(); }));
@@ -666,7 +649,7 @@
    * INIT
    * ───────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', () => {
-    initCursor();
+    initProductTabs();
     initLoader();
     initLenis();
 

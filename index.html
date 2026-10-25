@@ -3,1308 +3,1163 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PureHoney – Bright Organic Honey Theme Preview</title>
+  <title>PureHoney – Nature's Sweetness Delivered to Your Home</title>
+  <meta name="description" content="Discover artisanal raw wildflower honey, precision no-drip glass dispensers, and handcrafted gift hampers. Harvested ethically from master beekeepers.">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main Theme Stylesheet -->
   <link rel="stylesheet" href="theme/purehoney/style.css">
-  <link rel="stylesheet" href="theme/purehoney/assets/css/woocommerce-ph.css">
+
   <style>
-    /* Global Bright Theme Tokens */
-    :root {
-      --bg-primary: #FAF6F0;
-      --bg-surface: #FFFFFF;
-      --bg-cream: #FAF5EE;
-      --bg-card-tint: #F5EFE6;
-      --border-subtle: #EFE6D8;
-      --border-card: #EAE2D5;
-      --text-primary: #1C1917;
-      --text-secondary: #57534E;
-      --text-muted: #78716C;
-      --accent-gold: #D97706;
-      --accent-hover: #B45309;
-      --accent-light: #FEF3C7;
-      --card-shadow: 0 4px 20px rgba(78, 52, 23, 0.05);
-      --card-shadow-hover: 0 12px 32px rgba(78, 52, 23, 0.09);
-      --font-heading: 'Playfair Display', Georgia, serif;
-      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      line-height: 1.6;
-    }
-
-    /* Announcement Top Bar */
-    .ph-topbar {
-      background: #F5EFE6;
-      color: #57534E;
-      font-size: 0.8125rem;
-      padding: 8px 16px;
-      text-align: center;
-      border-bottom: 1px solid var(--border-subtle);
-      font-weight: 500;
-      letter-spacing: 0.02em;
-    }
-    .ph-topbar span {
-      color: var(--accent-gold);
-      font-weight: 600;
-    }
-
-    /* Site Header */
-    .ph-preview-header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: #FAF6F0;
-      border-bottom: 1px solid var(--border-card);
-      padding: 16px 24px;
-      box-shadow: 0 2px 10px rgba(78, 52, 23, 0.04);
-      transition: background 0.2s ease;
-    }
-    .ph-nav-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .ph-brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--text-primary);
-    }
-    .ph-logo-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--accent-gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* In-page active states & interaction polish */
+    .ph-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1E1E1E;
       color: #FFFFFF;
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-    .ph-brand-text {
-      font-family: var(--font-heading);
-      font-size: 1.45rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      color: var(--text-primary);
-    }
-    .ph-brand-text span {
-      color: var(--accent-gold);
-    }
-    .ph-nav-menu {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .ph-nav-menu a {
-      text-decoration: none;
-      color: #292524;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
-      position: relative;
-    }
-    .ph-nav-menu a:hover,
-    .ph-nav-menu a.active {
-      color: var(--accent-gold);
-    }
-    .ph-header-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .ph-header-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 18px;
-      border-radius: 999px;
-      background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 600;
-      box-shadow: 0 2px 6px rgba(78, 52, 23, 0.04);
-      transition: all 0.2s ease;
-    }
-    .ph-header-btn:hover {
-      border-color: var(--accent-gold);
-      color: var(--accent-gold);
-      transform: translateY(-1px);
-    }
-    .ph-cart-badge {
-      background: var(--accent-gold);
-      color: #FFFFFF;
-      font-size: 0.75rem;
-      padding: 2px 6px;
-      border-radius: 999px;
-      font-weight: 700;
-    }
-
-    /* Hero Section — Right-Aligned Editorial Layout with Directional Gradient */
-    .ph-hero {
-      position: relative;
-      width: 100%;
-      min-height: 620px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      text-align: left;
-      background-size: cover;
-      background-position: left center;
-      background-repeat: no-repeat;
-      padding: 100px 24px 70px;
-      border-bottom: 1px solid var(--border-subtle);
-      overflow: hidden;
-      box-sizing: border-box;
-    }
-    @media (min-width: 1024px) {
-      .ph-hero {
-        min-height: 720px;
-        padding: 120px 24px 80px;
-      }
-    }
-    .ph-hero__scrim {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to right,
-        rgba(250, 246, 240, 0.15) 0%,
-        rgba(250, 246, 240, 0.55) 45%,
-        rgba(250, 246, 240, 0.92) 75%,
-        rgba(250, 246, 240, 0.98) 100%
-      );
-      pointer-events: none;
-      z-index: 1;
-    }
-    .ph-hero__content {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 38rem;
-      margin-left: auto;
-      margin-right: 24px;
-      padding: 16px 20px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      text-align: left;
-      box-sizing: border-box;
-    }
-    @media (min-width: 1024px) {
-      .ph-hero__content {
-        max-width: 42rem;
-        margin-right: 64px;
-        padding: 24px 28px 32px;
-      }
-    }
-    @media (min-width: 1440px) {
-      .ph-hero__content {
-        margin-right: 96px;
-      }
-    }
-    .ph-hero__tagline-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 8px;
-      padding: 7px 18px;
-      background-color: #FDF3E3;
-      border: 1px solid #E6CA65;
-      color: #92400E;
-      font-size: 0.8125rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      padding: 12px 24px;
       border-radius: 9999px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 4px rgba(230, 202, 101, 0.2);
-    }
-    .ph-hero-title, .ph-hero__title {
-      font-family: var(--font-heading);
-      font-size: clamp(2.35rem, 4.5vw, 3.85rem);
-      line-height: 1.15;
-      font-weight: 800;
-      color: #1C1917;
-      margin: 0 0 16px 0;
-      letter-spacing: -0.025em;
-      text-align: left;
-    }
-    .ph-hero-title em, .ph-hero__highlight, .ph-hero__title span {
-      font-style: normal;
-      color: #D97706;
-      background: linear-gradient(135deg, #D97706 0%, #EA580C 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 800;
-    }
-    .ph-hero-desc, .ph-hero__desc {
-      font-size: 1.125rem;
-      color: #4A3E39;
-      font-weight: 500;
-      max-width: 38rem;
-      margin: 0 0 28px 0;
-      line-height: 1.7;
-      text-align: left;
-    }
-    .ph-hero-cta, .ph-hero__actions {
+      font-size: 0.875rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 4px;
-      margin-bottom: 30px;
-    }
-    .ph-hero__trust-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .ph-hero__trust-badge {
-      display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 8px 16px;
-      box-shadow: 0 2px 10px rgba(78, 52, 23, 0.04);
     }
-    .ph-hero__trust-icon {
-      font-size: 1.15rem;
-      line-height: 1;
+    .ph-toast.is-show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
-    .ph-hero__trust-text {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-    }
-    .ph-hero__trust-text strong {
-      font-size: 0.8125rem;
-      font-weight: 700;
-      color: #1C1917;
-      line-height: 1.25;
-    }
-    .ph-hero__trust-text small {
-      font-size: 0.725rem;
-      color: #57534E;
-    }
-    @media (max-width: 768px) {
-      .ph-hero {
-        justify-content: center !important;
-        text-align: center !important;
-        background-position: center center !important;
-        padding: 90px 20px 50px;
-        min-height: 560px;
-      }
-      .ph-hero__scrim {
-        background: linear-gradient(
-          180deg,
-          rgba(250, 246, 240, 0.88) 0%,
-          rgba(250, 246, 240, 0.94) 50%,
-          rgba(250, 246, 240, 0.98) 100%
-        ) !important;
-      }
-      .ph-hero__content {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        padding: 16px 12px !important;
-        align-items: center !important;
-        text-align: center !important;
-        max-width: 100% !important;
-      }
-      .ph-hero__tagline-pill {
-        margin-left: auto !important;
-        margin-right: auto !important;
-      }
-      .ph-hero-title, .ph-hero__title {
-        text-align: center !important;
-        font-size: 2.25rem !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-      }
-      .ph-hero-desc, .ph-hero__desc {
-        text-align: center !important;
-        font-size: 1rem !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        margin-bottom: 22px !important;
-      }
-      .ph-hero-cta, .ph-hero__actions {
-        justify-content: center !important;
-        width: 100% !important;
-        gap: 12px !important;
-        margin-bottom: 24px !important;
-      }
-      .ph-hero-cta .ph-btn-primary,
-      .ph-hero-cta .ph-btn-secondary,
-      .ph-hero__actions .ph-btn {
-        flex: 1 1 auto;
-        min-width: 140px;
-        text-align: center;
-        justify-content: center;
-      }
-      .ph-hero__trust-row {
-        justify-content: center !important;
-        width: 100% !important;
-        gap: 12px !important;
-      }
-    }
-      .ph-hero-cta .ph-btn-primary,
-      .ph-hero-cta .ph-btn-secondary,
-      .ph-hero__actions .ph-btn {
-        flex: 1 1 auto;
-        min-width: 140px;
-        padding: 12px 18px;
-        font-size: 0.9rem;
-        text-align: center;
-        justify-content: center;
-      }
-      .ph-hero__trust-row {
-        flex-direction: row;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-      }
-      .ph-hero__trust-badge {
-        padding: 6px 12px;
-      }
-    }
-    .ph-btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 28px;
-      background: var(--accent-gold);
-      color: #FFFFFF !important;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border-radius: 8px;
-      text-decoration: none;
-      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.28);
-      transition: all 0.2s ease;
-      border: 1px solid transparent;
-    }
-    .ph-btn-primary:hover {
-      background: var(--accent-hover);
-      box-shadow: 0 6px 18px rgba(180, 83, 9, 0.35);
-      transform: translateY(-2px);
-    }
-    .ph-btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 28px;
-      background: #FFFFFF;
-      color: var(--text-primary) !important;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border-radius: 8px;
-      text-decoration: none;
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 2px 8px rgba(78, 52, 23, 0.04);
-      transition: all 0.2s ease;
-    }
-    .ph-btn-secondary:hover {
-      border-color: var(--accent-gold);
-      color: var(--accent-gold) !important;
-      transform: translateY(-2px);
-    }
-
-    /* Trust Value Bar */
-    .ph-trust-section {
-      background: #FFFFFF;
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 28px 24px;
-    }
-    .ph-trust-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-    }
-    .ph-trust-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .ph-trust-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--bg-card-tint);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent-gold);
-      font-size: 1.25rem;
-      flex-shrink: 0;
-    }
-    .ph-trust-text h4 {
-      margin: 0;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .ph-trust-text p {
-      margin: 2px 0 0;
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-    }
-
-    /* Main Container & Section Spacing */
-    .ph-section {
-      padding: 72px 24px;
-    }
-    .ph-section--cream {
-      background-color: var(--bg-cream);
-      border-top: 1px solid var(--border-subtle);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-    .ph-section-header {
-      text-align: center;
-      max-width: 680px;
-      margin: 0 auto 48px;
-    }
-    .ph-section-badge {
-      display: inline-block;
-      font-size: 0.8125rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-gold);
-      margin-bottom: 10px;
-    }
-    .ph-section-header h2 {
-      font-family: var(--font-heading);
-      font-size: 2.25rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0 0 12px;
-      letter-spacing: -0.015em;
-    }
-    .ph-section-header p {
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      margin: 0;
-      line-height: 1.6;
-    }
-
-    /* Product Grid Layout */
-    .ph-catalog-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .woocommerce ul.products {
-      display: grid !important;
-      grid-template-columns: repeat(4, 1fr) !important;
-      gap: 24px !important;
-      list-style: none !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-    @media (max-width: 1024px) {
-      .woocommerce ul.products {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
-      .ph-trust-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 640px) {
-      .woocommerce ul.products {
-        grid-template-columns: 1fr !important;
-      }
-      .ph-trust-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Refactored Product Card: Bright, Luminous, WCAG AA */
-    .woocommerce ul.products li.product {
-      background: var(--bg-surface) !important;
-      border-radius: 12px !important;
-      overflow: hidden !important;
-      border: 1px solid var(--border-subtle) !important;
-      box-shadow: var(--card-shadow) !important;
-      display: flex !important;
-      flex-direction: column !important;
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
-      padding: 0 !important;
-      box-sizing: border-box !important;
-      position: relative !important;
-    }
-    .woocommerce ul.products li.product:hover {
-      transform: translateY(-5px) !important;
-      border-color: #E2D3BE !important;
-      box-shadow: var(--card-shadow-hover) !important;
-    }
-
-    .woocommerce-loop-product__link,
-    .product-thumbnail-wrapper {
-      display: block !important;
-      text-decoration: none !important;
-      position: relative !important;
-      overflow: hidden !important;
-      aspect-ratio: 1 / 1 !important;
-      border-radius: 11px 11px 0 0 !important;
-      background: #FDFBF7 !important;
-    }
-    .woocommerce-loop-product__link img,
-    .product-thumbnail-wrapper img {
-      aspect-ratio: 1 / 1 !important;
-      object-fit: cover !important;
-      object-position: center !important;
-      width: 100% !important;
-      height: 100% !important;
-      display: block !important;
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-    .woocommerce ul.products li.product:hover .woocommerce-loop-product__link img,
-    .woocommerce ul.products li.product:hover .product-thumbnail-wrapper img {
-      transform: scale(1.05) !important;
-    }
-
-    .ph-card-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      z-index: 2;
-      background: rgba(255, 255, 255, 0.94);
-      color: var(--accent-gold);
-      border: 1px solid #FDE68A;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 999px;
-      backdrop-filter: blur(4px);
-    }
-
-    .product-info {
-      padding: 16px 16px 8px !important;
-      text-align: left !important;
-      flex-grow: 1 !important;
-    }
-    .product-category-meta {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-    }
-    .product-title {
-      font-family: var(--font-heading) !important;
-      font-size: 1.125rem !important;
-      font-weight: 600 !important;
-      color: var(--text-primary) !important;
-      margin: 0 0 8px !important;
-      line-height: 1.35 !important;
-    }
-    .product-title a {
-      color: var(--text-primary) !important;
-      text-decoration: none !important;
-      transition: color 0.2s ease !important;
-    }
-    .product-title a:hover {
-      color: var(--accent-gold) !important;
-    }
-    .product-price {
-      font-size: 1.125rem !important;
-      font-weight: 700 !important;
-      color: var(--accent-gold) !important;
-    }
-    .product-rating {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      color: #F59E0B;
-      font-size: 0.8125rem;
-      margin-bottom: 6px;
-    }
-    .product-rating span {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      margin-left: 2px;
-    }
-
-    .product-actions {
-      padding: 8px 16px 16px !important;
-      margin-top: auto !important;
-    }
-    .button.add_to_cart_button {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      width: 100% !important;
-      padding: 11px 16px !important;
-      border-radius: 7px !important;
-      border: 1.5px solid var(--accent-gold) !important;
-      background: #FFFDF9 !important;
-      color: var(--accent-hover) !important;
-      font-size: 0.875rem !important;
-      font-weight: 600 !important;
-      text-decoration: none !important;
-      cursor: pointer !important;
-      transition: all 0.22s ease !important;
-      box-sizing: border-box !important;
-      letter-spacing: 0.02em !important;
-    }
-    .button.add_to_cart_button:hover {
-      background: var(--accent-gold) !important;
-      color: #FFFFFF !important;
-      border-color: var(--accent-gold) !important;
-      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25) !important;
-    }
-
-    /* Cart & Checkout Review Card Preview */
-    .ph-order-preview-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 32px;
-    }
-    @media (max-width: 860px) {
-      .ph-order-preview-container {
-        grid-template-columns: 1fr;
-      }
-    }
-    .ph-preview-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-    }
-    .ph-preview-card h3 {
-      font-family: var(--font-heading);
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0 0 20px;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 12px;
-    }
-    .ph-order-item {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 12px 0;
-      border-bottom: 1px solid #F5EFE6;
-    }
-    .ph-order-item img {
-      width: 56px;
-      height: 56px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: #FAF6F0;
-      border: 1px solid var(--border-subtle);
-    }
-    .ph-order-details {
-      flex: 1;
-    }
-    .ph-order-details h4 {
-      margin: 0 0 2px;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .ph-order-details span {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-    }
-    .ph-order-price {
-      font-weight: 700;
-      color: var(--accent-gold);
-      font-size: 1rem;
-    }
-    .ph-summary-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      font-size: 0.9375rem;
-      color: var(--text-secondary);
-    }
-    .ph-summary-row.total {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      border-top: 2px dashed var(--border-subtle);
-      padding-top: 14px;
-      margin-top: 14px;
-    }
-    .ph-summary-row.total span:last-child {
-      color: var(--accent-gold);
-    }
-    .ph-coupon-wrap {
-      display: flex;
-      gap: 8px;
-      margin-top: 20px;
-    }
-    .ph-coupon-input {
-      flex: 1;
-      padding: 11px 14px;
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      background: #FAF6F0;
-      font-family: inherit;
-      font-size: 0.875rem;
-      color: var(--text-primary);
-    }
-    .ph-coupon-input:focus {
-      outline: none;
-      border-color: var(--accent-gold);
-      background: #FFFFFF;
-    }
-    .ph-coupon-btn {
-      padding: 11px 18px;
-      background: #F5EFE6;
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      font-weight: 600;
-      color: var(--text-primary);
-      cursor: pointer;
-      font-size: 0.875rem;
-    }
-    .ph-coupon-btn:hover {
-      background: #EFE6D8;
-    }
-
-    /* Contrast & WCAG AA Verification Banner */
-    .ph-wcag-badge-bar {
-      max-width: 1200px;
-      margin: 32px auto 0;
-      background: #FFFFFF;
-      border: 1px solid #D1FAE5;
-      border-left: 4px solid #10B981;
-      padding: 16px 20px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.06);
-    }
-    .ph-wcag-text {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.875rem;
-      color: #065F46;
-      font-weight: 500;
-    }
-    .ph-wcag-pill {
+    .ph-toast__dot {
+      width: 8px;
+      height: 8px;
       background: #10B981;
-      color: #FFFFFF;
-      font-weight: 700;
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 4px;
-      letter-spacing: 0.04em;
-    }
-    .ph-contrast-metrics {
-      display: flex;
-      gap: 16px;
-      font-size: 0.8125rem;
-      color: #57534E;
-    }
-    .ph-contrast-metrics strong {
-      color: #1C1917;
-    }
-
-    /* Footer */
-    .ph-footer {
-      background: #FFFFFF;
-      border-top: 1px solid var(--border-subtle);
-      padding: 48px 24px 32px;
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-    }
-    .ph-footer p {
-      margin: 0 0 8px;
-    }
-    .ph-footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin-top: 16px;
-    }
-    .ph-footer-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    .ph-footer-links a:hover {
-      color: var(--accent-gold);
+      border-radius: 50%;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
-  <div class="ph-topbar">
-    🌿 100% Raw, Pure, Organic Honey • <span>Free Domestic Delivery</span> on all orders over $60
+  <!-- ════════════ TOP ANNOUNCEMENT BAR ════════════ -->
+  <div class="ph-topbar" role="region" aria-label="Announcement">
+    <div class="ph-container ph-topbar__inner">
+      <span>🌿 Nature's Purest Raw Honey • Free Home Delivery on orders over $60 • 100% Satisfaction Guaranteed</span>
+      <div class="ph-topbar__links">
+        <a href="#shop-categories">Explore Categories</a>
+        <span class="ph-topbar__sep">|</span>
+        <a href="#why-choose-us">Why PureHoney</a>
+        <span class="ph-topbar__sep">|</span>
+        <a href="#colophon">Help & Support</a>
+      </div>
+    </div>
   </div>
 
-  <!-- Sticky Site Navigation Header -->
-  <header class="ph-preview-header">
-    <div class="ph-nav-container">
-      <a href="#" class="ph-brand-logo">
-        <div class="ph-logo-icon">🐝</div>
-        <div class="ph-brand-text">Pure<span>Honey</span></div>
-      </a>
+  <!-- ════════════ 2-TIER STICKY HEADER (AVORAIX STYLE) ════════════ -->
+  <header id="ph-header" class="ph-header ph-header--white" role="banner">
+    <!-- Main Header Row -->
+    <div class="ph-header__main">
+      <div class="ph-container ph-header__inner">
 
-      <nav>
-        <ul class="ph-nav-menu">
-          <li><a href="#top-picks-section" class="active">Shop All</a></li>
-          <li><a href="#best-sellers-section">Best Sellers</a></li>
-          <li><a href="#checkout-preview-section">Order Summary</a></li>
-          <li><a href="#contrast-audit-section">Contrast Audit</a></li>
-        </ul>
-      </nav>
-
-      <div class="ph-header-actions">
-        <a href="#checkout-preview-section" class="ph-header-btn">
-          <span>🛒 Cart</span>
-          <span class="ph-cart-badge">3</span>
+        <!-- Logo -->
+        <a href="#" class="ph-logo" aria-label="PureHoney Home">
+          <img src="theme/purehoney/assets/images/logo-dark-text.png" alt="PureHoney" width="160" height="42" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+          <span class="ph-logo-fallback" style="display:none; align-items:center; gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L20.5 7V17L12 22L3.5 17V7L12 2Z" stroke="#D97706" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M12 7C12 7 8 11.5 8 14C8 16.2091 9.79086 18 12 18C14.2091 18 16 16.2091 16 14C16 11.5 12 7 12 7Z" fill="#D97706"/>
+            </svg>
+            <span style="font-family:var(--font-heading,sans-serif); font-size:1.5rem; font-weight:700; color:#1E1E1E; letter-spacing:-0.02em;">Pure<span style="color:#D97706;">Honey</span></span>
+          </span>
         </a>
+
+        <!-- Centered Search Bar with Category Dropdown -->
+        <div class="ph-header__search">
+          <form class="ph-search-bar" onsubmit="event.preventDefault(); handleSearch(this);">
+            <div class="ph-search-bar__cat-wrap">
+              <label for="search-category" class="screen-reader-text">Search Category</label>
+              <select id="search-category" class="ph-search-bar__cat">
+                <option value="all">All Categories</option>
+                <option value="essentials">Essentials</option>
+                <option value="dispensers">Dispensers</option>
+                <option value="gift-box">Gift Box</option>
+                <option value="handpicked">Handpicked</option>
+              </select>
+            </div>
+            <span class="ph-search-bar__divider"></span>
+            <label for="search-input" class="screen-reader-text">Search</label>
+            <input type="search" id="search-input" class="ph-search-bar__input" placeholder="Search for honey, dispensers, gifts..." autocomplete="off">
+            <button type="submit" class="ph-search-bar__btn" aria-label="Search button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Right-Aligned Action Icons -->
+        <div class="ph-header__actions">
+          <!-- Wishlist -->
+          <a href="#featured-products" class="ph-action-link" id="wishlist-btn" aria-label="Wishlist" onclick="showToast('Wishlist feature: 1 item saved!')">
+            <span class="ph-action-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+              </svg>
+              <span class="ph-badge-pill" id="wishlist-count">1</span>
+            </span>
+            <span class="ph-action-text">Wishlist</span>
+          </a>
+
+          <!-- My Account -->
+          <a href="#colophon" class="ph-action-link" aria-label="Account Login">
+            <span class="ph-action-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <span class="ph-action-text">Account</span>
+          </a>
+
+          <!-- Cart Counter Pill with Subtotal (Cart / $0.00) -->
+          <a href="#featured-products" class="ph-cart-pill" id="header-cart-pill" aria-label="View Shopping Cart">
+            <div class="ph-cart-pill__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+              <span class="ph-cart-pill__badge" id="cart-item-count">0</span>
+            </div>
+            <div class="ph-cart-pill__info">
+              <span class="ph-cart-pill__label">Cart /</span>
+              <span class="ph-cart-pill__amount" id="cart-subtotal">$0.00</span>
+            </div>
+          </a>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="ph-hamburger" class="ph-hamburger" aria-label="Toggle Navigation" aria-expanded="false" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
       </div>
     </div>
+
+    <!-- Category Nav Strip: Secondary Horizontal Bar -->
+    <nav class="ph-nav-strip" role="navigation" aria-label="Category Navigation">
+      <div class="ph-container ph-nav-strip__inner">
+        <ul class="ph-cat-links">
+          <li class="is-active"><a href="#featured-products">SHOP</a></li>
+          <li><a href="#shop-categories">ESSENTIALS</a></li>
+          <li><a href="#promo-banners">GIFT BOX</a></li>
+          <li><a href="#shop-categories">DISPENSERS</a></li>
+          <li><a href="#promo-banners">HANDPICKED</a></li>
+          <li><a href="#colophon">TRACK ORDER</a></li>
+        </ul>
+        <div class="ph-nav-strip__badge">
+          <span class="ph-dot-live"></span> <span>24H Dispatch Available</span>
+        </div>
+      </div>
+    </nav>
   </header>
 
-  <!-- RIGHT-ALIGNED EDITORIAL HERO SECTION -->
-  <section class="ph-hero relative w-full min-h-[620px] lg:min-h-[720px] flex items-center justify-end text-left bg-cover bg-left overflow-hidden" 
-           id="home-hero"
-           style="background-image: url('theme/purehoney/assets/images/hero-banner.jpg');">
-    <!-- Directional Gradient Overlay (Clear on left for glowing glassware, warm ivory reading canvas on right) -->
-    <div class="ph-hero__scrim absolute inset-0 pointer-events-none" 
-         style="background: linear-gradient(to right, rgba(250, 246, 240, 0.15) 0%, rgba(250, 246, 240, 0.55) 45%, rgba(250, 246, 240, 0.92) 75%, rgba(250, 246, 240, 0.98) 100%);"></div>
+  <!-- Mobile Drawer -->
+  <div id="ph-mobile-menu" class="ph-mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Menu">
+    <div class="ph-mobile-menu__header">
+      <span style="font-family:var(--font-heading,sans-serif); font-size:1.4rem; font-weight:700; color:#1E1E1E;">Pure<span style="color:#D97706;">Honey</span></span>
+      <button class="ph-mobile-menu__close" aria-label="Close Menu" onclick="toggleMobileMenu()">✕</button>
+    </div>
+    <div class="ph-mobile-menu__search">
+      <form onsubmit="event.preventDefault(); handleSearch(this);">
+        <input type="search" placeholder="Search honey, dispensers..." autocomplete="off">
+        <button type="submit" aria-label="Search">🔍</button>
+      </form>
+    </div>
+    <nav class="ph-mobile-menu__nav">
+      <div class="ph-mobile-section-title">CATEGORIES</div>
+      <ul>
+        <li><a href="#featured-products" onclick="toggleMobileMenu()">🛍️ SHOP ALL</a></li>
+        <li><a href="#shop-categories" onclick="toggleMobileMenu()">✨ ESSENTIALS</a></li>
+        <li><a href="#promo-banners" onclick="toggleMobileMenu()">🎁 GIFT BOX</a></li>
+        <li><a href="#shop-categories" onclick="toggleMobileMenu()">🍯 DISPENSERS</a></li>
+        <li><a href="#promo-banners" onclick="toggleMobileMenu()">🌿 HANDPICKED</a></li>
+        <li><a href="#colophon" onclick="toggleMobileMenu()">📦 TRACK ORDER</a></li>
+      </ul>
+      <div class="ph-mobile-section-title" style="margin-top:20px;">QUICK LINKS</div>
+      <ul>
+        <li><a href="#why-choose-us" onclick="toggleMobileMenu()">Why PureHoney</a></li>
+        <li><a href="#testimonials" onclick="toggleMobileMenu()">Customer Reviews</a></li>
+        <li><a href="#newsletter" onclick="toggleMobileMenu()">Special 10% Discount</a></li>
+      </ul>
+    </nav>
+    <div class="ph-mobile-menu__footer">
+      <div class="ph-mobile-contact">
+        <p>📞 <strong>+1 (800) 555-PURE</strong></p>
+        <p>✉️ support@purehoney.me</p>
+      </div>
+      <a href="#featured-products" class="ph-btn ph-btn--primary" style="width:100%;justify-content:center;margin-top:12px;" onclick="toggleMobileMenu()">
+        Explore Collection →
+      </a>
+    </div>
+  </div>
+  <div id="ph-mobile-overlay" class="ph-mobile-overlay" onclick="toggleMobileMenu()"></div>
 
-    <!-- Right-Aligned Content Wrapper -->
-    <div class="ph-hero__content relative z-10 w-full max-w-xl xl:max-w-2xl ml-auto mr-6 lg:mr-16 px-4 sm:px-6 py-12 lg:py-16 flex flex-col items-start text-left">
-      <!-- Tagline Pill -->
-      <div class="ph-hero__tagline-pill">
-        <span>✨</span> NATURE'S GOLD, ELEGANTLY DISPENSED
+  <!-- ════════════ 1. HERO SECTION (AVORAIX STYLE) ════════════ -->
+  <section class="ph-hero-avoraix" id="home-hero">
+    <div class="ph-container">
+      <div class="ph-hero-avoraix__grid">
+
+        <!-- Left Column: Copy & Actions -->
+        <div class="ph-hero-avoraix__content">
+          <div class="ph-pill-badge">
+            <span class="ph-pill-badge__icon">✨</span>
+            <span class="ph-pill-badge__text">100% ORGANIC & UNFILTERED RAW HONEY</span>
+          </div>
+
+          <h1 class="ph-hero-avoraix__headline">
+            Pure • Natural • Healthy <br>
+            <span class="ph-text-highlight">Nature's Sweetness</span> Delivered to Your Home
+          </h1>
+
+          <p class="ph-hero-avoraix__subheadline">
+            Discover artisanal raw wildflower honey, precision no-drip glass dispensers, and handcrafted gift hampers. Harvested ethically from master beekeepers, preserving raw enzymes and rich golden flavor.
+          </p>
+
+          <div class="ph-hero-avoraix__actions">
+            <a href="#featured-products" class="ph-btn ph-btn--primary ph-btn--lg">
+              Shop Now →
+            </a>
+            <a href="#colophon" class="ph-btn ph-btn--secondary ph-btn--lg">
+              Contact Us
+            </a>
+          </div>
+
+          <div class="ph-hero-avoraix__trust-row">
+            <div class="ph-hero-trust-item">
+              <div class="ph-hero-trust-item__stars">★★★★★</div>
+              <div class="ph-hero-trust-item__text">
+                <strong>4.9/5 Rating</strong>
+                <span>2,000+ Verified Reviews</span>
+              </div>
+            </div>
+            <div class="ph-hero-trust-sep"></div>
+            <div class="ph-hero-trust-item">
+              <span class="ph-hero-trust-item__icon">🚚</span>
+              <div class="ph-hero-trust-item__text">
+                <strong>Fast 2–4 Day Delivery</strong>
+                <span>Free on orders over $60</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Crystal Clear Un-Fogged Lifestyle Photography -->
+        <div class="ph-hero-avoraix__visual">
+          <div class="ph-hero-image-card">
+            <img src="theme/purehoney/assets/images/hero-banner.jpg" 
+                 alt="PureHoney Artisan Honey Jar and Dispensers" 
+                 class="ph-hero-img-main"
+                 width="640" height="520">
+            <!-- Floating Badge: 100% Raw Harvest -->
+            <div class="ph-floating-badge ph-floating-badge--top">
+              <div class="ph-floating-badge__icon">🍯</div>
+              <div class="ph-floating-badge__text">
+                <strong>100% Pure Raw Honey</strong>
+                <small>Zero additives or syrups</small>
+              </div>
+            </div>
+            <!-- Floating Badge: Ethical Beekeeping -->
+            <div class="ph-floating-badge ph-floating-badge--bottom">
+              <div class="ph-floating-badge__icon">🐝</div>
+              <div class="ph-floating-badge__text">
+                <strong>Ethical Beekeeping</strong>
+                <small>Sustainable & Bee-Friendly</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ 2. 4-PILLAR TRUST FEATURE BAR ════════════ -->
+  <section class="ph-trust-section" id="trust-pillars">
+    <div class="ph-container">
+      <div class="ph-trust__grid">
+        <!-- Pillar 1 -->
+        <div class="ph-trust__item">
+          <div class="ph-trust__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="24" height="24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+            </svg>
+          </div>
+          <div class="ph-trust__text">
+            <div class="ph-trust__label">Free Home Delivery</div>
+            <div class="ph-trust__sub">On all orders over $60</div>
+          </div>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="ph-trust__item">
+          <div class="ph-trust__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="24" height="24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
+            </svg>
+          </div>
+          <div class="ph-trust__text">
+            <div class="ph-trust__label">Safe & Secure Payment</div>
+            <div class="ph-trust__sub">100% Protected checkout</div>
+          </div>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="ph-trust__item">
+          <div class="ph-trust__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="24" height="24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/>
+            </svg>
+          </div>
+          <div class="ph-trust__text">
+            <div class="ph-trust__label">100% Pure & Natural</div>
+            <div class="ph-trust__sub">Direct ethical beekeeping</div>
+          </div>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="ph-trust__item">
+          <div class="ph-trust__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="24" height="24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
+            </svg>
+          </div>
+          <div class="ph-trust__text">
+            <div class="ph-trust__label">24/7 Customer Support</div>
+            <div class="ph-trust__sub">Dedicated friendly team</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ 3. "SHOP BY CATEGORY" SECTION ════════════ -->
+  <section class="ph-section ph-section--neutral" id="shop-categories">
+    <div class="ph-container">
+      <div class="ph-section-header text-center">
+        <span class="ph-eyebrow">CURATED COLLECTIONS</span>
+        <h2 class="ph-section-title">Shop by Category</h2>
+        <p class="ph-section-subtitle">Explore our handpicked range of honey dispensers, gift collections, and pantry essentials.</p>
       </div>
 
-      <!-- Headline -->
-      <h1 class="ph-hero__title text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1C1917]">
-        Where <span class="ph-hero__highlight text-[#D97706]">Honey Meets</span><br>Artisan Elegance
-      </h1>
-
-      <!-- Description -->
-      <p class="ph-hero__desc max-w-xl text-[#4A3E39] text-lg font-medium leading-relaxed my-4">
-        Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials — for those who believe every moment deserves beauty.
-      </p>
-
-      <!-- Action Buttons -->
-      <div class="ph-hero__actions flex flex-row items-center gap-4 mt-2 mb-8">
-        <a href="#top-picks-section" class="ph-btn-primary ph-btn ph-btn--primary ph-btn--lg">
-          Shop the Collection →
+      <div class="ph-category-grid">
+        <!-- Category 1: Gift Boxes -->
+        <a href="#featured-products" class="ph-category-card" onclick="switchCategory('gift-box')">
+          <div class="ph-category-card__image-wrap">
+            <img src="theme/purehoney/assets/images/categories/gift-boxes.jpg" alt="Gift Boxes" loading="lazy">
+            <span class="ph-category-card__pill">5 Gift Sets</span>
+          </div>
+          <div class="ph-category-card__body">
+            <h3 class="ph-category-card__title">Gift Boxes</h3>
+            <p class="ph-category-card__desc">Luxurious keepsakes for weddings, birthdays & holidays.</p>
+            <span class="ph-category-card__cta">Explore Collection →</span>
+          </div>
         </a>
-        <a href="#checkout-preview-section" class="ph-btn-secondary ph-btn ph-btn--secondary ph-btn--lg">Our Story</a>
-      </div>
 
-      <!-- Trust Badges Row -->
-      <div class="ph-hero__trust-row">
-        <div class="ph-hero__trust-badge">
-          <span class="ph-hero__trust-icon">⭐</span>
-          <div class="ph-hero__trust-text">
-            <strong>4.9/5 Rating</strong>
-            <small>2,000+ Reviews</small>
+        <!-- Category 2: Honey Dispensers -->
+        <a href="#featured-products" class="ph-category-card" onclick="switchCategory('dispensers')">
+          <div class="ph-category-card__image-wrap">
+            <img src="theme/purehoney/assets/images/categories/honey-dispensers.jpg" alt="Honey Dispensers" loading="lazy">
+            <span class="ph-category-card__pill">6 Models</span>
           </div>
-        </div>
-        <div class="ph-hero__trust-badge">
-          <span class="ph-hero__trust-icon">🚀</span>
-          <div class="ph-hero__trust-text">
-            <strong>Fast Shipping</strong>
-            <small>2–4 Business Days</small>
+          <div class="ph-category-card__body">
+            <h3 class="ph-category-card__title">Honey Dispensers</h3>
+            <p class="ph-category-card__desc">No-drip pump mechanisms & borosilicate glass jars.</p>
+            <span class="ph-category-card__cta">Explore Collection →</span>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        </a>
 
-  <!-- Value & Trust Pillars -->
-  <section class="ph-trust-section">
-    <div class="ph-trust-grid">
-      <div class="ph-trust-item">
-        <div class="ph-trust-icon">🍯</div>
-        <div class="ph-trust-text">
-          <h4>Raw & Unfiltered</h4>
-          <p>Preserves living enzymes & floral pollen</p>
-        </div>
-      </div>
-      <div class="ph-trust-item">
-        <div class="ph-trust-icon">🌱</div>
-        <div class="ph-trust-text">
-          <h4>100% Certified Organic</h4>
-          <p>Sourced from remote mountain apiaries</p>
-        </div>
-      </div>
-      <div class="ph-trust-item">
-        <div class="ph-trust-icon">🐝</div>
-        <div class="ph-trust-text">
-          <h4>Ethical Beekeeping</h4>
-          <p>Bee-first practices with zero sugar feeding</p>
-        </div>
-      </div>
-      <div class="ph-trust-item">
-        <div class="ph-trust-icon">📦</div>
-        <div class="ph-trust-text">
-          <h4>Eco-Friendly Glass</h4>
-          <p>Recyclable jars & plastic-free packaging</p>
-        </div>
+        <!-- Category 3: Handpicked Honey -->
+        <a href="#featured-products" class="ph-category-card" onclick="switchCategory('handpicked')">
+          <div class="ph-category-card__image-wrap">
+            <img src="theme/purehoney/assets/images/categories/handpicked-honey.jpg" alt="Handpicked Honey" loading="lazy">
+            <span class="ph-category-card__pill">4 Varieties</span>
+          </div>
+          <div class="ph-category-card__body">
+            <h3 class="ph-category-card__title">Handpicked Honey</h3>
+            <p class="ph-category-card__desc">Pure wildflower & seasonal raw honey harvest.</p>
+            <span class="ph-category-card__cta">Explore Collection →</span>
+          </div>
+        </a>
+
+        <!-- Category 4: Essentials -->
+        <a href="#featured-products" class="ph-category-card" onclick="switchCategory('essentials')">
+          <div class="ph-category-card__image-wrap">
+            <img src="theme/purehoney/assets/images/categories/essentials.jpg" alt="Essentials" loading="lazy">
+            <span class="ph-category-card__pill">5 Accessories</span>
+          </div>
+          <div class="ph-category-card__body">
+            <h3 class="ph-category-card__title">Essentials</h3>
+            <p class="ph-category-card__desc">Acacia wood dippers, aprons & reusable beeswax wraps.</p>
+            <span class="ph-category-card__cta">Explore Collection →</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 1: TOP PICKS THIS SEASON (Pure White Background) -->
-  <section class="ph-section" id="top-picks-section">
-    <div class="ph-catalog-container ph-catalog-grid">
-      <div class="ph-section-header">
-        <span class="ph-section-badge">Handpicked For You</span>
-        <h2>Top Picks This Season</h2>
-        <p>Our most-loved dispensers, jars, and gift sets — crafted for beauty and everyday elegance.</p>
+  <!-- ════════════ 4. FEATURED PRODUCTS (HIGH-CONVERTING CARDS WITH TABS) ════════════ -->
+  <section class="ph-section ph-section--white" id="featured-products">
+    <div class="ph-container">
+      <div class="ph-products-header">
+        <div class="ph-products-header__titles">
+          <span class="ph-eyebrow">OUR SIGNATURE SELECTION</span>
+          <h2 class="ph-section-title">Featured Products</h2>
+        </div>
+
+        <!-- Filter Tab Buttons -->
+        <div class="ph-tabs-nav" role="tablist">
+          <button class="ph-tab-btn is-active" data-tab="best-sellers" onclick="filterTab('best-sellers', this)">
+            Best Sellers
+          </button>
+          <button class="ph-tab-btn" data-tab="top-rated" onclick="filterTab('top-rated', this)">
+            Top Rated
+          </button>
+          <button class="ph-tab-btn" data-tab="loved" onclick="filterTab('loved', this)">
+            Loved by Customers
+          </button>
+        </div>
       </div>
 
-      <div class="woocommerce">
-        <ul class="products columns-4">
-          <!-- 1. Pure Raw Wildflower Honey Jar (500g) -->
-          <li class="product type-product status-publish" id="product-top-1">
-            <span class="ph-card-badge">Best Seller</span>
-            <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
-              <img id="img-top-1" src="public/images/products/pure-raw-wildflower-honey-jar-500g.jpg" alt="Pure Raw Wildflower Honey Jar (500g)" loading="eager">
-            </a>
-            <div class="product-info">
-              <div class="product-category-meta">Pure Honey Jars</div>
-              <div class="product-rating">★★★★★ <span>(128)</span></div>
-              <h3 class="product-title">
-                <a href="#">Pure Raw Wildflower Honey Jar (500g)</a>
-              </h3>
-              <div class="product-price">
-                <span class="woocommerce-Price-amount amount">$38.99</span>
+      <!-- Tab Content Panels -->
+      <div class="ph-tabs-content">
+        <!-- Panel 1: Best Sellers (All 8 Products) -->
+        <div class="ph-tab-panel is-active" id="tab-best-sellers">
+          <ul class="ph-grid-products">
+            
+            <!-- Card 1 -->
+            <li class="ph-product-card">
+              <div class="ph-card-inner">
+                <div class="ph-card-media">
+                  <div class="ph-card-badges">
+                    <span class="ph-badge-sale">Sale!</span>
+                    <span class="ph-badge-save">Save $6.00</span>
+                  </div>
+                  <a href="#featured-products" class="ph-card-img-link">
+                    <img src="theme/purehoney/assets/images/products/PH-AD-001.jpg" alt="Pure Raw Wildflower Honey Jar" loading="lazy">
+                  </a>
+                </div>
+                <div class="ph-card-content">
+                  <div class="ph-card-category">ARTISAN DISPENSERS</div>
+                  <h3 class="ph-card-title">
+                    <a href="#featured-products">Pure Raw Wildflower Honey Jar (500g)</a>
+                  </h3>
+                  <div class="ph-card-rating">
+                    <div class="ph-stars">★★★★★</div>
+                    <span class="ph-rating-count">(4.9 • 342 reviews)</span>
+                  </div>
+                  <div class="ph-card-price">
+                    <del>$44.99</del>
+                    <ins>$38.99</ins>
+                  </div>
+                  <div class="ph-card-stock">
+                    <span class="ph-dot-stock"></span>
+                    <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                  </div>
+                  <div class="ph-card-btn-wrap">
+                    <button class="ph-btn-card-add" onclick="addToCart('Pure Raw Wildflower Honey Jar (500g)', 38.99)">
+                      Add to Cart →
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="product-actions">
-              <a href="#add" class="button product_type_simple add_to_cart_button" id="btn-top-1">Add to cart</a>
-            </div>
-          </li>
+            </li>
 
-          <!-- 2. Artisanal Ceramic Honey Pot with Wooden Dipper -->
-          <li class="product type-product status-publish" id="product-top-2">
-            <span class="ph-card-badge">Artisan Craft</span>
-            <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
-              <img id="img-top-2" src="public/images/products/artisanal-ceramic-honey-pot-with-wooden-dipper.jpg" alt="Artisanal Ceramic Honey Pot with Wooden Dipper" loading="eager">
-            </a>
-            <div class="product-info">
-              <div class="product-category-meta">Kitchen & Serveware</div>
-              <div class="product-rating">★★★★★ <span>(94)</span></div>
-              <h3 class="product-title">
-                <a href="#">Artisanal Ceramic Honey Pot with Wooden Dipper</a>
-              </h3>
-              <div class="product-price">
-                <span class="woocommerce-Price-amount amount">$42.99</span>
+            <!-- Card 2 -->
+            <li class="ph-product-card">
+              <div class="ph-card-inner">
+                <div class="ph-card-media">
+                  <div class="ph-card-badges">
+                    <span class="ph-badge-sale">Sale!</span>
+                    <span class="ph-badge-save">Save $8.00</span>
+                  </div>
+                  <a href="#featured-products" class="ph-card-img-link">
+                    <img src="theme/purehoney/assets/images/products/PH-AD-002.jpg" alt="Signature Amber Honey Dispenser & Jar Duo" loading="lazy">
+                  </a>
+                </div>
+                <div class="ph-card-content">
+                  <div class="ph-card-category">ARTISAN DISPENSERS</div>
+                  <h3 class="ph-card-title">
+                    <a href="#featured-products">Signature Amber Honey Dispenser & Jar Duo</a>
+                  </h3>
+                  <div class="ph-card-rating">
+                    <div class="ph-stars">★★★★★</div>
+                    <span class="ph-rating-count">(4.9 • 520 reviews)</span>
+                  </div>
+                  <div class="ph-card-price">
+                    <del>$54.99</del>
+                    <ins>$46.99</ins>
+                  </div>
+                  <div class="ph-card-stock">
+                    <span class="ph-dot-stock"></span>
+                    <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                  </div>
+                  <div class="ph-card-btn-wrap">
+                    <button class="ph-btn-card-add" onclick="addToCart('Signature Amber Honey Dispenser Duo', 46.99)">
+                      Add to Cart →
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="product-actions">
-              <a href="#add" class="button product_type_simple add_to_cart_button" id="btn-top-2">Add to cart</a>
-            </div>
-          </li>
+            </li>
 
-          <!-- 3. Signature Amber Honey Dispenser & Jar Duo -->
-          <li class="product type-product status-publish" id="product-top-3">
-            <span class="ph-card-badge">Featured</span>
-            <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
-              <img id="img-top-3" src="public/images/products/signature-amber-honey-dispenser-and-jar-duo.jpg" alt="Signature Amber Honey Dispenser & Jar Duo" loading="eager">
-            </a>
-            <div class="product-info">
-              <div class="product-category-meta">Dispensers</div>
-              <div class="product-rating">★★★★★ <span>(76)</span></div>
-              <h3 class="product-title">
-                <a href="#">Signature Amber Honey Dispenser & Jar Duo</a>
-              </h3>
-              <div class="product-price">
-                <span class="woocommerce-Price-amount amount">$46.99</span>
+            <!-- Card 3 -->
+            <li class="ph-product-card">
+              <div class="ph-card-inner">
+                <div class="ph-card-media">
+                  <div class="ph-card-badges">
+                    <span class="ph-badge-sale">Sale!</span>
+                    <span class="ph-badge-save">Save $15.01</span>
+                  </div>
+                  <a href="#featured-products" class="ph-card-img-link">
+                    <img src="theme/purehoney/assets/images/products/PH-LG-001.jpg" alt="Pure Honey Luxury Wooden Gift Box Set" loading="lazy">
+                  </a>
+                </div>
+                <div class="ph-card-content">
+                  <div class="ph-card-category">LUXURY GIFT SETS</div>
+                  <h3 class="ph-card-title">
+                    <a href="#featured-products">Pure Honey Luxury Wooden Gift Box Set</a>
+                  </h3>
+                  <div class="ph-card-rating">
+                    <div class="ph-stars">★★★★★</div>
+                    <span class="ph-rating-count">(5.0 • 218 reviews)</span>
+                  </div>
+                  <div class="ph-card-price">
+                    <del>$95.00</del>
+                    <ins>$79.99</ins>
+                  </div>
+                  <div class="ph-card-stock">
+                    <span class="ph-dot-stock"></span>
+                    <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                  </div>
+                  <div class="ph-card-btn-wrap">
+                    <button class="ph-btn-card-add" onclick="addToCart('Pure Honey Luxury Wooden Gift Box', 79.99)">
+                      Add to Cart →
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="product-actions">
-              <a href="#add" class="button product_type_simple add_to_cart_button" id="btn-top-3">Add to cart</a>
-            </div>
-          </li>
+            </li>
 
-          <!-- 4. Pure Honey Luxury Wooden Gift Box Set -->
-          <li class="product type-product status-publish" id="product-top-4">
-            <span class="ph-card-badge">Gift Edition</span>
-            <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
-              <img id="img-top-4" src="public/images/products/pure-honey-luxury-wooden-gift-box-set.jpg" alt="Pure Honey Luxury Wooden Gift Box Set" loading="eager">
-            </a>
-            <div class="product-info">
-              <div class="product-category-meta">Gift Sets</div>
-              <div class="product-rating">★★★★★ <span>(112)</span></div>
-              <h3 class="product-title">
-                <a href="#">Pure Honey Luxury Wooden Gift Box Set</a>
-              </h3>
-              <div class="product-price">
-                <span class="woocommerce-Price-amount amount">$79.99</span>
+            <!-- Card 4 -->
+            <li class="ph-product-card">
+              <div class="ph-card-inner">
+                <div class="ph-card-media">
+                  <div class="ph-card-badges">
+                    <span class="ph-badge-sale">Sale!</span>
+                    <span class="ph-badge-save">Save $7.00</span>
+                  </div>
+                  <a href="#featured-products" class="ph-card-img-link">
+                    <img src="theme/purehoney/assets/images/products/PH-AD-004.jpg" alt="Artisanal Ceramic Honey Pot with Wooden Dipper" loading="lazy">
+                  </a>
+                </div>
+                <div class="ph-card-content">
+                  <div class="ph-card-category">ARTISAN DISPENSERS</div>
+                  <h3 class="ph-card-title">
+                    <a href="#featured-products">Artisanal Ceramic Honey Pot with Wooden Dipper</a>
+                  </h3>
+                  <div class="ph-card-rating">
+                    <div class="ph-stars">★★★★★</div>
+                    <span class="ph-rating-count">(4.8 • 185 reviews)</span>
+                  </div>
+                  <div class="ph-card-price">
+                    <del>$49.99</del>
+                    <ins>$42.99</ins>
+                  </div>
+                  <div class="ph-card-stock">
+                    <span class="ph-dot-stock"></span>
+                    <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                  </div>
+                  <div class="ph-card-btn-wrap">
+                    <button class="ph-btn-card-add" onclick="addToCart('Artisanal Ceramic Honey Pot', 42.99)">
+                      Add to Cart →
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="product-actions">
-              <a href="#add" class="button product_type_simple add_to_cart_button" id="btn-top-4">Add to cart</a>
-            </div>
-          </li>
-        </ul>
+            </li>
+
+            <!-- Card 5 -->
+            <li class="ph-product-card">
+              <div class="ph-card-inner">
+                <div class="ph-card-media">
+                  <div class="ph-card-badges">
+                    <span class="ph-badge-sale">Sale!</span>
+                    <span class="ph-badge-save">Save $5.00</span>
+                  </div>
+                  <a href="#featured-products" class="ph-card-img-link">
+                    <img src="theme/purehoney/assets/images/products/PH-AD-003.jpg" alt="Crystal Clear Honeycomb Jar & Dipper Set" loading="lazy">
+                  </a>
+                </div>
+                <div class="ph-card-content">
+                  <div class="ph-card-category">ARTISAN DISPENSERS</div>
+                  <h3 class="ph-card-title">
+                    <a href="#featured-products">Crystal Clear Honeycomb Jar & Dipper Set</a>
+                  </h3>
+                  <div class="ph-card-rating">
+                    <div class="ph-stars">★★★★★</div>
+                    <span class="ph-rating-count">(4.9 • 240 reviews)</span>
+                  </div>
+                  <div class="ph-card-price">
+                    <del>$39.99</del>
+                    <ins>$34.99</ins>
+                  </div>
+                  <div class="ph-card-stock">
+                    <span class="ph-dot-stock"></span>
+                    <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                  </div>
+                  <div class="ph-card-btn-wrap">
+                    <button class="ph-btn-card-add" onclick="addToCart('Crystal Clear Honeycomb Jar', 34.99)">
+                      Add to Cart →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Card 6 -->
+            <li class="ph-product-card">
+              <div class="ph-card-inner">
+                <div class="ph-card-media">
+                  <div class="ph-card-badges">
+                    <span class="ph-badge-sale">Sale!</span>
+                    <span class="ph-badge-save">Save $4.00</span>
+                  </div>
+                  <a href="#featured-products" class="ph-card-img-link">
+                    <img src="theme/purehoney/assets/images/products/PH-KE-001.jpg" alt="Acacia Wood Honey Dipper Set of 3" loading="lazy">
+                  </a>
+                </div>
+                <div class="ph-card-content">
+                  <div class="ph-card-category">KITCHEN ELEGANCE</div>
+                  <h3 class="ph-card-title">
+                    <a href="#featured-products">Acacia Wood Honey Dipper Set of 3 Pieces</a>
+                  </h3>
+                  <div class="ph-card-rating">
+                    <div class="ph-stars">★★★★★</div>
+                    <span class="ph-rating-count">(4.9 • 410 reviews)</span>
+                  </div>
+                  <div class="ph-card-price">
+                    <del>$22.99</del>
+                    <ins>$18.99</ins>
+                  </div>
+                  <div class="ph-card-stock">
+                    <span class="ph-dot-stock"></span>
+                    <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                  </div>
+                  <div class="ph-card-btn-wrap">
+                    <button class="ph-btn-card-add" onclick="addToCart('Acacia Wood Honey Dipper Set', 18.99)">
+                      Add to Cart →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Card 7 -->
+            <li class="ph-product-card">
+              <div class="ph-card-inner">
+                <div class="ph-card-media">
+                  <div class="ph-card-badges">
+                    <span class="ph-badge-sale">Sale!</span>
+                    <span class="ph-badge-save">Save $20.00</span>
+                  </div>
+                  <a href="#featured-products" class="ph-card-img-link">
+                    <img src="theme/purehoney/assets/images/products/PH-LG-005.jpg" alt="The Beekeeper's Treasure Chest" loading="lazy">
+                  </a>
+                </div>
+                <div class="ph-card-content">
+                  <div class="ph-card-category">LUXURY GIFT SETS</div>
+                  <h3 class="ph-card-title">
+                    <a href="#featured-products">The Beekeeper's Ultimate Treasure Chest</a>
+                  </h3>
+                  <div class="ph-card-rating">
+                    <div class="ph-stars">★★★★★</div>
+                    <span class="ph-rating-count">(5.0 • 98 reviews)</span>
+                  </div>
+                  <div class="ph-card-price">
+                    <del>$139.99</del>
+                    <ins>$119.99</ins>
+                  </div>
+                  <div class="ph-card-stock">
+                    <span class="ph-dot-stock"></span>
+                    <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                  </div>
+                  <div class="ph-card-btn-wrap">
+                    <button class="ph-btn-card-add" onclick="addToCart('The Beekeepers Treasure Chest', 119.99)">
+                      Add to Cart →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Card 8 -->
+            <li class="ph-product-card">
+              <div class="ph-card-inner">
+                <div class="ph-card-media">
+                  <div class="ph-card-badges">
+                    <span class="ph-badge-sale">Sale!</span>
+                    <span class="ph-badge-save">Save $6.00</span>
+                  </div>
+                  <a href="#featured-products" class="ph-card-img-link">
+                    <img src="theme/purehoney/assets/images/products/PH-KE-004.jpg" alt="Copper Bee Measuring Spoon Set" loading="lazy">
+                  </a>
+                </div>
+                <div class="ph-card-content">
+                  <div class="ph-card-category">KITCHEN ELEGANCE</div>
+                  <h3 class="ph-card-title">
+                    <a href="#featured-products">Copper Bee Engraved Measuring Spoon Set</a>
+                  </h3>
+                  <div class="ph-card-rating">
+                    <div class="ph-stars">★★★★★</div>
+                    <span class="ph-rating-count">(4.8 • 165 reviews)</span>
+                  </div>
+                  <div class="ph-card-price">
+                    <del>$34.99</del>
+                    <ins>$28.99</ins>
+                  </div>
+                  <div class="ph-card-stock">
+                    <span class="ph-dot-stock"></span>
+                    <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                  </div>
+                  <div class="ph-card-btn-wrap">
+                    <button class="ph-btn-card-add" onclick="addToCart('Copper Bee Measuring Spoon Set', 28.99)">
+                      Add to Cart →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+      <!-- View All Button -->
+      <div class="text-center" style="margin-top: 48px;">
+        <a href="#shop-categories" class="ph-btn ph-btn--primary ph-btn--lg">
+          Explore All Products (15 Items) →
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2: BEST SELLERS (Warm Soft Cream Rhythm: #FAF5EE) -->
-  <section class="ph-section ph-section--cream" id="best-sellers-section">
-    <div class="ph-catalog-container ph-catalog-grid">
-      <div class="ph-section-header">
-        <span class="ph-section-badge">Customer Favourites</span>
-        <h2>Best Sellers</h2>
-        <p>The products our customers can't stop gifting — or keeping for themselves.</p>
-      </div>
+  <!-- ════════════ 5. DUAL PROMOTIONAL BANNERS SECTION ════════════ -->
+  <section class="ph-section ph-section--neutral" id="promo-banners">
+    <div class="ph-container">
+      <div class="ph-promo-grid">
 
-      <div class="woocommerce">
-        <ul class="products columns-4">
-          <!-- BS 1: Beeswax Wrap Set Eco Packaging -->
-          <li class="product type-product status-publish" id="product-bs-1">
-            <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
-              <img src="public/images/products/beeswax-wrap-set-eco-packaging.jpg" alt="Beeswax Wrap Set Eco Packaging" loading="lazy">
+        <!-- Card A: 100% Pure Honey -->
+        <div class="ph-promo-card">
+          <div class="ph-promo-card__content">
+            <span class="ph-promo-card__eyebrow">RAW & UNPASTEURIZED</span>
+            <h3 class="ph-promo-card__title">
+              100% Pure Honey — Good for your health, Great for your life
+            </h3>
+            <p class="ph-promo-card__text">
+              Rich in active enzymes, natural antioxidants, and floral notes. Hand-extracted without heat to preserve nature's golden wellness.
+            </p>
+            <a href="#featured-products" class="ph-btn ph-btn--primary" onclick="showToast('Browsing Handpicked Raw Honey collection')">
+              Shop Honey →
             </a>
-            <div class="product-info">
-              <div class="product-category-meta">Eco Living</div>
-              <div class="product-rating">★★★★★ <span>(64)</span></div>
-              <h3 class="product-title">
-                <a href="#">Beeswax Wrap Set Eco Packaging</a>
-              </h3>
-              <div class="product-price">
-                <span class="woocommerce-Price-amount amount">$24.99</span>
-              </div>
-            </div>
-            <div class="product-actions">
-              <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
-            </div>
-          </li>
-
-          <!-- BS 2: Brown Kraft Honey Gift Box -->
-          <li class="product type-product status-publish" id="product-bs-2">
-            <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
-              <img src="public/images/products/brown-kraft-honey-gift-box.jpg" alt="Brown Kraft Honey Gift Box" loading="lazy">
-            </a>
-            <div class="product-info">
-              <div class="product-category-meta">Gift Sets</div>
-              <div class="product-rating">★★★★★ <span>(88)</span></div>
-              <h3 class="product-title">
-                <a href="#">Brown Kraft Honey Gift Box</a>
-              </h3>
-              <div class="product-price">
-                <span class="woocommerce-Price-amount amount">$34.99</span>
-              </div>
-            </div>
-            <div class="product-actions">
-              <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
-            </div>
-          </li>
-
-          <!-- BS 3: Ceramic Honey Pot Coaster Set -->
-          <li class="product type-product status-publish" id="product-bs-3">
-            <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
-              <img src="public/images/products/ceramic-honey-pot-coaster-set.jpg" alt="Ceramic Honey Pot Coaster Set" loading="lazy">
-            </a>
-            <div class="product-info">
-              <div class="product-category-meta">Tableware</div>
-              <div class="product-rating">★★★★★ <span>(41)</span></div>
-              <h3 class="product-title">
-                <a href="#">Ceramic Honey Pot Coaster Set</a>
-              </h3>
-              <div class="product-price">
-                <span class="woocommerce-Price-amount amount">$22.99</span>
-              </div>
-            </div>
-            <div class="product-actions">
-              <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
-            </div>
-          </li>
-
-          <!-- BS 4: Copper Bee Measuring Spoon Set -->
-          <li class="product type-product status-publish" id="product-bs-4">
-            <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link product-thumbnail-wrapper">
-              <img src="public/images/products/copper-bee-measuring-spoon-set.jpg" alt="Copper Bee Measuring Spoon Set" loading="lazy">
-            </a>
-            <div class="product-info">
-              <div class="product-category-meta">Kitchenware</div>
-              <div class="product-rating">★★★★★ <span>(53)</span></div>
-              <h3 class="product-title">
-                <a href="#">Copper Bee Measuring Spoon Set</a>
-              </h3>
-              <div class="product-price">
-                <span class="woocommerce-Price-amount amount">$28.99</span>
-              </div>
-            </div>
-            <div class="product-actions">
-              <a href="#add" class="button product_type_simple add_to_cart_button">Add to cart</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 3: CART & CHECKOUT CONTAINER PREVIEW (Demonstrating Clean Ivory/White Order Summary) -->
-  <section class="ph-section" id="checkout-preview-section">
-    <div class="ph-catalog-grid">
-      <div class="ph-section-header">
-        <span class="ph-section-badge">Checkout & Cart Experience</span>
-        <h2>Order Summary & Review Containers</h2>
-        <p>Transitioned from dark chocolate panels to crisp ivory/white cards with distinct warm borders and sharp typography.</p>
-      </div>
-
-      <div class="ph-order-preview-container">
-        <!-- Review Order Items Card -->
-        <div class="ph-preview-card">
-          <h3>Review Your Order (3 Items)</h3>
-          
-          <div class="ph-order-item">
-            <img src="public/images/products/pure-raw-wildflower-honey-jar-500g.jpg" alt="Wildflower Honey">
-            <div class="ph-order-details">
-              <h4>Pure Raw Wildflower Honey Jar (500g)</h4>
-              <span>Qty: 1 • 500g Glass Jar</span>
-            </div>
-            <div class="ph-order-price">$38.99</div>
           </div>
-
-          <div class="ph-order-item">
-            <img src="public/images/products/artisanal-ceramic-honey-pot-with-wooden-dipper.jpg" alt="Ceramic Pot">
-            <div class="ph-order-details">
-              <h4>Artisanal Ceramic Honey Pot</h4>
-              <span>Qty: 1 • Includes Dipper</span>
-            </div>
-            <div class="ph-order-price">$42.99</div>
-          </div>
-
-          <div class="ph-order-item">
-            <img src="public/images/products/copper-bee-measuring-spoon-set.jpg" alt="Copper Spoons">
-            <div class="ph-order-details">
-              <h4>Copper Bee Measuring Spoon Set</h4>
-              <span>Qty: 1 • Antique Finish</span>
-            </div>
-            <div class="ph-order-price">$28.99</div>
-          </div>
-
-          <div class="ph-coupon-wrap">
-            <input type="text" class="ph-coupon-input" placeholder="Promo code (try PUREHONEY10)" value="PUREHONEY10">
-            <button class="ph-coupon-btn">Apply</button>
+          <div class="ph-promo-card__visual">
+            <img src="theme/purehoney/assets/images/categories/handpicked-honey.jpg" alt="100% Pure Honey" loading="lazy">
           </div>
         </div>
 
-        <!-- Order Summary Card -->
-        <div class="ph-preview-card">
-          <h3>Order Summary</h3>
-          
-          <div class="ph-summary-row">
-            <span>Subtotal</span>
-            <strong style="color: var(--text-primary);">$110.97</strong>
-          </div>
-          <div class="ph-summary-row">
-            <span>Estimated Shipping</span>
-            <span style="color: #10B981; font-weight: 600;">FREE (Orders &gt; $60)</span>
-          </div>
-          <div class="ph-summary-row">
-            <span>Discount (PUREHONEY10)</span>
-            <span style="color: var(--accent-gold); font-weight: 600;">-$11.10</span>
-          </div>
-          <div class="ph-summary-row">
-            <span>Sales Tax (Estimated)</span>
-            <strong style="color: var(--text-primary);">$6.99</strong>
-          </div>
-
-          <div class="ph-summary-row total">
-            <span>Total Due</span>
-            <span>$106.86</span>
-          </div>
-
-          <div style="margin-top: 24px;">
-            <a href="#" class="ph-btn-primary" style="width: 100%; box-sizing: border-box; text-align: center;">
-              Proceed to Secure Checkout →
+        <!-- Card B: Gift Boxes -->
+        <div class="ph-promo-card">
+          <div class="ph-promo-card__content">
+            <span class="ph-promo-card__eyebrow">ARTISAN GIFT HAMPERS</span>
+            <h3 class="ph-promo-card__title">
+              Perfect Gifts for Your Loved Ones — Gift boxes for every occasion
+            </h3>
+            <p class="ph-promo-card__text">
+              Elegant wooden keepsake boxes, complimentary custom greeting notes, and deluxe gold ribbon wrapping included.
+            </p>
+            <a href="#featured-products" class="ph-btn ph-btn--primary" onclick="showToast('Browsing Gift Boxes collection')">
+              Shop Gift Boxes →
             </a>
           </div>
+          <div class="ph-promo-card__visual">
+            <img src="theme/purehoney/assets/images/categories/gift-boxes.jpg" alt="Honey Gift Boxes" loading="lazy">
+          </div>
+        </div>
 
-          <p style="font-size: 0.8125rem; color: var(--text-muted); text-align: center; margin: 16px 0 0;">
-            🔒 256-Bit SSL Encrypted • 30-Day Happiness Guarantee
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ 6. WHY CHOOSE US SECTION ════════════ -->
+  <section class="ph-section ph-section--white" id="why-choose-us">
+    <div class="ph-container">
+      <div class="ph-section-header text-center">
+        <span class="ph-eyebrow">OUR COMMITMENT</span>
+        <h2 class="ph-section-title">Why Choose PureHoney</h2>
+        <p class="ph-section-subtitle">We set the gold standard in artisan honey and sustainable kitchen accessories.</p>
+      </div>
+
+      <div class="ph-why-grid">
+        <!-- 1. Natural & Pure -->
+        <div class="ph-why-card">
+          <div class="ph-why-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582"/>
+            </svg>
+          </div>
+          <h3 class="ph-why-card__title">Natural & Pure</h3>
+          <p class="ph-why-card__desc">
+            Single-origin, unheated, unpasteurized. Every drop retains 100% of its native enzymes, delicate wildflower notes, and natural immunity benefits.
+          </p>
+        </div>
+
+        <!-- 2. Trusted Quality -->
+        <div class="ph-why-card">
+          <div class="ph-why-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
+            </svg>
+          </div>
+          <h3 class="ph-why-card__title">Trusted Quality</h3>
+          <p class="ph-why-card__desc">
+            Engineered using premium borosilicate glass, food-grade 304 stainless steel pumps, and certified sustainably harvested acacia hardwoods.
+          </p>
+        </div>
+
+        <!-- 3. Fast Delivery -->
+        <div class="ph-why-card">
+          <div class="ph-why-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+            </svg>
+          </div>
+          <h3 class="ph-why-card__title">Fast Delivery</h3>
+          <p class="ph-why-card__desc">
+            All orders are securely packaged in recyclable honeycomb cushioning and dispatched within 24 hours with real-time end-to-end tracking.
+          </p>
+        </div>
+
+        <!-- 4. Happy Customers -->
+        <div class="ph-why-card">
+          <div class="ph-why-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm6 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Z"/>
+            </svg>
+          </div>
+          <h3 class="ph-why-card__title">Happy Customers</h3>
+          <p class="ph-why-card__desc">
+            Rated 4.9/5 stars by over 2,000+ satisfied households. Enjoy total peace of mind with our no-hassle 30-day money-back satisfaction guarantee.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 4: WCAG AA CONTRAST AUDIT CONFIRMATION -->
-  <section class="ph-section ph-section--cream" id="contrast-audit-section" style="padding-top: 40px; padding-bottom: 40px;">
-    <div class="ph-wcag-badge-bar">
-      <div class="ph-wcag-text">
-        <span class="ph-wcag-pill">WCAG AA PASSED</span>
-        <span>All text elements meet or exceed 4.5:1 contrast ratio against their immediate background containers.</span>
+  <!-- ════════════ 7. CUSTOMER TESTIMONIALS ════════════ -->
+  <section class="ph-section ph-section--neutral" id="testimonials">
+    <div class="ph-container">
+      <div class="ph-section-header text-center">
+        <span class="ph-eyebrow">VERIFIED REVIEWS</span>
+        <h2 class="ph-section-title">Loved by Honey Connoisseurs</h2>
+        <p class="ph-section-subtitle">Real experiences from customers who made PureHoney part of their daily routine.</p>
       </div>
-      <div class="ph-contrast-metrics">
-        <div><strong>15.98:1</strong> Charcoal (#1C1917) on Ivory (#FAF6F0)</div>
-        <div><strong>6.69:1</strong> Muted Stone (#57534E) on Ivory</div>
-        <div><strong>5.06:1</strong> White text on Amber (#D97706)</div>
+
+      <div class="ph-reviews-grid">
+        <div class="ph-review-card">
+          <div class="ph-review-card__stars">★★★★★</div>
+          <p class="ph-review-card__text">
+            "The Amber Glass Dispenser with pump changed my morning coffee routine completely. Zero drips, looks exquisite on my counter, and the raw honey tastes incredibly clean."
+          </p>
+          <div class="ph-review-card__author">
+            <div class="ph-review-avatar">SM</div>
+            <div class="ph-review-details">
+              <strong>Sarah M.</strong>
+              <span>Verified Buyer • New York</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ph-review-card">
+          <div class="ph-review-card__stars">★★★★★</div>
+          <p class="ph-review-card__text">
+            "Purchased the Luxury Wooden Gift Box for my mother's birthday. The packaging is heirloom quality and the raw wildflower honey is the best we've ever tasted. 10/10!"
+          </p>
+          <div class="ph-review-card__author">
+            <div class="ph-review-avatar">JR</div>
+            <div class="ph-review-details">
+              <strong>James R.</strong>
+              <span>Verified Buyer • London, UK</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ph-review-card">
+          <div class="ph-review-card__stars">★★★★★</div>
+          <p class="ph-review-card__text">
+            "Super fast delivery and everything arrived in immaculate eco-friendly packaging. The ceramic honey pot with carved wooden dipper is pure art. Will definitely buy again."
+          </p>
+          <div class="ph-review-card__author">
+            <div class="ph-review-avatar">EL</div>
+            <div class="ph-review-details">
+              <strong>Elena L.</strong>
+              <span>Verified Buyer • Sydney</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Site Footer -->
-  <footer class="ph-footer">
-    <div style="max-width: 600px; margin: 0 auto;">
-      <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: var(--text-primary); margin: 0 0 10px;">
-        Pure<span style="color: var(--accent-gold);">Honey</span>
-      </h3>
-      <p>Artisanal, raw, cold-extracted honey straight from protected hives into your kitchen.</p>
-      <div class="ph-footer-links">
-        <a href="#">Shop Catalog</a>
-        <a href="#">About Our Apiaries</a>
-        <a href="#">Sustainability</a>
-        <a href="#">Contact & Support</a>
-        <a href="#">Privacy Policy</a>
+  <!-- ════════════ 8. NEWSLETTER / 10% OFF ════════════ -->
+  <section class="ph-newsletter-section" id="newsletter">
+    <div class="ph-container">
+      <div class="ph-newsletter-card">
+        <div class="ph-newsletter-card__content">
+          <span class="ph-newsletter-pill">SPECIAL OFFER</span>
+          <h2 class="ph-newsletter-title">Get 10% Off Your First Order</h2>
+          <p class="ph-newsletter-desc">Subscribe to receive exclusive seasonal harvest announcements, artisan recipes, and subscriber-only promotions.</p>
+          
+          <form class="ph-newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed! Use code PURE10 at checkout.'); this.reset();">
+            <label for="news-email" class="screen-reader-text">Email Address</label>
+            <input type="email" id="news-email" class="ph-newsletter-input" placeholder="Enter your email address…" required autocomplete="email">
+            <button type="submit" class="ph-btn ph-btn--primary">Subscribe</button>
+          </form>
+          <small class="ph-newsletter-note">🔒 Zero spam. Unsubscribe at any time with one click.</small>
+        </div>
       </div>
-      <p style="margin-top: 28px; font-size: 0.75rem; color: var(--text-muted);">
-        © 2026 PureHoney. All rights reserved. Designed with warm organic honey aesthetics.
-      </p>
+    </div>
+  </section>
+
+  <!-- ════════════ 4-COLUMN FOOTER (AVORAIX STYLE) ════════════ -->
+  <footer class="ph-footer" id="colophon" role="contentinfo">
+    <div class="ph-container">
+      <div class="ph-footer__grid">
+
+        <!-- Col 1: Newsletter & Brand -->
+        <div class="ph-footer__col ph-footer__col--newsletter">
+          <a href="#" class="ph-footer__brand" aria-label="PureHoney Home">
+            <span class="ph-footer__brand-text">Pure<span class="ph-text-highlight">Honey</span></span>
+          </a>
+          <p class="ph-footer__tagline">
+            Nature's Sweetness Delivered to Your Home. We curate 100% pure raw wildflower honey, artisan no-drip glass dispensers, and sustainable kitchen accessories.
+          </p>
+          
+          <div class="ph-footer__newsletter-box">
+            <h4 class="ph-footer__subheading">Subscribe & Save 10%</h4>
+            <form class="ph-footer__newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed! Discount code: PURE10'); this.reset();">
+              <label for="footer-email" class="screen-reader-text">Email Address</label>
+              <input type="email" id="footer-email" placeholder="Your email address..." required autocomplete="email">
+              <button type="submit" aria-label="Subscribe">Join</button>
+            </form>
+            <span class="ph-footer__spam-note">✓ We respect your privacy. Unsubscribe anytime.</span>
+          </div>
+
+          <div class="ph-footer__social">
+            <a href="#" class="ph-footer__social-link" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="ph-footer__social-link" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" class="ph-footer__social-link" aria-label="Pinterest">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.23-5.22 1.23-5.22s-.31-.63-.31-1.57c0-1.47.85-2.57 1.91-2.57.9 0 1.33.67 1.33 1.48 0 .9-.58 2.26-.87 3.51-.25 1.05.52 1.9 1.55 1.9 1.86 0 3.11-2.4 3.11-5.24 0-2.16-1.47-3.79-4.13-3.79-3.01 0-4.9 2.25-4.9 4.76 0 .87.26 1.47.67 1.94.18.22.21.3.14.55-.05.17-.16.58-.2.74-.07.27-.28.36-.51.27-1.39-.57-2.03-2.1-2.03-3.82 0-2.84 2.4-6.25 7.18-6.25 3.84 0 6.39 2.78 6.39 5.77 0 3.95-2.2 6.9-5.43 6.9-1.09 0-2.12-.59-2.47-1.26 0 0-.58 2.32-.7 2.76-.21.79-.77 1.77-1.18 2.38A10 10 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div class="ph-footer__col">
+          <h3 class="ph-footer__col-title">Quick Links</h3>
+          <ul class="ph-footer__links">
+            <li><a href="#featured-products">Shop All Products</a></li>
+            <li><a href="#home-hero">About Us & Values</a></li>
+            <li><a href="#colophon">Track Order</a></li>
+            <li><a href="#colophon">Customer Support</a></li>
+            <li><a href="#colophon">My Account / Login</a></li>
+            <li><a href="#featured-products">Shopping Cart</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Legal & Policies -->
+        <div class="ph-footer__col">
+          <h3 class="ph-footer__col-title">Legal & Policies</h3>
+          <ul class="ph-footer__links">
+            <li><a href="#colophon">Terms & Conditions</a></li>
+            <li><a href="#colophon">Privacy Policy</a></li>
+            <li><a href="#colophon">Shipping Policy</a></li>
+            <li><a href="#colophon">Return & Refund Policy</a></li>
+            <li><a href="#colophon">FAQ & Help Center</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Customer Support -->
+        <div class="ph-footer__col ph-footer__col--support">
+          <h3 class="ph-footer__col-title">Customer Support</h3>
+          <div class="ph-footer__support-info">
+            <div class="ph-support-item">
+              <span class="ph-support-icon">📞</span>
+              <div>
+                <strong>Phone Helpline:</strong>
+                <p><a href="tel:+18005557873">+1 (800) 555-PURE (7873)</a></p>
+              </div>
+            </div>
+            <div class="ph-support-item">
+              <span class="ph-support-icon">✉️</span>
+              <div>
+                <strong>Email Support:</strong>
+                <p><a href="mailto:support@purehoney.me">support@purehoney.me</a></p>
+              </div>
+            </div>
+            <div class="ph-support-item">
+              <span class="ph-support-icon">📍</span>
+              <div>
+                <strong>Business Address:</strong>
+                <p>PureHoney Artisan Honeyworks<br>742 Evergreen Terrace, Portland, OR 97201</p>
+              </div>
+            </div>
+            <div class="ph-support-item">
+              <span class="ph-support-icon">⏰</span>
+              <div>
+                <strong>Hours:</strong>
+                <p>Mon – Sat: 8:00 AM – 8:00 PM EST<br>24/7 Priority Email Ticket Support</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .ph-footer__grid -->
+
+      <!-- Bottom Bar -->
+      <div class="ph-footer__bottom">
+        <p class="ph-footer__copyright">
+          &copy; 2026 PureHoney Store. All rights reserved. • Curated with ❤️ for honey enthusiasts worldwide.
+        </p>
+        
+        <div class="ph-footer__payment" aria-label="Accepted payment methods">
+          <!-- Visa -->
+          <span class="ph-pay-badge" title="Visa">
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="4" fill="#1A1F71"/><path d="M15.2 16.4H13L14.4 8.4H16.6L15.2 16.4ZM22.4 8.6C21.9 8.4 21.1 8.2 20.2 8.2C18 8.2 16.5 9.3 16.5 10.8C16.5 12 17.7 12.6 18.6 13C19.5 13.4 19.8 13.7 19.8 14.1C19.8 14.7 19 15 18.3 15C17.3 15 16.8 14.9 16 14.5L15.7 14.4L15.4 16.3C15.9 16.5 16.9 16.7 17.9 16.7C20.3 16.7 21.7 15.6 21.7 14C21.7 13.1 21.1 12.4 19.8 11.8C19 11.4 18.5 11.1 18.5 10.7C18.5 10.3 19 9.9 19.9 9.9C20.7 9.9 21.2 10.1 21.6 10.2L21.8 10.3L22.1 8.5L22.4 8.6ZM27.5 8.4H25.8C25.3 8.4 24.9 8.5 24.7 9.1L21.4 16.4H23.8L24.3 15.1H27.2L27.5 16.4H29.7L27.5 8.4ZM24.9 13.4C25.1 12.9 25.9 10.8 25.9 10.8C25.9 10.8 26.1 10.3 26.2 9.9L26.4 10.7C26.4 10.7 26.9 12.9 27 13.4H24.9ZM11.7 8.4L9.6 14L9.4 13.2C8.9 11.9 7.7 10.5 6.3 9.8L8.2 16.4H10.6L14.1 8.4H11.7Z" fill="white"/></svg>
+          </span>
+          <!-- Mastercard -->
+          <span class="ph-pay-badge" title="Mastercard">
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="4" fill="#252525"/><circle cx="14" cy="12" r="6" fill="#EB001B"/><circle cx="24" cy="12" r="6" fill="#F79E1B"/><path d="M19 7.8a6 6 0 0 1 0 8.4A6 6 0 0 1 19 7.8Z" fill="#FF5F00"/></svg>
+          </span>
+          <!-- PayPal -->
+          <span class="ph-pay-badge" title="PayPal">
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="4" fill="#F5F5F5"/><text x="6" y="16" font-size="9" font-weight="bold" fill="#003087" font-family="Arial">Pay</text><text x="18" y="16" font-size="9" font-weight="bold" fill="#009CDE" font-family="Arial">Pal</text></svg>
+          </span>
+          <!-- Apple Pay -->
+          <span class="ph-pay-badge" title="Apple Pay">
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="4" fill="#000000"/><text x="7" y="15" font-size="8.5" font-weight="bold" fill="#FFFFFF" font-family="-apple-system, sans-serif">Pay</text></svg>
+          </span>
+        </div>
+      </div>
     </div>
   </footer>
 
+  <!-- Toast Notification Box -->
+  <div id="ph-toast" class="ph-toast" role="status" aria-live="polite">
+    <span class="ph-toast__dot"></span>
+    <span id="ph-toast-msg">Added to cart!</span>
+  </div>
+
+  <!-- Lenis Smooth Scroll Library -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Smooth anchor navigation with sticky header offset (80px)
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#' || href === '#!') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+        }
+      });
+    });
+
+    let cartCount = 0;
+    let cartTotal = 0.00;
+
+    function addToCart(title, price) {
+      cartCount += 1;
+      cartTotal += price;
+      
+      document.getElementById('cart-item-count').textContent = cartCount;
+      document.getElementById('cart-subtotal').textContent = '$' + cartTotal.toFixed(2);
+      
+      showToast('Added ' + title + ' to cart!');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('ph-toast');
+      const msgEl = document.getElementById('ph-toast-msg');
+      msgEl.textContent = msg;
+      toast.classList.add('is-show');
+      
+      clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(() => {
+        toast.classList.remove('is-show');
+      }, 2600);
+    }
+
+    function toggleMobileMenu() {
+      const isOpen = document.body.classList.toggle('menu-open');
+      if (isOpen) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    }
+
+    function filterTab(tabKey, btn) {
+      document.querySelectorAll('.ph-tab-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      showToast('Viewing ' + btn.textContent.trim());
+    }
+
+    function switchCategory(cat) {
+      showToast('Filtered by ' + cat.replace('-', ' '));
+    }
+
+    function handleSearch(form) {
+      const input = form.querySelector('input[type="search"]');
+      if (input && input.value.trim()) {
+        showToast('Searching for: ' + input.value.trim());
+      } else {
+        showToast('Please type a search term.');
+      }
+    }
+  </script>
 </body>
 </html>

@@ -11,6 +11,22 @@ $is_woo_page    = function_exists('WC') && (is_cart() || is_checkout() || is_acc
 $is_checkout    = function_exists('is_checkout') && is_checkout() && !is_order_received_page();
 $is_cart        = function_exists('is_cart') && is_cart();
 $is_order_recv  = function_exists('is_order_received_page') && is_order_received_page();
+
+// If page is built or previewed in Elementor, render full width without rigid wrapper
+if ( did_action( 'elementor/loaded' ) ) {
+    if ( \Elementor\Plugin::$instance->preview->is_preview_mode() 
+         || \Elementor\Plugin::$instance->editor->is_edit_mode() 
+         || \Elementor\Plugin::$instance->db->is_built_with_elementor( get_the_ID() ) ) {
+        echo '<main id="primary" class="site-main page-content" style="width: 100%; position: relative;">';
+        while ( have_posts() ) :
+            the_post();
+            the_content();
+        endwhile;
+        echo '</main>';
+        get_footer();
+        return;
+    }
+}
 ?>
 
 <?php if ($is_woo_page): ?>

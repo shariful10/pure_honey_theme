@@ -1,382 +1,580 @@
 <?php
 /**
- * Homepage template — full pre-built layout
- * All sections render automatically on activation
+ * Homepage Template — Avoraix-Inspired High-Converting E-Commerce Redesign
+ * PureHoney WordPress Theme
  */
 defined('ABSPATH') || exit;
 
-
-
 get_header();
+
 $shop_url     = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop');
+$contact_url  = home_url('/contact-us');
 $about_url    = home_url('/about-us');
 $dir          = get_template_directory_uri();
 ?>
 
-<!-- ══ HERO: LEFT-ALIGNED EDITORIAL BANNER ══ -->
-<section class="ph-hero relative w-full min-h-[620px] lg:min-h-[720px] flex items-center justify-start text-left bg-cover bg-right overflow-hidden" 
-         id="home-hero"
-         style="background-image: url('<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/hero-banner.jpg' ); ?>');">
-  <!-- Directional Gradient Overlay (Warm ivory reading canvas on left, clear on right for glowing glassware) -->
-  <div class="ph-hero__scrim absolute inset-0 pointer-events-none" 
-       style="background: linear-gradient(to right, rgba(250, 246, 240, 0.98) 0%, rgba(250, 246, 240, 0.92) 25%, rgba(250, 246, 240, 0.55) 55%, rgba(250, 246, 240, 0.15) 100%);"></div>
+<!-- ════════════ 1. HERO SECTION (AVORAIX STYLE) ════════════ -->
+<section class="ph-hero-avoraix" id="home-hero">
+  <div class="ph-container ph-hero-avoraix__container">
+    <div class="ph-hero-avoraix__grid">
 
-  <!-- Left-Aligned Content Wrapper -->
-  <div class="ph-hero__content relative z-10 w-full max-w-xl xl:max-w-2xl ml-6 lg:ml-16 xl:ml-24 mr-auto px-4 sm:px-6 py-12 lg:py-16 flex flex-col items-start text-left" data-ph-animate>
-    <!-- Tagline Pill -->
-    <div class="ph-hero__tagline-pill">
-      <span>✨</span> NATURE'S GOLD, ELEGANTLY DISPENSED
-    </div>
-
-    <!-- Headline -->
-    <h1 class="ph-hero__title text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1C1917]">
-      Where <span class="ph-hero__highlight text-[#D97706]">Honey Meets</span><br>Artisan Elegance
-    </h1>
-
-    <!-- Description -->
-    <p class="ph-hero__desc max-w-xl text-[#4A3E39] text-lg font-medium leading-relaxed my-4">
-      Discover our curated collection of handcrafted honey dispensers, luxury gift sets, and kitchen essentials — for those who believe every moment deserves beauty.
-    </p>
-
-    <!-- Action Buttons -->
-    <div class="ph-hero__actions flex flex-row items-center gap-4 mt-2 mb-8">
-      <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn ph-btn--primary ph-btn--lg">
-        Shop the Collection →
-      </a>
-      <a href="<?php echo esc_url($about_url); ?>" class="ph-btn ph-btn--secondary ph-btn--lg">Our Story</a>
-    </div>
-
-    <!-- Trust Badges Row -->
-    <div class="ph-hero__trust-row">
-      <div class="ph-hero__trust-badge hero-floating-badge-1 badge-rating">
-        <span class="ph-hero__trust-icon">⭐</span>
-        <div class="ph-hero__trust-text">
-          <strong>4.9/5 Rating</strong>
-          <small>2,000+ Reviews</small>
+      <!-- Left Column: Copy & CTAs -->
+      <div class="ph-hero-avoraix__content" data-ph-animate>
+        <!-- Eyebrow Pill -->
+        <div class="ph-pill-badge">
+          <span class="ph-pill-badge__icon">✨</span>
+          <span class="ph-pill-badge__text">100% ORGANIC & UNFILTERED RAW HONEY</span>
         </div>
-      </div>
-      <div class="ph-hero__trust-badge hero-floating-badge-2 badge-shipping">
-        <span class="ph-hero__trust-icon">🚀</span>
-        <div class="ph-hero__trust-text">
-          <strong>Fast Shipping</strong>
-          <small>2–4 Business Days</small>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ══ TRUST BAR ══ -->
-<?php echo do_shortcode('[ph_trust_bar]'); ?>
+        <!-- Headline -->
+        <h1 class="ph-hero-avoraix__headline">
+          Pure • Natural • Healthy <br>
+          <span class="ph-text-highlight">Nature's Sweetness</span> Delivered to Your Home
+        </h1>
 
-<!-- ══ SHOP BY CATEGORY ══ -->
-<section class="ph-section ph-section--cream" id="shop-categories" style="padding-top: 60px; padding-bottom: 60px;">
-  <div class="ph-container">
-    <div class="ph-section-title text-center" data-ph-animate style="margin-bottom: 40px;">
-      <h2 style="display:flex; align-items:center; justify-content:center; gap:20px;">
-        <span style="height:1px; width:60px; background:var(--accent-gold);"></span>
-        Shop by Category
-        <span style="height:1px; width:60px; background:var(--accent-gold);"></span>
-      </h2>
-      <p style="color:var(--text-secondary); font-size:0.95rem; font-style:italic; margin-top:8px;">Find your favorite natural products</p>
-    </div>
-    
-    <div class="ph-shop-cats" data-ph-stagger>
-      <?php
-      $cat_defaults = [
-          'gift-boxes'       => ['name' => 'Gift Boxes',       'img' => 'gift-boxes.jpg'],
-          'honey-dispensers' => ['name' => 'Honey Dispensers', 'img' => 'honey-dispensers.jpg'],
-          'handpicked-honey' => ['name' => 'Handpicked Honey', 'img' => 'handpicked-honey.jpg'],
-          'essentials'       => ['name' => 'Essentials',       'img' => 'essentials.jpg'],
-      ];
-      foreach ($cat_defaults as $cat_slug => $defaults) {
-          $term = get_term_by('slug', $cat_slug, 'product_cat');
+        <!-- Subheadline -->
+        <p class="ph-hero-avoraix__subheadline">
+          Discover artisanal raw wildflower honey, precision no-drip glass dispensers, and handcrafted gift hampers. Harvested ethically from master beekeepers, preserving raw enzymes and rich golden flavor.
+        </p>
 
-          // Always use dedicated category images as primary fallback
-          $fallback_img = get_template_directory_uri() . '/assets/images/categories/' . $defaults['img'];
-
-          if ($term && !is_wp_error($term)) {
-              $thumbnail_id = get_term_meta($term->term_id, 'thumbnail_id', true);
-              $image_url = ($thumbnail_id && wp_get_attachment_url($thumbnail_id))
-                  ? wp_get_attachment_url($thumbnail_id)
-                  : $fallback_img;
-              $cat_link = get_term_link($term);
-              $cat_name = $term->name;
-          } else {
-              $cat_name  = $defaults['name'];
-              $image_url = $fallback_img;
-              $cat_link  = wc_get_page_permalink('shop') ?: home_url('/shop/');
-          }
-          ?>
-          <a href="<?php echo esc_url($cat_link); ?>" class="ph-shop-cat-card" data-ph-animate>
-            <div class="ph-shop-cat-image-wrap">
-              <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($cat_name); ?>">
-            </div>
-            <h3><?php echo esc_html($cat_name); ?></h3>
+        <!-- CTA Buttons -->
+        <div class="ph-hero-avoraix__actions">
+          <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn ph-btn--primary ph-btn--lg">
+            Shop Now →
           </a>
-          <?php
-      }
-      ?>
-    </div>
-  </div>
-</section>
-
-<!-- ══ FEATURED PRODUCTS ══ -->
-<section class="ph-section ph-section--white" id="featured" style="background:#FFFFFF;">
-  <div class="ph-container">
-    <div class="ph-section-title" data-ph-animate>
-      <span class="eyebrow">Handpicked For You</span>
-      <h2>Top Picks This Season</h2>
-      <p>Our most-loved dispensers and gift sets — crafted for beauty and everyday elegance.</p>
-    </div>
-    <div data-ph-stagger>
-      <?php
-      $featured_skus = ['PH-AD-001', 'PH-AD-004', 'PH-AD-002', 'PH-LG-001'];
-      $product_ids = [];
-      if (function_exists('wc_get_product_id_by_sku')) {
-        foreach ($featured_skus as $sku) {
-          $id = wc_get_product_id_by_sku($sku);
-          if ($id) {
-            $product_ids[] = $id;
-          }
-        }
-      }
-
-      $query_args = ['post_type' => 'product', 'posts_per_page' => 4, 'post_status' => 'publish'];
-      if (!empty($product_ids)) {
-        $query_args['post__in'] = $product_ids;
-        $query_args['orderby'] = 'post__in';
-      } else {
-        $query_args['meta_key'] = '_featured';
-        $query_args['meta_value'] = 'yes';
-      }
-
-      $q = new WP_Query($query_args);
-      if ($q->have_posts()):
-        echo '<div class="woocommerce"><ul class="products columns-4">';
-        while ($q->have_posts()) {
-          $q->the_post();
-          if (function_exists('wc_get_template_part')) {
-            wc_get_template_part('content', 'product');
-          } else {
-            get_template_part('template-parts/product-card');
-          }
-        }
-        wp_reset_postdata();
-        echo '</ul></div>';
-      else:
-        echo do_shortcode('[products limit="4" columns="4" orderby="popularity"]');
-      endif;
-      ?>
-    </div>
-    <div class="text-center" style="margin-top:40px;" data-ph-animate>
-      <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn ph-btn--outline">View All Products →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══ CATEGORY CARDS ══ -->
-<section class="ph-section ph-section--cream" id="categories">
-  <div class="ph-container">
-    <div class="ph-section-title" data-ph-animate>
-      <span class="eyebrow">Browse By Category</span>
-      <h2>Explore Our Collections</h2>
-    </div>
-    <div class="ph-cat-grid" data-ph-stagger>
-      <a href="<?php echo esc_url(get_term_link('artisan-dispensers', 'product_cat')); ?>" class="ph-cat-card" data-ph-animate>
-        <img src="<?php echo esc_url($dir . '/assets/images/cat-dispensers.jpg'); ?>" alt="Artisan Dispensers" loading="lazy">
-        <div class="ph-cat-card__content">
-          <span class="ph-cat-card__label">Collection</span>
-          <h3 class="ph-cat-card__title">Artisan Dispensers</h3>
-          <span class="ph-cat-card__link">Shop Now <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <a href="<?php echo esc_url($contact_url); ?>" class="ph-btn ph-btn--secondary ph-btn--lg">
+            Contact Us
+          </a>
         </div>
-      </a>
-      <a href="<?php echo esc_url(get_term_link('luxury-gift-sets', 'product_cat')); ?>" class="ph-cat-card" data-ph-animate>
-        <img src="<?php echo esc_url($dir . '/assets/images/cat-gifts.jpg'); ?>" alt="Luxury Gift Sets" loading="lazy" onerror="this.src='<?php echo esc_url($dir . '/assets/images/hero-bg.jpg'); ?>'">
-        <div class="ph-cat-card__content">
-          <span class="ph-cat-card__label">Collection</span>
-          <h3 class="ph-cat-card__title">Luxury Gift Sets</h3>
-          <span class="ph-cat-card__link">Shop Now <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </a>
-      <a href="<?php echo esc_url(get_term_link('kitchen-elegance', 'product_cat')); ?>" class="ph-cat-card" data-ph-animate>
-        <img src="<?php echo esc_url($dir . '/assets/images/cat-kitchen.jpg'); ?>" alt="Kitchen Elegance" loading="lazy">
-        <div class="ph-cat-card__content">
-          <span class="ph-cat-card__label">Collection</span>
-          <h3 class="ph-cat-card__title">Kitchen Elegance</h3>
-          <span class="ph-cat-card__link">Shop Now <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
 
-<!-- ══ STORY ══ -->
-<section class="ph-section ph-section--white" id="our-story" style="background:#FFFFFF;">
-  <div class="ph-container">
-    <div class="ph-story">
-      <div class="ph-story__visual" data-ph-animate="fade-left">
-        <img src="<?php echo esc_url($dir . '/assets/images/cat-dispensers.jpg'); ?>" alt="Artisan honey jars" loading="lazy">
-      </div>
-      <div class="ph-story__content" data-ph-animate="fade-right">
-        <span class="eyebrow">Our Story</span>
-        <h2>Born from a Love of<br>Nature's Sweetest Gift</h2>
-        <p>PureHoney started with a simple belief: that honey — the world's oldest natural sweetener — deserves to be presented as the treasure it truly is.</p>
-        <p>We partnered with artisan craftspeople across Europe and North America to create dispensers and accessories that honor both the bees and the people who love their golden harvest.</p>
-        <a href="<?php echo esc_url($about_url); ?>" class="ph-btn ph-btn--primary" style="margin-top:8px;">Read Our Story</a>
-        <div class="ph-story__stats">
-          <div>
-            <span class="ph-story__stat-number" data-ph-count="2000" data-ph-count-suffix="+">2000+</span>
-            <span class="ph-story__stat-label">Happy Customers</span>
+        <!-- Hero Trust Highlights -->
+        <div class="ph-hero-avoraix__trust-row">
+          <div class="ph-hero-trust-item">
+            <div class="ph-hero-trust-item__stars">★★★★★</div>
+            <div class="ph-hero-trust-item__text">
+              <strong>4.9/5 Rating</strong>
+              <span>2,000+ Verified Reviews</span>
+            </div>
           </div>
-          <div>
-            <span class="ph-story__stat-number" data-ph-count="15" data-ph-count-suffix="+">15+</span>
-            <span class="ph-story__stat-label">Artisan Products</span>
-          </div>
-          <div>
-            <span class="ph-story__stat-number" data-ph-count="98" data-ph-count-suffix="%">98%</span>
-            <span class="ph-story__stat-label">Satisfaction Rate</span>
+          <div class="ph-hero-trust-sep"></div>
+          <div class="ph-hero-trust-item">
+            <span class="ph-hero-trust-item__icon">🚚</span>
+            <div class="ph-hero-trust-item__text">
+              <strong>Fast 2–4 Day Delivery</strong>
+              <span>Free on orders over $60</span>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Right Column: Crisp Un-Fogged Lifestyle Photography -->
+      <div class="ph-hero-avoraix__visual" data-ph-animate="fade-left">
+        <div class="ph-hero-image-card">
+          <img src="<?php echo esc_url($dir . '/assets/images/hero-banner.jpg'); ?>" 
+               alt="PureHoney Artisan Honey Jar and Dispensers" 
+               class="ph-hero-img-main"
+               width="640" height="520"
+               loading="eager">
+          <!-- Floating Badge: 100% Raw Harvest -->
+          <div class="ph-floating-badge ph-floating-badge--top">
+            <div class="ph-floating-badge__icon">🍯</div>
+            <div class="ph-floating-badge__text">
+              <strong>100% Pure Raw Honey</strong>
+              <small>Zero additives or syrups</small>
+            </div>
+          </div>
+          <!-- Floating Badge: Ethical Beekeeping -->
+          <div class="ph-floating-badge ph-floating-badge--bottom">
+            <div class="ph-floating-badge__icon">🐝</div>
+            <div class="ph-floating-badge__text">
+              <strong>Ethical Beekeeping</strong>
+              <small>Sustainable & Bee-Friendly</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ══ BEST SELLERS ══ -->
-<section class="ph-section ph-section--cream" id="best-sellers">
-  <div class="ph-container">
-    <div class="ph-section-title" data-ph-animate>
-      <span class="eyebrow">Customer Favourites</span>
-      <h2>Best Sellers</h2>
-      <p>The products our customers can't stop gifting — or keeping for themselves.</p>
-    </div>
-    <div data-ph-stagger>
-      <?php
-      $bs_query = new WP_Query([
-        'post_type'      => 'product',
-        'posts_per_page' => 8,
-        'post_status'    => 'publish',
-        'meta_key'       => 'total_sales',
-        'orderby'        => 'meta_value_num',
-        'order'          => 'DESC',
-      ]);
-
-      if (!$bs_query->have_posts()) {
-        $bs_query = new WP_Query([
-          'post_type'      => 'product',
-          'posts_per_page' => 8,
-          'post_status'    => 'publish',
-          'orderby'        => 'date',
-          'order'          => 'DESC',
-        ]);
-      }
-
-      if ($bs_query->have_posts()):
-        echo '<div class="woocommerce"><ul class="products columns-4">';
-        while ($bs_query->have_posts()) {
-          $bs_query->the_post();
-          if (function_exists('wc_get_template_part')) {
-            wc_get_template_part('content', 'product');
-          } else {
-            get_template_part('template-parts/product-card');
-          }
-        }
-        wp_reset_postdata();
-        echo '</ul></div>';
-      else:
-        echo do_shortcode('[products best_selling="true" limit="8" columns="4"]');
-      endif;
-      ?>
-    </div>
-  </div>
+<!-- ════════════ 2. 4-PILLAR TRUST FEATURE BAR ════════════ -->
+<section class="ph-trust-section" id="trust-pillars">
+  <?php echo do_shortcode('[ph_trust_bar]'); ?>
 </section>
 
-<!-- ══ FEATURES ══ -->
-<section class="ph-section ph-section--white" id="why-purehoney" style="background:#FFFFFF;">
+<!-- ════════════ 3. "SHOP BY CATEGORY" SECTION ════════════ -->
+<section class="ph-section ph-section--neutral" id="shop-categories">
   <div class="ph-container">
-    <div class="ph-section-title" data-ph-animate>
-      <span class="eyebrow" style="color:var(--accent-gold);">Why PureHoney</span>
-      <h2>Crafted With Intention</h2>
+    <div class="ph-section-header text-center" data-ph-animate>
+      <span class="ph-eyebrow">CURATED COLLECTIONS</span>
+      <h2 class="ph-section-title">Shop by Category</h2>
+      <p class="ph-section-subtitle">Explore our handpicked range of honey dispensers, gift collections, and pantry essentials.</p>
     </div>
-    <div class="grid-4" data-ph-stagger>
+
+    <div class="ph-category-grid" data-ph-stagger>
       <?php
-      $features = [
-        ['icon'=>'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z', 'title'=>'Pure Materials', 'text'=>'Premium borosilicate glass, natural bamboo, and food-grade materials — always BPA-free.'],
-        ['icon'=>'M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z', 'title'=>'Crafted with Love', 'text'=>'Every item handpicked by our artisan curators who test for quality, beauty, and elegance.'],
-        ['icon'=>'M20.893 13.393l-1.135-1.135a2.252 2.252 0 0 1-.421-.585l-1.08-2.16a.414.414 0 0 0-.663-.107.827.827 0 0 1-.812.21l-1.273-.363a.89.89 0 0 0-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.212.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 0 1-1.81 1.025 1.055 1.055 0 0 1-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.655-.261a2.25 2.25 0 0 1-1.383-2.46l.007-.042a2.25 2.25 0 0 1 .29-.787l.09-.15a2.25 2.25 0 0 1 2.37-1.048l1.178.236a1.125 1.125 0 0 0 1.302-.795l.208-.73a1.125 1.125 0 0 0-.578-1.315l-.665-.332', 'title'=>'Eco Packaging', 'text'=>'100% recyclable packaging. Zero single-use plastic. FSC-certified gift boxes.'],
-        ['icon'=>'M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0', 'title'=>'Fast Delivery', 'text'=>'Orders dispatched within 24 hours. Free shipping on orders over $59 with tracking.'],
+      $categories_data = [
+        [
+          'slug'  => 'gift-boxes',
+          'name'  => 'Gift Boxes',
+          'desc'  => 'Luxurious keepsakes for special moments',
+          'image' => $dir . '/assets/images/categories/gift-boxes.jpg',
+          'count' => '5 Gift Sets',
+        ],
+        [
+          'slug'  => 'honey-dispensers',
+          'name'  => 'Honey Dispensers',
+          'desc'  => 'No-drip pumps & borosilicate glass jars',
+          'image' => $dir . '/assets/images/categories/honey-dispensers.jpg',
+          'count' => '6 Models',
+        ],
+        [
+          'slug'  => 'handpicked-honey',
+          'name'  => 'Handpicked Honey',
+          'desc'  => 'Pure wildflower & seasonal raw honey jars',
+          'image' => $dir . '/assets/images/categories/handpicked-honey.jpg',
+          'count' => '4 Varieties',
+        ],
+        [
+          'slug'  => 'essentials',
+          'name'  => 'Essentials',
+          'desc'  => 'Acacia wood dippers, aprons & wax wraps',
+          'image' => $dir . '/assets/images/categories/essentials.jpg',
+          'count' => '5 Accessories',
+        ],
       ];
-      foreach ($features as $f):
+
+      foreach ($categories_data as $cat):
+        $cat_link = function_exists('get_term_link') ? get_term_link($cat['slug'], 'product_cat') : '';
+        if (empty($cat_link) || is_wp_error($cat_link)) {
+          $cat_link = $shop_url . '?category=' . $cat['slug'];
+        }
       ?>
-      <div class="ph-feature" data-ph-animate>
-        <div class="ph-feature__icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" d="<?php echo esc_attr($f['icon']); ?>"/></svg>
+      <a href="<?php echo esc_url($cat_link); ?>" class="ph-category-card" data-ph-animate>
+        <div class="ph-category-card__image-wrap">
+          <img src="<?php echo esc_url($cat['image']); ?>" alt="<?php echo esc_attr($cat['name']); ?>" loading="lazy">
+          <span class="ph-category-card__pill"><?php echo esc_html($cat['count']); ?></span>
         </div>
-        <h3 class="ph-feature__title"><?php echo esc_html($f['title']); ?></h3>
-        <p class="ph-feature__text"><?php echo esc_html($f['text']); ?></p>
-      </div>
+        <div class="ph-category-card__body">
+          <h3 class="ph-category-card__title"><?php echo esc_html($cat['name']); ?></h3>
+          <p class="ph-category-card__desc"><?php echo esc_html($cat['desc']); ?></p>
+          <span class="ph-category-card__cta">Explore Collection →</span>
+        </div>
+      </a>
       <?php endforeach; ?>
     </div>
   </div>
 </section>
 
-<!-- ══ TESTIMONIALS ══ -->
-<section class="ph-section ph-section--cream" id="reviews">
+<!-- ════════════ 4. FEATURED PRODUCTS GRID WITH TABS ════════════ -->
+<section class="ph-section ph-section--white" id="featured-products">
   <div class="ph-container">
-    <div class="ph-section-title" data-ph-animate>
-      <span class="eyebrow">Real Reviews</span>
-      <h2>What Our Customers Say</h2>
+    <!-- Header with Filter Tabs -->
+    <div class="ph-products-header" data-ph-animate>
+      <div class="ph-products-header__titles">
+        <span class="ph-eyebrow">OUR SIGNATURE SELECTION</span>
+        <h2 class="ph-section-title">Featured Products</h2>
+      </div>
+
+      <!-- Tab Filter Header -->
+      <div class="ph-tabs-nav" role="tablist" aria-label="Product categories tabs">
+        <button class="ph-tab-btn is-active" data-tab="best-sellers" role="tab" aria-selected="true">
+          Best Sellers
+        </button>
+        <button class="ph-tab-btn" data-tab="top-rated" role="tab" aria-selected="false">
+          Top Rated
+        </button>
+        <button class="ph-tab-btn" data-tab="loved" role="tab" aria-selected="false">
+          Loved by Customers
+        </button>
+      </div>
     </div>
-    <div class="grid-3" data-ph-stagger>
-      <?php
-      $reviews = [
-        ['text'=>'"I bought the Hexagonal Glass Honey Jar as a birthday gift and the recipient absolutely loved it. Beautifully packaged, arrived perfectly safe, and looks stunning on her counter."','name'=>'Sarah M.','meta'=>'Verified Buyer · New York, USA'],
-        ['text'=>'"The Golden Harvest Gift Set is worth every penny. The quality is exceptional — each jar is thick glass and the lids seal perfectly. My mother-in-law was over the moon."','name'=>'James R.','meta'=>'Verified Buyer · London, UK'],
-        ['text'=>'"I\'ve been using the Amber Glass Honey Dispenser with Pump for 3 months now. Zero drips, easy to clean, and looks gorgeous on my kitchen shelf. Would buy again!"','name'=>'Priya K.','meta'=>'Verified Buyer · Toronto, Canada'],
-      ];
-      foreach ($reviews as $r):
-      ?>
-      <div class="ph-testimonial" data-ph-animate>
-        <div class="ph-testimonial__stars">
-          <?php for ($i = 0; $i < 5; $i++): ?>
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#D97706"/></svg>
-          <?php endfor; ?>
+
+    <!-- Tab Panels Container -->
+    <div class="ph-tabs-content">
+      <!-- Panel 1: Best Sellers (Active) -->
+      <div class="ph-tab-panel is-active" id="tab-best-sellers" role="tabpanel">
+        <div class="woocommerce">
+          <ul class="products columns-4 ph-grid-products">
+            <?php
+            $q = new WP_Query([
+              'post_type'      => 'product',
+              'posts_per_page' => 8,
+              'post_status'    => 'publish',
+              'orderby'        => 'menu_order title',
+              'order'          => 'ASC',
+            ]);
+
+            if ($q->have_posts()):
+              while ($q->have_posts()): $q->the_post();
+                get_template_part('woocommerce/content-product');
+              endwhile;
+              wp_reset_postdata();
+            else:
+              // Static Fallback Cards to ensure rich visual demonstration
+              $fallback_products = [
+                [
+                  'name'      => 'Pure Raw Wildflower Honey Jar (500g)',
+                  'cat'       => 'ARTISAN DISPENSERS',
+                  'regular'   => '$44.99',
+                  'sale'      => '$38.99',
+                  'save'      => 'Save $6.00',
+                  'image'     => $dir . '/assets/images/products/PH-AD-001.jpg',
+                ],
+                [
+                  'name'      => 'Signature Amber Honey Dispenser & Jar Duo',
+                  'cat'       => 'ARTISAN DISPENSERS',
+                  'regular'   => '$54.99',
+                  'sale'      => '$46.99',
+                  'save'      => 'Save $8.00',
+                  'image'     => $dir . '/assets/images/products/PH-AD-002.jpg',
+                ],
+                [
+                  'name'      => 'Pure Honey Luxury Wooden Gift Box Set',
+                  'cat'       => 'LUXURY GIFT SETS',
+                  'regular'   => '$95.00',
+                  'sale'      => '$79.99',
+                  'save'      => 'Save $15.01',
+                  'image'     => $dir . '/assets/images/products/PH-LG-001.jpg',
+                ],
+                [
+                  'name'      => 'Artisanal Ceramic Honey Pot with Dipper',
+                  'cat'       => 'ARTISAN DISPENSERS',
+                  'regular'   => '$49.99',
+                  'sale'      => '$42.99',
+                  'save'      => 'Save $7.00',
+                  'image'     => $dir . '/assets/images/products/PH-AD-004.jpg',
+                ],
+                [
+                  'name'      => 'Crystal Clear Honeycomb Jar & Dipper Set',
+                  'cat'       => 'ARTISAN DISPENSERS',
+                  'regular'   => '$39.99',
+                  'sale'      => '$34.99',
+                  'save'      => 'Save $5.00',
+                  'image'     => $dir . '/assets/images/products/PH-AD-003.jpg',
+                ],
+                [
+                  'name'      => 'Acacia Wood Honey Dipper Set of 3',
+                  'cat'       => 'KITCHEN ELEGANCE',
+                  'regular'   => '$22.99',
+                  'sale'      => '$18.99',
+                  'save'      => 'Save $4.00',
+                  'image'     => $dir . '/assets/images/products/PH-KE-001.jpg',
+                ],
+                [
+                  'name'      => 'The Beekeeper\'s Treasure Chest',
+                  'cat'       => 'LUXURY GIFT SETS',
+                  'regular'   => '$139.99',
+                  'sale'      => '$119.99',
+                  'save'      => 'Save $20.00',
+                  'image'     => $dir . '/assets/images/products/PH-LG-005.jpg',
+                ],
+                [
+                  'name'      => 'Copper Bee Measuring Spoon Set',
+                  'cat'       => 'KITCHEN ELEGANCE',
+                  'regular'   => '$34.99',
+                  'sale'      => '$28.99',
+                  'save'      => 'Save $6.00',
+                  'image'     => $dir . '/assets/images/products/PH-KE-004.jpg',
+                ],
+              ];
+
+              foreach ($fallback_products as $fp):
+              ?>
+              <li class="product ph-product-card">
+                <div class="ph-card-inner">
+                  <div class="ph-card-media">
+                    <div class="ph-card-badges">
+                      <span class="ph-badge-sale">Sale!</span>
+                      <span class="ph-badge-save"><?php echo esc_html($fp['save']); ?></span>
+                    </div>
+                    <a href="<?php echo esc_url($shop_url); ?>" class="ph-card-img-link">
+                      <img src="<?php echo esc_url($fp['image']); ?>" alt="<?php echo esc_attr($fp['name']); ?>" loading="lazy">
+                    </a>
+                    <div class="ph-card-quick-add">
+                      <a href="<?php echo esc_url($shop_url); ?>" class="button add_to_cart_button">Add to Cart</a>
+                    </div>
+                  </div>
+                  <div class="ph-card-content">
+                    <div class="ph-card-category"><?php echo esc_html($fp['cat']); ?></div>
+                    <h3 class="ph-card-title">
+                      <a href="<?php echo esc_url($shop_url); ?>"><?php echo esc_html($fp['name']); ?></a>
+                    </h3>
+                    <div class="ph-card-rating">
+                      <div class="ph-stars">★★★★★</div>
+                      <span class="ph-rating-count">(4.9)</span>
+                    </div>
+                    <div class="ph-card-price">
+                      <del><?php echo esc_html($fp['regular']); ?></del>
+                      <ins><?php echo esc_html($fp['sale']); ?></ins>
+                    </div>
+                    <div class="ph-card-stock">
+                      <span class="ph-dot-stock"></span>
+                      <span class="ph-stock-text">In stock for delivery • Free Home Delivery</span>
+                    </div>
+                    <div class="ph-card-btn-wrap">
+                      <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn-card-add">Add to Cart →</a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <?php
+              endforeach;
+            endif;
+            ?>
+          </ul>
         </div>
-        <p class="ph-testimonial__text"><?php echo esc_html($r['text']); ?></p>
-        <div class="ph-testimonial__author">
-          <div style="width:44px;height:44px;border-radius:50%;background:var(--ph-gold-gradient);display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-weight:800;font-size:1.125rem;flex-shrink:0;">
-            <?php echo esc_html(substr($r['name'], 0, 1)); ?>
-          </div>
-          <div>
-            <p class="ph-testimonial__name"><?php echo esc_html($r['name']); ?></p>
-            <p class="ph-testimonial__meta"><?php echo esc_html($r['meta']); ?></p>
+      </div>
+
+      <!-- Panel 2: Top Rated -->
+      <div class="ph-tab-panel" id="tab-top-rated" role="tabpanel" style="display:none;">
+        <div class="woocommerce">
+          <ul class="products columns-4 ph-grid-products">
+            <?php
+            $q2 = new WP_Query([
+              'post_type'      => 'product',
+              'posts_per_page' => 4,
+              'post_status'    => 'publish',
+              'orderby'        => 'rand',
+            ]);
+            if ($q2->have_posts()):
+              while ($q2->have_posts()): $q2->the_post();
+                get_template_part('woocommerce/content-product');
+              endwhile;
+              wp_reset_postdata();
+            endif;
+            ?>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Panel 3: Loved by Customers -->
+      <div class="ph-tab-panel" id="tab-loved" role="tabpanel" style="display:none;">
+        <div class="woocommerce">
+          <ul class="products columns-4 ph-grid-products">
+            <?php
+            $q3 = new WP_Query([
+              'post_type'      => 'product',
+              'posts_per_page' => 4,
+              'post_status'    => 'publish',
+              'orderby'        => 'date',
+              'order'          => 'DESC',
+            ]);
+            if ($q3->have_posts()):
+              while ($q3->have_posts()): $q3->the_post();
+                get_template_part('woocommerce/content-product');
+              endwhile;
+              wp_reset_postdata();
+            endif;
+            ?>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Button -->
+    <div class="text-center" style="margin-top: 48px;" data-ph-animate>
+      <a href="<?php echo esc_url($shop_url); ?>" class="ph-btn ph-btn--primary ph-btn--lg">
+        Explore Full Catalog (15 Products) →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 5. DUAL PROMOTIONAL BANNERS SECTION ════════════ -->
+<section class="ph-section ph-section--neutral" id="promo-banners">
+  <div class="ph-container">
+    <div class="ph-promo-grid" data-ph-stagger>
+
+      <!-- Promo Card A: 100% Pure Honey -->
+      <div class="ph-promo-card ph-promo-card--honey" data-ph-animate>
+        <div class="ph-promo-card__content">
+          <span class="ph-promo-card__eyebrow">RAW & UNPASTEURIZED</span>
+          <h3 class="ph-promo-card__title">
+            100% Pure Honey — Good for your health, Great for your life
+          </h3>
+          <p class="ph-promo-card__text">
+            Rich in active enzymes, natural antioxidants, and floral notes. Hand-extracted without heating to preserve pure wellness.
+          </p>
+          <a href="<?php echo esc_url($shop_url . '?category=handpicked-honey'); ?>" class="ph-btn ph-btn--primary">
+            Shop Honey →
+          </a>
+        </div>
+        <div class="ph-promo-card__visual">
+          <img src="<?php echo esc_url($dir . '/assets/images/categories/handpicked-honey.jpg'); ?>" 
+               alt="100% Pure Raw Honey" 
+               loading="lazy">
+        </div>
+      </div>
+
+      <!-- Promo Card B: Gift Boxes -->
+      <div class="ph-promo-card ph-promo-card--gifts" data-ph-animate>
+        <div class="ph-promo-card__content">
+          <span class="ph-promo-card__eyebrow">ARTISAN GIFT HAMPERS</span>
+          <h3 class="ph-promo-card__title">
+            Perfect Gifts for Your Loved Ones — Gift boxes for every occasion
+          </h3>
+          <p class="ph-promo-card__text">
+            Elegant wooden keepsake boxes, complimentary custom greeting notes, and deluxe gold ribbon wrapping included.
+          </p>
+          <a href="<?php echo esc_url($shop_url . '?category=gift-boxes'); ?>" class="ph-btn ph-btn--primary">
+            Shop Gift Boxes →
+          </a>
+        </div>
+        <div class="ph-promo-card__visual">
+          <img src="<?php echo esc_url($dir . '/assets/images/categories/gift-boxes.jpg'); ?>" 
+               alt="Honey Gift Boxes" 
+               loading="lazy">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 6. WHY CHOOSE US SECTION ════════════ -->
+<section class="ph-section ph-section--white" id="why-choose-us">
+  <div class="ph-container">
+    <div class="ph-section-header text-center" data-ph-animate>
+      <span class="ph-eyebrow">OUR COMMITMENT</span>
+      <h2 class="ph-section-title">Why Choose PureHoney</h2>
+      <p class="ph-section-subtitle">We set the gold standard in artisan honey and sustainable kitchen design.</p>
+    </div>
+
+    <div class="ph-why-grid" data-ph-stagger>
+      <!-- Reason 1: Natural & Pure -->
+      <div class="ph-why-card" data-ph-animate>
+        <div class="ph-why-card__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582"/>
+          </svg>
+        </div>
+        <h3 class="ph-why-card__title">Natural & Pure</h3>
+        <p class="ph-why-card__desc">
+          Single-origin, unheated, unpasteurized. Every drop retains 100% of its native enzymes, delicate wildflower notes, and natural immunity benefits.
+        </p>
+      </div>
+
+      <!-- Reason 2: Trusted Quality -->
+      <div class="ph-why-card" data-ph-animate>
+        <div class="ph-why-card__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
+          </svg>
+        </div>
+        <h3 class="ph-why-card__title">Trusted Quality</h3>
+        <p class="ph-why-card__desc">
+          Engineered using premium borosilicate glass, food-grade 304 stainless steel pumps, and certified sustainably sourced acacia hardwoods.
+        </p>
+      </div>
+
+      <!-- Reason 3: Fast Delivery -->
+      <div class="ph-why-card" data-ph-animate>
+        <div class="ph-why-card__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+          </svg>
+        </div>
+        <h3 class="ph-why-card__title">Fast Delivery</h3>
+        <p class="ph-why-card__desc">
+          All orders are securely packaged in recyclable honeycomb cushioning and dispatched within 24 hours with real-time end-to-end tracking.
+        </p>
+      </div>
+
+      <!-- Reason 4: Happy Customers -->
+      <div class="ph-why-card" data-ph-animate>
+        <div class="ph-why-card__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm6 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Z"/>
+          </svg>
+        </div>
+        <h3 class="ph-why-card__title">Happy Customers</h3>
+        <p class="ph-why-card__desc">
+          Rated 4.9/5 stars by over 2,000+ satisfied households. Enjoy total peace of mind with our no-hassle 30-day money-back satisfaction guarantee.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 7. CUSTOMER TESTIMONIALS ════════════ -->
+<section class="ph-section ph-section--neutral" id="testimonials">
+  <div class="ph-container">
+    <div class="ph-section-header text-center" data-ph-animate>
+      <span class="ph-eyebrow">VERIFIED REVIEWS</span>
+      <h2 class="ph-section-title">Loved by Honey Connoisseurs</h2>
+      <p class="ph-section-subtitle">Real experiences from customers who made PureHoney part of their daily routine.</p>
+    </div>
+
+    <div class="ph-reviews-grid" data-ph-stagger>
+      <div class="ph-review-card" data-ph-animate>
+        <div class="ph-review-card__stars">★★★★★</div>
+        <p class="ph-review-card__text">
+          "The Amber Glass Dispenser with pump changed my morning coffee routine completely. Zero drips, looks exquisite on my counter, and the raw honey tastes incredibly clean."
+        </p>
+        <div class="ph-review-card__author">
+          <div class="ph-review-avatar">SM</div>
+          <div class="ph-review-details">
+            <strong>Sarah M.</strong>
+            <span>Verified Buyer • New York</span>
           </div>
         </div>
       </div>
-      <?php endforeach; ?>
+
+      <div class="ph-review-card" data-ph-animate>
+        <div class="ph-review-card__stars">★★★★★</div>
+        <p class="ph-review-card__text">
+          "Purchased the Luxury Wooden Gift Box for my mother's birthday. The packaging is heirloom quality and the raw wildflower honey is the best we've ever tasted. 10/10!"
+        </p>
+        <div class="ph-review-card__author">
+          <div class="ph-review-avatar">JR</div>
+          <div class="ph-review-details">
+            <strong>James R.</strong>
+            <span>Verified Buyer • London, UK</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-review-card" data-ph-animate>
+        <div class="ph-review-card__stars">★★★★★</div>
+        <p class="ph-review-card__text">
+          "Super fast delivery and everything arrived in immaculate eco-friendly packaging. The ceramic honey pot with carved wooden dipper is pure art. Will definitely buy again."
+        </p>
+        <div class="ph-review-card__author">
+          <div class="ph-review-avatar">EL</div>
+          <div class="ph-review-details">
+            <strong>Elena L.</strong>
+            <span>Verified Buyer • Sydney</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══ NEWSLETTER ══ -->
-<section class="ph-newsletter" id="newsletter">
+<!-- ════════════ 8. NEWSLETTER SUBSCRIPTION CALLOUT ════════════ -->
+<section class="ph-newsletter-section" id="newsletter">
   <div class="ph-container">
-    <div class="ph-newsletter__inner" data-ph-animate>
-      <span class="eyebrow" style="color:var(--accent-gold);">Stay in the Loop</span>
-      <h2 class="ph-newsletter__title">Get 10% Off Your First Order</h2>
-      <p class="ph-newsletter__subtitle">Subscribe for exclusive deals, new arrivals, and honey lifestyle inspiration.</p>
-      <form class="ph-newsletter__form" novalidate>
-        <input type="email" class="ph-newsletter__input" placeholder="Enter your email address…" required autocomplete="email">
-        <button type="submit" class="ph-btn ph-btn--primary">Subscribe</button>
-      </form>
-      <p style="font-size:0.8125rem;color:var(--text-muted);margin-top:14px;margin-bottom:0;">No spam, ever. Unsubscribe anytime.</p>
+    <div class="ph-newsletter-card" data-ph-animate>
+      <div class="ph-newsletter-card__content">
+        <span class="ph-newsletter-pill">SPECIAL OFFER</span>
+        <h2 class="ph-newsletter-title">Get 10% Off Your First Order</h2>
+        <p class="ph-newsletter-desc">Subscribe to receive exclusive seasonal harvest announcements, artisan recipes, and subscriber-only promotions.</p>
+        
+        <form class="ph-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing! Your 10% discount code is PURE10');">
+          <label for="ph-news-email" class="screen-reader-text">Email Address</label>
+          <input type="email" id="ph-news-email" class="ph-newsletter-input" placeholder="Enter your email address…" required autocomplete="email">
+          <button type="submit" class="ph-btn ph-btn--primary">Subscribe</button>
+        </form>
+        <small class="ph-newsletter-note">🔒 Zero spam. Unsubscribe at any time with one click.</small>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- User Content (Elementor or Block Editor) -->
-<div class="ph-container ph-user-content" style="margin-top: 40px; margin-bottom: 40px;">
+<!-- Elementor / Standard Content Area -->
+<div class="ph-container ph-user-content" style="margin-top: 30px; margin-bottom: 30px;">
   <?php while (have_posts()) : the_post(); the_content(); endwhile; ?>
 </div>
 

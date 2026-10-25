@@ -4,7 +4,39 @@
  * Standalone theme. No parent required.
  */
 defined('ABSPATH') || exit;
-define('PUREHONEY_VERSION', '3.3.6');
+define('PUREHONEY_VERSION', '3.4.0');
+
+/**
+ * Declare Elementor and core theme supports
+ */
+function purehoney_add_elementor_support() {
+    add_theme_support('elementor');
+    add_theme_support('align-wide');
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+}
+add_action('after_setup_theme', 'purehoney_add_elementor_support');
+
+/**
+ * Ensure Elementor CPT support includes pages
+ */
+function purehoney_ensure_elementor_page_support() {
+    $cpt_support = get_option('elementor_cpt_support', array('page', 'post'));
+    if (is_array($cpt_support) && !in_array('page', $cpt_support, true)) {
+        $cpt_support[] = 'page';
+        update_option('elementor_cpt_support', $cpt_support);
+    }
+}
+add_action('init', 'purehoney_ensure_elementor_page_support');
+
+/**
+ * Explicitly register custom page templates to bypass any transient template caching
+ */
+add_filter('theme_page_templates', function($templates) {
+    $templates['template-elementor-about.php'] = __('Elementor - About Us', 'purehoney');
+    $templates['page-about.php'] = __('Elementor Full Width / About Page', 'purehoney');
+    return $templates;
+});
 
 add_action('wp_head', function() {
     if (function_exists('is_checkout') && (is_checkout() || is_cart())) {
@@ -49,8 +81,8 @@ add_action('wp_head', function() {
     }
 
     echo '<style>
-    /* Prevent horizontal scroll globally */
-    #page { overflow-x: hidden !important; width: 100% !important; position: relative; }
+    /* Prevent horizontal scroll globally without nesting scroll containers */
+    #page { width: 100% !important; position: relative; }
 
     /* Enforce container padding globally to bypass cache */
     .ph-container { padding-left: 24px !important; padding-right: 24px !important; box-sizing: border-box !important; }
@@ -418,25 +450,19 @@ function purehoney_assets() {
     $v   = PUREHONEY_VERSION;
     $dir = get_template_directory_uri();
 
-    // Google Fonts
+    // Google Fonts - Modern E-Commerce Sans-Serif (Avoraix Style)
     wp_enqueue_style('purehoney-fonts',
-        'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap',
+        'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap',
         [], null
     );
 
     // Main stylesheet (style.css = theme declaration + all CSS)
     wp_enqueue_style('purehoney-style', get_stylesheet_uri(), ['purehoney-fonts'], $v);
 
-    // Lenis smooth scroll (CDN)
-    wp_enqueue_script('lenis',
-        'https://unpkg.com/lenis@1.1.14/dist/lenis.min.js',
-        [], '1.1.14', true
-    );
-
-    // Main JS
+    // Main JS (depends on jquery and lenis-scroll)
     wp_enqueue_script('purehoney-main',
         $dir . '/assets/js/main.js',
-        ['jquery', 'lenis'], $v, true
+        ['jquery', 'lenis-scroll'], $v, true
     );
 
     // Pass data to JS
@@ -467,6 +493,39 @@ function purehoney_assets() {
     }
 }
 add_action('wp_enqueue_scripts', 'purehoney_assets');
+
+/**
+ * Implement Smooth Inertia Scrolling (Lenis Integration)
+ */
+function purehoney_enqueue_smooth_scroll() {
+    wp_enqueue_script(
+        'lenis-scroll',
+        'https://unpkg.com/lenis@1.1.18/dist/lenis.min.js',
+        array(),
+        '1.1.18',
+        true
+    );
+
+    wp_add_inline_script(
+        'lenis-scroll',
+        "
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            touchMultiplier: 1.5,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        window.lenis = lenis;
+        "
+    );
+}
+add_action('wp_enqueue_scripts', 'purehoney_enqueue_smooth_scroll', 5);
 
 /* ═══════════════════════════════════════════════
    3. AUTO CREATE PAGES ON ACTIVATION
@@ -666,7 +725,12 @@ function purehoney_about_content() {
 }
 
 function purehoney_contact_content() {
-    return '<div class="ph-container"><div class="page-content"><h2>Get In Touch</h2><p>We\'d love to hear from you. Reach us at <a href="mailto:hello@purehoney.me">hello@purehoney.me</a> and we\'ll respond within 24 hours.</p>' . do_shortcode('[contact-form-7 id="contact-form" title="Contact Form"]') . '</div></div>';
+    $cf7_form_id = get_theme_mod( 'purehoney_cf7_id', '' );
+    $form_html   = '';
+    if ( shortcode_exists( 'contact-form-7' ) && ! empty( $cf7_form_id ) ) {
+        $form_html = do_shortcode( '[contact-form-7 id="' . absint( $cf7_form_id ) . '" title="Contact Form"]' );
+    }
+    return '<div class="ph-container"><div class="page-content"><h2>Get In Touch</h2><p>We\'d love to hear from you. Reach us at <a href="mailto:hello@purehoney.me">hello@purehoney.me</a> and we\'ll respond within 24 hours.</p>' . $form_html . '</div></div>';
 }
 
 function purehoney_faq_content() {
@@ -816,19 +880,35 @@ function purehoney_newsletter_handler() {
 /* ═══════════════════════════════════════════════
    8. CUSTOM SHORTCODES
 ═══════════════════════════════════════════════ */
-// Trust bar
+// 4-Pillar Trust Feature Bar (Avoraix Style)
 add_shortcode('ph_trust_bar', function() {
     $items = [
-        ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>', 'label' => 'Free Shipping', 'sub' => 'On orders over $59'],
-        ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>', 'label' => 'Handcrafted', 'sub' => 'Artisan quality'],
-        ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>', 'label' => '30-Day Returns', 'sub' => 'Hassle-free policy'],
-        ['icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/>', 'label' => 'Gift Wrapping', 'sub' => 'Free on all orders'],
+        [
+            'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>',
+            'label' => 'Free Home Delivery',
+            'sub'   => 'On all orders over $60',
+        ],
+        [
+            'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>',
+            'label' => 'Safe & Secure Payment',
+            'sub'   => '100% Protected checkout',
+        ],
+        [
+            'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/>',
+            'label' => '100% Pure & Natural',
+            'sub'   => 'Direct ethical beekeeping',
+        ],
+        [
+            'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>',
+            'label' => '24/7 Customer Support',
+            'sub'   => 'Dedicated friendly team',
+        ],
     ];
     $out = '<div class="ph-trust"><div class="ph-container"><div class="ph-trust__grid">';
     foreach ($items as $item) {
         $out .= '<div class="ph-trust__item">';
-        $out .= '<div class="ph-trust__icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="22" height="22">' . $item['icon'] . '</svg></div>';
-        $out .= '<div><div class="ph-trust__label">' . esc_html($item['label']) . '</div><div class="ph-trust__sub">' . esc_html($item['sub']) . '</div></div>';
+        $out .= '<div class="ph-trust__icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="24" height="24">' . $item['icon'] . '</svg></div>';
+        $out .= '<div class="ph-trust__text"><div class="ph-trust__label">' . esc_html($item['label']) . '</div><div class="ph-trust__sub">' . esc_html($item['sub']) . '</div></div>';
         $out .= '</div>';
     }
     $out .= '</div></div></div>';
